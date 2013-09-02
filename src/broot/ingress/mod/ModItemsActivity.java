@@ -71,6 +71,7 @@ public class ModItemsActivity extends BaseSubActivity {
                 t.add();
                 t.add(new Label("R", skin));
                 t.add(new Label("X", skin));
+                t.add(new Label("U", skin));
                 t.add(new Label("C", skin));
                 t.add(new Label("M", skin));
 
@@ -83,8 +84,8 @@ public class ModItemsActivity extends BaseSubActivity {
                     label1.setColor(color);
                     t.add(label1).pad(-1, 0, -1, 16 * den);
 
-                    for (ItemType type : new ItemType[]{ItemType.EMITTER_A, ItemType.EMP_BURSTER, ItemType.POWER_CUBE,
-                            ItemType.MEDIA}) {
+                    for (ItemType type : new ItemType[]{ItemType.EMITTER_A, ItemType.EMP_BURSTER, ItemType.ULTRA_STRIKE,
+                            ItemType.POWER_CUBE, ItemType.MEDIA}) {
                         List<Button> buttons = buttonsByLvl.get(type);
                         if (buttons == null) {
                             buttons = new ArrayList<Button>(8);
@@ -189,6 +190,7 @@ public class ModItemsActivity extends BaseSubActivity {
                     continue;
                 case EMITTER_A:
                 case EMP_BURSTER:
+                case ULTRA_STRIKE:
                 case POWER_CUBE:
                     btn = buttonsByLvl.get(type).get(lvl);
                     break;

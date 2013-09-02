@@ -119,7 +119,9 @@ def main():
 
     edit.prepare_after_prologue('onPlayerLocationChanged')
     edit.add_invoke_entry('PortalInfoDialog_onPlayerLocationChanged')
+    edit.save()
 
+    edit = edit_cls('PortalDialogMode')
     edit.find_line(r' const.*? ([pv]\d+), 0x3f40')
     edit.prepare_to_insert()
     edit.add_invoke_entry('PortalInfoDialog_getOpenDelay', edit.vars[0], edit.vars[0])
@@ -133,13 +135,13 @@ def main():
     edit.save()
 
 
-    edit = edit_cls('PlayerModelUtils')
-    edit.find_method_def('getDefaultResonatorToDeploy')
-    edit.find_line(' invoke-interface {(.+)}, Ljava/util/Map;->keySet\(\)Ljava/util/Set;', where='down')
-    edit.prepare_to_insert_before(True)
-    edit.add_invoke_entry('PlayerModelUtils_onGetDefaultResonatorToDeploy', edit.vars[0])
-    edit.add_line(' move-result-object %s' % edit.vars[0])
-    edit.save()
+#    edit = edit_cls('PlayerModelUtils')
+#    edit.find_method_def('getDefaultResonatorToDeploy')
+#    edit.find_line(' invoke-interface {(.+)}, Ljava/util/Map;->keySet\(\)Ljava/util/Set;', where='down')
+#    edit.prepare_to_insert_before(True)
+#    edit.add_invoke_entry('PlayerModelUtils_onGetDefaultResonatorToDeploy', edit.vars[0])
+#    edit.add_line(' move-result-object %s' % edit.vars[0])
+#    edit.save()
 
 
     edit = edit_cls('ZoomInMode')
@@ -151,44 +153,43 @@ def main():
     edit.save()
 
 
-    edit = edit_cls('PortalUpgradeActivity')
-    edit.mod_field_def('portalEntity', 'public')
-    edit.save()
+#    edit = edit_cls('PortalUpgradeActivity')
+#    edit.mod_field_def('portalEntity', 'public')
+#    edit.save()
 
 
-    edit = edit_cls('PortalUpgradeUi')
-    edit.mod_class_def('public')
-    edit.mod_field_def('activity', 'public')
+#    edit = edit_cls('PortalUpgradeUi')
+#    edit.mod_class_def('public')
+#    edit.mod_field_def('activity', 'public')
 
-    edit.find_line(r' const-string.*, "PORTAL"')
-    edit.find_line(r' invoke-virtual \{([pv]\d+), .*\}, Lcom/badlogic/gdx/scenes/scene2d/ui/Table;->add\(.*', where='down')
-    tableReg = edit.vars[0]
-    edit.find_line(r' invoke-virtual {.*, %s}, Lcom/badlogic/gdx/scenes/scene2d/ui/Table;->add\(.*' % tableReg, where='down')
-    edit.prepare_to_insert_before()
-    edit.add_invoke_entry('PortalUpgrade_onStatsTableCreated', 'p0, ' + tableReg)
+#    edit.find_line(r' const-string.*, "PORTAL"')
+#    edit.find_line(r' invoke-virtual \{([pv]\d+), .*\}, Lcom/badlogic/gdx/scenes/scene2d/ui/Table;->add\(.*', where='down')
+#    tableReg = edit.vars[0]
+#    edit.find_line(r' invoke-virtual {.*, %s}, Lcom/badlogic/gdx/scenes/scene2d/ui/Table;->add\(.*' % tableReg, where='down')
+#    edit.prepare_to_insert_before()
+#    edit.add_invoke_entry('PortalUpgrade_onStatsTableCreated', 'p0, ' + tableReg)
 
-    edit.prepare_after_prologue('dispose')
-    edit.add_invoke_entry('PortalUpgrade_onDispose')
-    edit.save()
-
-
-    edit = edit_cls('ResonatorBrowser')
-    edit.find_line(r' add-int/lit8 ([pv]\d+), ([pv]\d+), 0x1e')
-    edit.comment_line()
-    edit.prepare_to_insert()
-    edit.add_invoke_entry('PortalUpgrade_getResonatorBrowserHeight', edit.vars[1], edit.vars[0])
-    edit.save()
+#    edit.prepare_after_prologue('dispose')
+#    edit.add_invoke_entry('PortalUpgrade_onDispose')
+#    edit.save()
 
 
-    edit = edit_cls('ClientFeatureKnobBundle')
-    edit.find_line(r' iget-boolean v0, p0, %s' % expr('$ClientFeatureKnobBundle->enableNewHackAnimations'))
-    edit.prepare_to_insert()
-    edit.add_invoke_entry('ClientFeatureKnobBundle_getEnableNewHackAnimations', 'v0', 'v0')
+#    edit = edit_cls('ResonatorBrowser')
+#    edit.find_line(r' add-int/lit8 ([pv]\d+), ([pv]\d+), 0x1e')
+#    edit.comment_line()
+#    edit.prepare_to_insert()
+#    edit.add_invoke_entry('PortalUpgrade_getResonatorBrowserHeight', edit.vars[1], edit.vars[0])
+#    edit.save()
 
-    edit.find_line(r' iget-boolean v0, p0, %s' % expr('$ClientFeatureKnobBundle->enableNewDeployUi'))
-    edit.prepare_to_insert()
-    edit.add_invoke_entry('ClientFeatureKnobBundle_getEnableNewDeployUi', 'v0', 'v0')
-    edit.save()
+
+#    edit = edit_cls('ClientFeatureKnobBundle')
+#    edit.find_line(r' iget-boolean ([pv]\d+), p0, %s' % expr('$ClientFeatureKnobBundle->enableNewHackAnimations'))
+#    edit.prepare_to_insert()
+#    edit.add_invoke_entry('ClientFeatureKnobBundle_getEnableNewHackAnimations', edit.vars[0], edit.vars[0])
+#    edit.find_line(r' iget-boolean ([pv]\d+), p0, %s' % expr('$ClientFeatureKnobBundle->enableNewDeployUi'))
+#    edit.prepare_to_insert()
+#    edit.add_invoke_entry('ClientFeatureKnobBundle_getEnableNewDeployUi', edit.vars[0], edit.vars[0])
+#    edit.save()
 
     edit = edit_cls('HackController')
     edit.find_line(r' const-string/jumbo v1, " acquired"')
@@ -205,6 +206,22 @@ def main():
     edit.add_invoke_entry('HackAnimationStage_getTotalTime', edit.vars[0], edit.vars[0])
     edit.save()
 
+    #disable xm flow
+    edit = edit_cls('XmParticleRender')
+    edit.find_line(r' const-string/jumbo v0, "u_timeSec"')
+    edit.find_line(r' .*Lcom/badlogic/gdx/graphics/glutils/ShaderProgram;->setUniformf.*', where='down')
+    edit.prepare_to_insert_before()
+    edit.add_invoke_entry('XmParticleRender_getTimeSec', 'v1', 'v1')
+    edit.save()
+    
+    #disable shield animation
+    edit = edit_cls('ShieldShader')
+    edit.find_line(r' const-string/jumbo v2, "u_rampTargetInvWidth"')
+    edit.find_line(r' .*Lcom/badlogic/gdx/graphics/glutils/ShaderProgram;->setUniformf.*', where='down')
+    edit.prepare_to_insert_before()
+    edit.add_invoke_entry('ShieldShader_getRampTargetInvWidthX', 'v0', 'v0')
+    edit.add_invoke_entry('ShieldShader_getRampTargetInvWidthY', 'v3', 'v3')
+    edit.save()
 
     #stop inventory item rotation
     edit = edit_cls('InventoryItemRenderer')
@@ -237,7 +254,7 @@ def main():
 
     edit = edit_cls('CommsAdapter')
     edit.prepare_after_prologue('bindView')
-    edit.find_line(r' iget-object v3, p0, %s->l:%s' % (expr('$CommsAdapter'), expr('$SimpleDateFormat')))
+    edit.find_line(r' iget-object v3, p0, %s->m:%s' % (expr('$CommsAdapter'), expr('$SimpleDateFormat')))
     edit.comment_line()
     edit.add_invoke_entry('CommsAdapter_getDateFormat', '', 'v3')
     edit.save()

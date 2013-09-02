@@ -67,23 +67,21 @@ def resize(name, scale, coda_sizes):
             'build/assets/data-%s/upgrade/%s' % (name, f))
 
     # Resize atlases
-    for f1, f2 in ('packed', 'common'), ('packed', 'upgrade'):
-        d = tempfile.mkdtemp()
-        texture_unpacker.Unpacker('app/assets/%s/data/%s.atlas' % (f1, f2)).unpack(d, scale)
+    d = tempfile.mkdtemp()
+    texture_unpacker.Unpacker('app/assets/%s/data/%s.atlas' % ('packed', 'common')).unpack(d, scale)
+    # For common.atlas copy fonts
+    for size, font_name in zip(coda_sizes, ('sm', 'med', 'lg')):
+        shutil.copy('res/fonts/coda-%d.fnt' % size,
+                    'build/assets/data-%s/common/coda-%s.fnt' % (name, font_name))
+        shutil.copy('res/fonts/coda-%d_0.png' % size, '%s/coda-%s.png' % (d, font_name))
 
-        # For common.atlas copy fonts
-        if f2 == 'common':
-            for size, font_name in zip(coda_sizes, ('sm', 'med', 'lg')):
-                shutil.copy('res/fonts/coda-%d.fnt' % size,
-                            'build/assets/data-%s/common/coda-%s.fnt' % (name, font_name))
-                shutil.copy('res/fonts/coda-%d_0.png' % size, '%s/coda-%s.png' % (d, font_name))
-
-        shutil.copy('res/lowres/%s-pack.json' % f2, '%s/pack.json' % d)
-        texture_pack(d, 'build/assets/data-%s/%s' % (name, f1), f2)
-        shutil.rmtree(d)
+    shutil.copy('res/lowres/%s-pack.json' % 'common', '%s/pack.json' % d)
+    texture_pack(d, 'build/assets/data-%s/%s' % (name, 'packed'), 'common')
+    shutil.rmtree(d)
 
     # Resize "magic" portal_ui.atlas
     # Repack portal, energy-alien and energy-resistance images only, then readd additional "images" to the atlas file
+'''
     u = texture_unpacker.Unpacker('app/assets/portal_info/data/portal_ui.atlas')
     u.parse_atlas()
     page = u.atlas.pages[0]
@@ -104,7 +102,7 @@ def resize(name, scale, coda_sizes):
         p['orig'] = p27raund(p['orig'][0] * scale), p27raund(p['orig'][1] * scale)
         page.images.append(im)
     u.save_atlas('build/assets/data-%s/portal_info/portal_ui.atlas' % name)
-
+'''
 
 def texture_pack(in_dir, out_dir, name):
     subprocess.check_call(

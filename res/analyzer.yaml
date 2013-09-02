@@ -27,9 +27,12 @@ broot.ingress.mod.Entry:
     ScannerTouchHandler_shouldSwapTouchMenuButtons: [null, Z]
     ZoomInMode_shouldZoomIn: [null, Z]
     PortalInfoDialog_getOpenDelay: [null, F, F]
-    PortalUpgrade_onStatsTableCreated: [null, V, $PortalUpgradeUi, $Table]
+#    PortalUpgrade_onStatsTableCreated: [null, V, $PortalUpgradeUi, $Table]
     PortalUpgrade_onDispose: [null, V]
     PortalUpgrade_getResonatorBrowserHeight: [null, I, I]
+    XmParticleRender_getTimeSec: [null, F, F]
+    ShieldShader_getRampTargetInvWidthX: [null, F, F]
+    ShieldShader_getRampTargetInvWidthY: [null, F, F]
     HackAnimationStage_getTotalTime: [null, F, F]
     HackController_shouldShowAnimation: [null, Z]
     ClientFeatureKnobBundle_getEnableNewHackAnimations: [null, Z, Z]
@@ -86,11 +89,11 @@ com.nianticproject.ingress.gameentity.GameEntity:
 com.nianticproject.ingress.gameentity.EntityComponent:
   obf_name: com.nianticproject.ingress.gameentity.a
 
-com.nianticproject.ingress.common.gameentity.PlayerModelUtils:
-  methods:
-    getDefaultResonatorToDeploy: [a, $GameEntity, $PlayerModel, Lcom/nianticproject/ingress/gameentity/components/Portal;]
+#com.nianticproject.ingress.common.gameentity.PlayerModelUtils:
+#  methods:
+#    getDefaultResonatorToDeploy: [a, $GameEntity, $PlayerModel, Lcom/nianticproject/ingress/gameentity/components/Portal;]
 
-  find_by_method: getDefaultResonatorToDeploy
+#  find_by_method: getDefaultResonatorToDeploy
 
 com.nianticproject.ingress.gameentity.components.ItemRarity:
   is_enum: true
@@ -311,7 +314,7 @@ com.nianticproject.ingress.common.ui.SubActivityManager:
 com.nianticproject.ingress.common.ui.BaseSubActivity:
   methods:
     getName: [d, $String]
-    getRenderer: [J, $UiRenderer]
+    getRenderer: [K, $UiRenderer]
     onResume: [a, V]
     onPause: [e, V]
 
@@ -321,9 +324,7 @@ com.nianticproject.ingress.common.ui.SubActivityApplicationListener:
   methods:
     create: [create, V]
 
-#  find_super_of: $ApplicationListener
-
-  find_by_string: "{data:common/data/nemesis.json,data-xhdpi:common/data-xhdpi/nemesis.json,data-xxhdpi:common/data-xxhdpi/nemesis.json}"
+  find_by_string: '"SpriteBatch.render"'
 
 com.nianticproject.ingress.common.ui.LabelButtonActivity:
   find_super_of: $RecruitActivity
@@ -402,6 +403,12 @@ com.nianticproject.ingress.common.scanner.visuals.PortalParticleRender:
 #
 #  find_by_string: '"EnergyGlobVisuals.draw"'
 
+com.nianticproject.ingress.common.scanner.visuals.XmParticleRender:
+  find_by_string: '"Particle XM Render"'
+  
+com.nianticproject.ingress.common.scanner.visuals.shaders.ShieldShader:
+  find_by_string: '"u_rampTargetInvWidth"'
+
 com.nianticproject.ingress.common.scanner.visuals.ScannerDestinationVisuals:
   find_by_string: "CLEAR"
 
@@ -453,30 +460,30 @@ com.nianticproject.ingress.common.ui.elements.PortalInfoDialog:
   super: $UiLayer
 
   fields:
-    portalComponent: [t, Lcom/nianticproject/ingress/gameentity/components/Portal;]
+    portalComponent: [s, Lcom/nianticproject/ingress/gameentity/components/Portal;]
 
   methods:
-    onPlayerLocationChanged: [m, V]
+    onPlayerLocationChanged: [l, V]
 
   find_by_string: "Unknown Portal"
 
 ### PORTAL UPGRADE
 
-com.nianticproject.ingress.common.upgrade.PortalUpgradeActivity:
-  fields:
-    portalEntity: [j, $GameEntity]
-  find_by_string: '"UpgradePortalActivity"'
+#com.nianticproject.ingress.common.upgrade.PortalUpgradeActivity:
+#  fields:
+#    portalEntity: [j, $GameEntity]
+#  find_by_string: '"UpgradePortalActivity"'
 
-com.nianticproject.ingress.common.upgrade.PortalUpgradeUi:
-  super: $UiLayer
-  fields:
-    activity: [a, $PortalUpgradeActivity]
-  find:
-    - [by_string, false, true, portal-details-stats]
-    - [by_string, false, true, '"Range: "']
+#com.nianticproject.ingress.common.upgrade.PortalUpgradeUi:
+#  super: $UiLayer
+#  fields:
+#    activity: [a, $PortalUpgradeActivity]
+#  find:
+#    - [by_string, false, true, portal-details-stats]
+#    - [by_string, false, true, '"Range: "']
 
-com.nianticproject.ingress.common.upgrade.ResonatorBrowser:
-  find_by_string: resonatorBrowser
+#com.nianticproject.ingress.common.upgrade.ResonatorBrowser:
+#  find_by_string: resonatorBrowser
 
 ### INVENTORY
 
@@ -595,6 +602,9 @@ com.nianticproject.ingress.common.device.DeviceActivityUi:
 
 com.nianticproject.ingress.common.recruit.RecruitActivity:
   find_by_string: RecruitActivity
+
+com.nianticproject.ingress.common.passcode.PasscodeTabActivity:
+  find_by_string: PasscodeTabActivity
 
 ### COMM
 com.nianticproject.ingress.ui.CommsAdapter:

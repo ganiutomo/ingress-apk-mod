@@ -30,7 +30,7 @@ def main(release):
 
         cp -r $builddir/smali/* $MOD_HOME/app/smali/
         java -jar $MOD_HOME/lib/apktool.jar b%s $MOD_HOME/app
-        $MOD_HOME/bin/sign_apk.py `ls $MOD_HOME/app/dist/*ingress-*.apk` %s
+        $MOD_HOME/bin/sign_apk.py `ls $MOD_HOME/app/dist/*.apk` %s
     ''' % (('release', '', 'release') if release else ('debug', ' -d', 'debug')), shell=True)
 
 
