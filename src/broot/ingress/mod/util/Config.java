@@ -11,6 +11,7 @@ public class Config {
 
     public static ItemsTab itemsTab;
     public static boolean showOrigItemsTab;
+    public static boolean showAgentTab;
     public static boolean showIntelTab;
     public static boolean showMissionTab;
     public static boolean showRecruitTab;
@@ -44,6 +45,7 @@ public class Config {
 
         itemsTab = ItemsTab.valueOf(prefs.getString("itemsTab", "HIDDEN"));
         showOrigItemsTab = prefs.getBoolean("showOrigItemsTab", true);
+        showAgentTab = prefs.getBoolean("showAgentTab", true);
         showIntelTab = prefs.getBoolean("showIntelTab", true);
         showMissionTab = prefs.getBoolean("showMissionTab", true);
         showRecruitTab = prefs.getBoolean("showRecruitTab", true);
@@ -83,6 +85,7 @@ public class Config {
 
         e.putString("itemsTab", itemsTab.toString());
         e.putBoolean("showOrigItemsTab", showOrigItemsTab);
+        e.putBoolean("showAgentTab", showAgentTab);
         e.putBoolean("showIntelTab", showIntelTab);
         e.putBoolean("showMissionTab", showMissionTab);
         e.putBoolean("showRecruitTab", showRecruitTab);

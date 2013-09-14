@@ -216,11 +216,11 @@ def main():
     
     #disable shield animation
     edit = edit_cls('ShieldShader')
-    edit.find_line(r' const-string/jumbo v2, "u_rampTargetInvWidth"')
+    edit.find_line(r' const-string/jumbo ([pv]\d+), "u_rampTargetInvWidth"')
     edit.find_line(r' .*Lcom/badlogic/gdx/graphics/glutils/ShaderProgram;->setUniformf.*', where='down')
     edit.prepare_to_insert_before()
     edit.add_invoke_entry('ShieldShader_getRampTargetInvWidthX', 'v0', 'v0')
-    edit.add_invoke_entry('ShieldShader_getRampTargetInvWidthY', 'v3', 'v3')
+    edit.add_invoke_entry('ShieldShader_getRampTargetInvWidthY', 'v4', 'v4')
     edit.save()
 
     #stop inventory item rotation
@@ -298,6 +298,28 @@ def main():
     edit.add_line(' move-object v6, v11')
 
     edit.add_line(' :noswap')
+    edit.save()
+
+    #change format for AP and XM
+    edit = edit_cls('CommPlayerListener')
+    edit.find_line(r'(.+)%d XM(.+)$')
+    edit.replace_in_line('%d', '%,d')
+    edit.find_line(r'(.+)%d AP(.+)$')
+    edit.replace_in_line('%d', '%,d')
+    edit.save()
+
+    edit = edit_cls('StatusBar')
+    edit.find_line(r'(.+)\+%d AP(.+)$')
+    edit.replace_in_line('%d', '%,d')
+    edit.find_line(r'(.+)%d AP(.+)$')
+    edit.replace_in_line('%d', '%,d')
+    edit.find_line(r'(.+)%d XM(.+)$')
+    edit.replace_in_line('%d', '%,d')
+    edit.save()
+
+    edit = edit_cls('PlayerProfileTable')
+    edit.find_line(r' const-string/jumbo v3, "%d %s"')
+    edit.replace_in_line('%d', '%,d')
     edit.save()
 
 if __name__ == '__main__':

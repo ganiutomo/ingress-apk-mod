@@ -151,6 +151,7 @@ public class Entry {
         Mod.portalInfoDialog = dialog;
 
         Label.LabelStyle style = Mod.skin.get("portal-stats", Label.LabelStyle.class);
+        Label.LabelStyle keyExistsStyle = Mod.skin.get("ops-title", Label.LabelStyle.class);
 
         List<Cell> cells = new ArrayList<Cell>(t.getCells());
         t.clear();
@@ -160,8 +161,9 @@ public class Entry {
         t.add((Actor) cells.get(3).getWidget()).left();
         t.add((Actor) cells.get(4).getWidget()).left().expandX();
         t.row();
-        t.add(new Label("Keys:", style)).left();
-        t.add(new Label(String.valueOf(InventoryUtils.getNumberOfPortalKeys(dialog.portalComponent)), style)).left().expandX();
+        int keys = InventoryUtils.getNumberOfPortalKeys(dialog.portalComponent);
+        t.add(new Label("Keys:", keys > 0 ? keyExistsStyle : style)).left();
+        t.add(new Label(String.valueOf(keys), keys > 0 ? keyExistsStyle : style)).left().expandX();
         t.row();
         t.add(new Label("Dist.:", style)).left();
         t.add(portalInfoDistLabel = new Label("", style)).left().expandX();

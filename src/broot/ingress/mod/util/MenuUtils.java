@@ -24,9 +24,9 @@ public class MenuUtils {
         if (Config.showOrigItemsTab) {
             tabs.add(MenuTabId.INVENTORY);
         }
-
-        //tabs.add(MenuTabId.AGENT);
-
+        if (Config.showAgentTab) {
+            tabs.add(MenuTabId.AGENT);
+        }
         if (Config.showIntelTab) {
             tabs.add(MenuTabId.INTEL);
         }
@@ -38,7 +38,7 @@ public class MenuUtils {
         }
 
         if (Config.showPasscodeTab) {
-        	tabs.add(MenuTabId.PASSCODE);
+            tabs.add(MenuTabId.PASSCODE);
         }
         
         if (Config.showDeviceTab) {

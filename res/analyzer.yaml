@@ -60,6 +60,9 @@ com.nianticproject.ingress.common.model.PlayerModel:
     getPlayerLocation: [g, $PlayerLocation]
     addListener: [a, V, $PlayerListener]
     removeListener: [b, V, $PlayerListener]
+    getName: [j, $String]
+    getCurrentXM: [d, J]
+    getCurrentAP: [e, J]
 
   find_interface_of: $PlayerModelImpl
 
@@ -279,7 +282,16 @@ com.nianticproject.ingress.common.ui.FormatUtils:
 
   find_by_string: '%dkm'
 
+com.nianticproject.ingress.common.CommPlayerListener:
+  find_by_string: CommPlayerListener
 
+com.nianticproject.ingress.common.ui.elements.StatusBar:
+  find_by_string: "%d AP"
+
+com.nianticproject.ingress.common.playerprofile.PlayerProfileTable:
+  find:
+    - [by_super, false, true, Lcom/badlogic/gdx/scenes/scene2d/ui/Table;]
+    - [by_string, false, true, "profiles-player-header-ap"]
 
 
 com.nianticproject.ingress.common.ui.widget.Spectrograph:
@@ -370,8 +382,8 @@ com.nianticproject.ingress.common.ui.widget.MenuTopWidget:
 
   find_by_string: ops-scroll-indicator-left
 
-com.nianticproject.ingress.common.ui.widget.MenuScrollLabel:
-  find_by_super: Lcom/nianticproject/ingress/common/ui/widget/ScrollLabel;
+#com.nianticproject.ingress.common.ui.widget.MenuScrollLabel:
+#  find_by_super: Lcom/nianticproject/ingress/common/ui/widget/ScrollLabel;
 
 ### SCANNER
 
@@ -460,7 +472,7 @@ com.nianticproject.ingress.common.ui.elements.PortalInfoDialog:
   super: $UiLayer
 
   fields:
-    portalComponent: [s, Lcom/nianticproject/ingress/gameentity/components/Portal;]
+    portalComponent: [r, Lcom/nianticproject/ingress/gameentity/components/Portal;]
 
   methods:
     onPlayerLocationChanged: [l, V]
