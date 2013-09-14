@@ -1,4 +1,5 @@
 {
     filterMin: Linear,
     filterMag: Linear,
+    ignoreBlankImages: false,
 }

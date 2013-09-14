@@ -81,7 +81,6 @@ def resize(name, scale, coda_sizes):
 
     # Resize "magic" portal_ui.atlas
     # Repack portal, energy-alien and energy-resistance images only, then readd additional "images" to the atlas file
-'''
     u = texture_unpacker.Unpacker('app/assets/portal_info/data/portal_ui.atlas')
     u.parse_atlas()
     page = u.atlas.pages[0]
@@ -102,7 +101,6 @@ def resize(name, scale, coda_sizes):
         p['orig'] = p27raund(p['orig'][0] * scale), p27raund(p['orig'][1] * scale)
         page.images.append(im)
     u.save_atlas('build/assets/data-%s/portal_info/portal_ui.atlas' % name)
-'''
 
 def texture_pack(in_dir, out_dir, name):
     subprocess.check_call(

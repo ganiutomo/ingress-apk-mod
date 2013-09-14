@@ -3,4 +3,5 @@
     stripWhitespaceY: true,
     filterMin: MipMapLinearNearest,
     filterMag: Nearest,
+    ignoreBlankImages: false,
 }
