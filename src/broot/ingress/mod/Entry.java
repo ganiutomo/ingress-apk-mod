@@ -150,6 +150,10 @@ public class Entry {
     public static void PortalInfoDialog_onStatsTableCreated(PortalInfoDialog dialog, Table t) {
         Mod.portalInfoDialog = dialog;
 
+        if (!Config.changePortalInfoDialog) {
+            return;
+        }
+
         Label.LabelStyle style = Mod.skin.get("portal-stats", Label.LabelStyle.class);
         Label.LabelStyle keyExistsStyle = Mod.skin.get("ops-title", Label.LabelStyle.class);
 
@@ -170,10 +174,17 @@ public class Entry {
     }
 
     public static void PortalInfoDialog_onPlayerLocationChanged() {
+        if (!Config.changePortalInfoDialog) {
+            return;
+        }
         double dist = LocationUtils.calculateDistance(
                 Mod.world.getPlayerModel().getPlayerLocation().getLatLng(),
                 ((LocationE6) Mod.portalInfoDialog.portalComponent.getEntity().getComponent(LocationE6.class)).getLatLng());
         portalInfoDistLabel.setText(FormatUtils.formatDistance((float) dist));
+    }
+
+    public static long GpsSensor_lockTimeout() {
+        return Config.gpsLockTime;
     }
 
     public static boolean ScannerTouchHandler_shouldSwapTouchMenuButtons() {

@@ -56,7 +56,7 @@ public class AboutModActivity extends BaseSubActivity {
                         updateTabsValues(false);
                     }
                 });
-                tabsItem.addButton("ITEMS", "Show", new ClickListener() {
+                tabsItem.addButton("INVENTORY", "Show", new ClickListener() {
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
                         Config.showOrigItemsTab = !Config.showOrigItemsTab;
@@ -70,17 +70,17 @@ public class AboutModActivity extends BaseSubActivity {
                         updateTabsValues(true);
                     }
                 });
+                tabsItem.addButton("MISSIONS", "Show", new ClickListener() {
+                    @Override
+                    public void clicked(InputEvent event, float x, float y) {
+                        Config.showMissionTab = !Config.showMissionTab;
+                        updateTabsValues(true);
+                    }
+                });
                 tabsItem.addButton("INTEL", "Show", new ClickListener() {
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
                         Config.showIntelTab = !Config.showIntelTab;
-                        updateTabsValues(true);
-                    }
-                });
-                tabsItem.addButton("MISSION", "Show", new ClickListener() {
-                    @Override
-                    public void clicked(InputEvent event, float x, float y) {
-                        Config.showMissionTab = !Config.showMissionTab;
                         updateTabsValues(true);
                     }
                 });
@@ -221,6 +221,21 @@ public class AboutModActivity extends BaseSubActivity {
                         Mod.updateKeepScreenOn();
                     }
                 });
+                uiTweaksItem.addButton("Keep GPS on", "", new ClickListener() {
+                    @Override
+                    public void clicked(InputEvent event, float x, float y) {
+                        Config.nextGpsLockTime();
+                        updateUiTweaksValues(true);
+                        Mod.updateKeepScreenOn();
+                    }
+                });
+                uiTweaksItem.addButton("Modify portal info", "", new ClickListener() {
+                    @Override
+                    public void clicked(InputEvent event, float x, float y) {
+                        Config.changePortalInfoDialog = !Config.changePortalInfoDialog;
+                        updateUiTweaksValues(true);
+                    }
+                });
                 addItem(uiTweaksItem);
 
                 addItem(uiVariantItem = new ListItem(skin, "UI variant", "", "Toggle", new ClickListener() {
@@ -292,8 +307,8 @@ public class AboutModActivity extends BaseSubActivity {
         tabsItem.buttons.get(0).setText(Config.itemsTab.desc);
         tabsItem.buttons.get(1).setText(Config.showOrigItemsTab ? "Show" : "Hide");
         tabsItem.buttons.get(2).setText(Config.showAgentTab ? "Show" : "Hide");
-        tabsItem.buttons.get(3).setText(Config.showIntelTab ? "Show" : "Hide");
-        tabsItem.buttons.get(4).setText(Config.showMissionTab ? "Show" : "Hide");
+        tabsItem.buttons.get(3).setText(Config.showMissionTab ? "Show" : "Hide");
+        tabsItem.buttons.get(4).setText(Config.showIntelTab ? "Show" : "Hide");
         tabsItem.buttons.get(5).setText(Config.showRecruitTab ? "Show" : "Hide");
         tabsItem.buttons.get(6).setText(Config.showPasscodeTab ? "Show" : "Hide");
         tabsItem.buttons.get(7).setText(Config.showDeviceTab ? "Show" : "Hide");
@@ -314,7 +329,7 @@ public class AboutModActivity extends BaseSubActivity {
     }
 
     private void updateUiTweaksValues(boolean save) {
-        String timeFormatLabel;
+        String timeFormatLabel, gpsLockLabel;
         if (save) {
             Config.save();
         }
@@ -331,6 +346,18 @@ public class AboutModActivity extends BaseSubActivity {
         uiTweaksItem.buttons.get(5).setText(timeFormatLabel);
         uiTweaksItem.buttons.get(6).setText(Config.vibration ? "ON" : "OFF");
         uiTweaksItem.buttons.get(7).setText(Config.keepScreenOn ? "ON" : "OFF");
+        switch (Config.gpsLockTime) {
+            case 0: gpsLockLabel = "Disabled"; break;
+            case 30000: gpsLockLabel = "30sec"; break;
+            case 60000: gpsLockLabel = "1min"; break;
+            case 120000: gpsLockLabel = "2min"; break;
+            case 300000: gpsLockLabel = "5min"; break;
+            case 600000: gpsLockLabel = "10min"; break;
+            case 900000: gpsLockLabel = "15min"; break;
+            default: gpsLockLabel = "Unknown";
+        }
+        uiTweaksItem.buttons.get(9).setText(gpsLockLabel);
+        uiTweaksItem.buttons.get(10).setText(Config.changePortalInfoDialog ? "ON" : "OFF");
     }
 
     private void updateUiVariantValue() {

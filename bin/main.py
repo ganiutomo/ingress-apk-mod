@@ -47,7 +47,6 @@ def main():
 
     edit = edit_cls('SubActivityManager')
     edit.mod_field_def('skin', 'public')
-
     edit.prepare_after_prologue('init')
     edit.add_invoke_entry('SubActivityManager_onInit', 'p2')
     edit.save()
@@ -62,7 +61,6 @@ def main():
     edit = edit_cls('MenuTabId')
     edit.add_enum('MOD_ABOUT')
     edit.add_enum('MOD_ITEMS')
-
     edit.prepare_after_prologue('toString')
     edit.add_invoke_entry('MenuTabId_onToString', 'p0', 'v0')
     edit.add_ret_if_result(True, 'result')
@@ -81,7 +79,14 @@ def main():
     #edit.add_ret_if_result(True)
     edit.save()
 
-    edit = edit_cls('MenuShowBtn')
+    edit = edit_cls('OldPlayerStatusBar_OpsButtonListener')
+    edit.find_line(' const-class (v\d+), %s' % expr_type('$ItemsActivity'))
+    edit.comment_line()
+    edit.add_invoke_entry('MenuShowBtn_onClick')
+    edit.add_line(' move-result-object %s' % edit.vars[0])
+    edit.save()
+
+    edit = edit_cls('AvatarPlayerStatusBar_OpsButtonListener')
     edit.find_line(' const-class (v\d+), %s' % expr_type('$ItemsActivity'))
     edit.comment_line()
     edit.add_invoke_entry('MenuShowBtn_onClick')
@@ -134,16 +139,6 @@ def main():
     edit.add_ret_if_result(False)
     edit.save()
 
-
-#    edit = edit_cls('PlayerModelUtils')
-#    edit.find_method_def('getDefaultResonatorToDeploy')
-#    edit.find_line(' invoke-interface {(.+)}, Ljava/util/Map;->keySet\(\)Ljava/util/Set;', where='down')
-#    edit.prepare_to_insert_before(True)
-#    edit.add_invoke_entry('PlayerModelUtils_onGetDefaultResonatorToDeploy', edit.vars[0])
-#    edit.add_line(' move-result-object %s' % edit.vars[0])
-#    edit.save()
-
-
     edit = edit_cls('ZoomInMode')
     edit.find_method_def('onEnter')
     edit.find_line(r' iput-object [pv]\d+, p0, %s->h.+' % expr_type('$ZoomInMode'))
@@ -152,43 +147,7 @@ def main():
     edit.add_ret_if_result(False)
     edit.save()
 
-
-#    edit = edit_cls('PortalUpgradeActivity')
-#    edit.mod_field_def('portalEntity', 'public')
-#    edit.save()
-
-
-#    edit = edit_cls('PortalUpgradeUi')
-#    edit.mod_class_def('public')
-#    edit.mod_field_def('activity', 'public')
-
-#    edit.find_line(r' const-string.*, "PORTAL"')
-#    edit.find_line(r' invoke-virtual \{([pv]\d+), .*\}, Lcom/badlogic/gdx/scenes/scene2d/ui/Table;->add\(.*', where='down')
-#    tableReg = edit.vars[0]
-#    edit.find_line(r' invoke-virtual {.*, %s}, Lcom/badlogic/gdx/scenes/scene2d/ui/Table;->add\(.*' % tableReg, where='down')
-#    edit.prepare_to_insert_before()
-#    edit.add_invoke_entry('PortalUpgrade_onStatsTableCreated', 'p0, ' + tableReg)
-
-#    edit.prepare_after_prologue('dispose')
-#    edit.add_invoke_entry('PortalUpgrade_onDispose')
-#    edit.save()
-
-
-#    edit = edit_cls('ResonatorBrowser')
-#    edit.find_line(r' add-int/lit8 ([pv]\d+), ([pv]\d+), 0x1e')
-#    edit.comment_line()
-#    edit.prepare_to_insert()
-#    edit.add_invoke_entry('PortalUpgrade_getResonatorBrowserHeight', edit.vars[1], edit.vars[0])
-#    edit.save()
-
-
 #    edit = edit_cls('ClientFeatureKnobBundle')
-#    edit.find_line(r' iget-boolean ([pv]\d+), p0, %s' % expr('$ClientFeatureKnobBundle->enableNewHackAnimations'))
-#    edit.prepare_to_insert()
-#    edit.add_invoke_entry('ClientFeatureKnobBundle_getEnableNewHackAnimations', edit.vars[0], edit.vars[0])
-#    edit.find_line(r' iget-boolean ([pv]\d+), p0, %s' % expr('$ClientFeatureKnobBundle->enableNewDeployUi'))
-#    edit.prepare_to_insert()
-#    edit.add_invoke_entry('ClientFeatureKnobBundle_getEnableNewDeployUi', edit.vars[0], edit.vars[0])
 #    edit.save()
 
     edit = edit_cls('HackController')
@@ -285,6 +244,13 @@ def main():
     edit.add_line(' :lbl_vibration_disabled')
     edit.save()
 
+    # change gps lock timeout
+    edit = edit_cls('GpsSensor')
+    edit.find_line(' .*Landroid/os/Handler;->postDelayed.*')
+    edit.prepare_to_insert_before()
+    edit.add_invoke_entry('GpsSensor_lockTimeout', ret='v2')
+    edit.save()
+
     #change order of buttons in round menu
     edit = edit_cls('ScannerTouchHandler')
     edit.find_line(' invoke-direct/range \{v0 \.\. v7\}, (.+)$')
@@ -308,17 +274,12 @@ def main():
     edit.replace_in_line('%d', '%,d')
     edit.save()
 
-    edit = edit_cls('StatusBar')
+    edit = edit_cls('OldPlayerStatusBar')
     edit.find_line(r'(.+)\+%d AP(.+)$')
     edit.replace_in_line('%d', '%,d')
     edit.find_line(r'(.+)%d AP(.+)$')
     edit.replace_in_line('%d', '%,d')
     edit.find_line(r'(.+)%d XM(.+)$')
-    edit.replace_in_line('%d', '%,d')
-    edit.save()
-
-    edit = edit_cls('PlayerProfileTable')
-    edit.find_line(r' const-string/jumbo v3, "%d %s"')
     edit.replace_in_line('%d', '%,d')
     edit.save()
 

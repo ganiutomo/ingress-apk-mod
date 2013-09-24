@@ -174,11 +174,13 @@ public class ModItemsActivity extends BaseSubActivity {
         for (List<Button> buttons : buttonsByLvl.values()) {
             for (Button btn : buttons) {
                 btn.button.setText(formatValue(0));
+                btn.entity = null;
             }
         }
         for (Map<ItemRarity, Button> buttons : buttonsByRarity.values()) {
             for (Button btn : buttons.values()) {
                 btn.button.setText(formatValue(0));
+                btn.entity = null;
             }
         }
 
@@ -261,7 +263,7 @@ public class ModItemsActivity extends BaseSubActivity {
         buttonsByLvl.get(ItemType.MEDIA).get(LEVEL_COUNT).button.setText(formatValue(mediaCnt));
         
         long xm = Mod.world.getPlayerModel().getCurrentXM();
-        sumLabel.setText(String.format("Items: %,d; XM: %,d", sum, xm));
+        sumLabel.setText(String.format("Items: %,d - XM: %,d", sum, xm));
         keysLabel.setText("Keys:  " + keysNumber);
     }
 

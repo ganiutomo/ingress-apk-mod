@@ -28,6 +28,7 @@ broot.ingress.mod.Entry:
     ZoomInMode_shouldZoomIn: [null, Z]
     PortalInfoDialog_getOpenDelay: [null, F, F]
 #    PortalUpgrade_onStatsTableCreated: [null, V, $PortalUpgradeUi, $Table]
+    GpsSensor_lockTimeout: [null, J]
     PortalUpgrade_onDispose: [null, V]
     PortalUpgrade_getResonatorBrowserHeight: [null, I, I]
     XmParticleRender_getTimeSec: [null, F, F]
@@ -37,6 +38,7 @@ broot.ingress.mod.Entry:
     HackController_shouldShowAnimation: [null, Z]
     ClientFeatureKnobBundle_getEnableNewHackAnimations: [null, Z, Z]
     ClientFeatureKnobBundle_getEnableNewDeployUi: [null, Z, Z]
+    ClientFeatureKnobBundle_getEnableCommsAlertsTab: [null, Z, Z]
     InventoryItemRenderer_shouldRotate: [null, Z]
     InventoryItemRenderer_simplifyItems: [null, Z]
     ItemActionHandler_recycleAnimationsEnabled: [null, Z]
@@ -87,7 +89,7 @@ com.nianticproject.ingress.common.model.BasePlayerListener:
 ### ENTITY
 
 com.nianticproject.ingress.gameentity.GameEntity:
-  is_real_name: true
+  obf_name: com.nianticproject.ingress.gameentity.f
 
 com.nianticproject.ingress.gameentity.EntityComponent:
   obf_name: com.nianticproject.ingress.gameentity.a
@@ -150,6 +152,7 @@ com.nianticproject.ingress.knobs.ClientFeatureKnobBundle:
   fields:
     enableNewHackAnimations: [enableNewHackAnimations, Z]
     enableNewDeployUi: [enableNewDeployUi, Z]
+    enableCommsAlertsTab: [enableCommsAlertsTab, Z]
 
   is_real_name: true
 
@@ -157,6 +160,9 @@ com.nianticproject.ingress.knobs.ClientFeatureKnobBundle:
 
 com.nianticproject.ingress.common.json.JacksonInitializer:
   find_by_string: 'Lorg/codehaus/jackson/map/ObjectMapper;->configure\('
+
+com.nianticproject.ingress.sensors.GpsSensor:
+  find_by_string: 'could not request GPS updates'
 
 ### APP
 
@@ -285,9 +291,6 @@ com.nianticproject.ingress.common.ui.FormatUtils:
 com.nianticproject.ingress.common.CommPlayerListener:
   find_by_string: CommPlayerListener
 
-com.nianticproject.ingress.common.ui.elements.StatusBar:
-  find_by_string: "%d AP"
-
 com.nianticproject.ingress.common.playerprofile.PlayerProfileTable:
   find:
     - [by_super, false, true, Lcom/badlogic/gdx/scenes/scene2d/ui/Table;]
@@ -355,8 +358,34 @@ com.nianticproject.ingress.common.ui.widget.MenuTabId:
 
   find_by_string: RECRUIT
 
-com.nianticproject.ingress.common.ui.elements.MenuShowBtn:
-  find_by_string: $ItemsActivity
+com.nianticproject.ingress.common.ui.elements.OldPlayerStatusBar:
+  find_by_string: "%d AP"
+
+com.nianticproject.ingress.common.ui.elements.AvatarPlayerStatusBar:
+  find_by_string: '"scanner-ap-progress-neutral"'
+
+com.nianticproject.ingress.common.ui.elements.AvatarPlayerStatusBar_OpsButtonListener:
+  methods:
+    init: [<init>, V, $AvatarPlayerStatusBar]
+    clicked: [clicked, V, Lcom/badlogic/gdx/scenes/scene2d/InputEvent;, F, F]
+
+#  find_by_method: init
+  find:
+    - [by_super,  false, true, Lcom/badlogic/gdx/scenes/scene2d/utils/ClickListener;]
+    - [by_method, false, true, init]
+    - [by_method, false, true, clicked]
+    - [by_string, false, true, Lcom/nianticproject/ingress/common/inventory]
+
+com.nianticproject.ingress.common.ui.elements.OldPlayerStatusBar_OpsButtonListener:
+  methods:
+    init: [<init>, V, $OldPlayerStatusBar]
+    clicked: [clicked, V, Lcom/badlogic/gdx/scenes/scene2d/InputEvent;, F, F]
+
+  find:
+    - [by_super,  false, true, Lcom/badlogic/gdx/scenes/scene2d/utils/ClickListener;]
+    - [by_method, false, true, init]
+    - [by_method, false, true, clicked]
+    - [by_string, false, true, Lcom/nianticproject/ingress/common/inventory]
 
 com.nianticproject.ingress.common.ui.widget.MenuTabClickListener:
   fields:

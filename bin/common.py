@@ -505,7 +505,7 @@ class ClassEditor:
 
         if not ret:
             return
-        postfix = '' if self.ctx.get_cls_for_name('Entry').methods[method_name][1][0] not in ('L', '[') else '-object'
+        postfix = '' if self.ctx.get_cls_for_name('Entry').methods[method_name][1][0] not in ('L', '[', 'J') else '-wide' if self.ctx.get_cls_for_name('Entry').methods[method_name][1][0] in ('J') else '-object'
         self.add_line(r' move-result%s %s' % (postfix, ret))
 
         self.last_result_reg = ret
