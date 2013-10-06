@@ -263,12 +263,12 @@ public class ModItemsActivity extends BaseSubActivity {
         buttonsByLvl.get(ItemType.MEDIA).get(LEVEL_COUNT).button.setText(formatValue(mediaCnt));
         
         long xm = Mod.world.getPlayerModel().getCurrentXM();
-        sumLabel.setText(String.format("Items: %,d - XM: %,d", sum, xm));
+        sumLabel.setText(String.format(Locale.US, "Items: %,d - XM: %,d", sum, xm));
         keysLabel.setText("Keys:  " + keysNumber);
     }
 
     private static String formatValue(int value) {
-        return value == 0 ? "-" : String.format("%,d", value);
+        return value == 0 ? "-" : String.format(Locale.US, "%,d", value);
     }
 
     @Override

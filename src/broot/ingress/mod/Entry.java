@@ -173,6 +173,18 @@ public class Entry {
         t.add(portalInfoDistLabel = new Label("", style)).left().expandX();
     }
 
+    public static void PowerCubeDetailsUiCreator_onActionButtonsTableCreated(Table t) {
+        if (Config.enablePowerCubesRecycle) {
+            return;
+        }
+
+        List<Cell> cells = new ArrayList<Cell>(t.getCells());
+        t.clear();
+        t.add((Actor) cells.get(0).getWidget()).left().size(com.esotericsoftware.tablelayout.Value.percentWidth(0.29F), com.esotericsoftware.tablelayout.Value.percentWidth(0.12F));
+        t.add((Actor) cells.get(1).getWidget()).left().size(com.esotericsoftware.tablelayout.Value.percentWidth(0.29F), com.esotericsoftware.tablelayout.Value.percentWidth(0.12F));
+        t.row();
+    }
+
     public static void PortalInfoDialog_onPlayerLocationChanged() {
         if (!Config.changePortalInfoDialog) {
             return;
@@ -223,7 +235,7 @@ public class Entry {
         return new ShaderProgram(vertex, frag);
     }
     
-    public static float XmParticleRender_getTimeSec(float orig) {
+    public static float ParticleEnergyGlobVisuals_getTimeSec(float orig) {
         return Config.xmFlowEnabled ? orig : 0;
     }
     
@@ -255,8 +267,16 @@ public class Entry {
         return Config.recycleAnimationsEnabled;
     }
 
+    public static boolean Mod_ShowAgentTab() {
+        return Config.showAgentTab;
+    }
+
     public static boolean vibrationEnabled() {
         return Config.vibration;
+    }
+
+    public static boolean isPrivacyEnabled() {
+        return Config.isPrivacyOn;
     }
 
     public static SimpleDateFormat CommsAdapter_getDateFormat() {

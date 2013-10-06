@@ -236,6 +236,21 @@ public class AboutModActivity extends BaseSubActivity {
                         updateUiTweaksValues(true);
                     }
                 });
+                uiTweaksItem.addButton("Allow Cubes recyling", "", new ClickListener() {
+                    @Override
+                    public void clicked(InputEvent event, float x, float y) {
+                        Config.enablePowerCubesRecycle = !Config.enablePowerCubesRecycle;
+                        updateUiTweaksValues(true);
+                    }
+                });
+                uiTweaksItem.addButton("Privacy", "", new ClickListener() {
+                    @Override
+                    public void clicked(InputEvent event, float x, float y) {
+                        Config.isPrivacyOn = !Config.isPrivacyOn;
+                        updateUiTweaksValues(true);
+                        restartItem.descLabel.setText("Restart is recommended");
+                    }
+                });
                 addItem(uiTweaksItem);
 
                 addItem(uiVariantItem = new ListItem(skin, "UI variant", "", "Toggle", new ClickListener() {
@@ -356,8 +371,10 @@ public class AboutModActivity extends BaseSubActivity {
             case 900000: gpsLockLabel = "15min"; break;
             default: gpsLockLabel = "Unknown";
         }
-        uiTweaksItem.buttons.get(9).setText(gpsLockLabel);
-        uiTweaksItem.buttons.get(10).setText(Config.changePortalInfoDialog ? "ON" : "OFF");
+        uiTweaksItem.buttons.get(8).setText(gpsLockLabel);
+        uiTweaksItem.buttons.get(9).setText(Config.changePortalInfoDialog ? "ON" : "OFF");
+        uiTweaksItem.buttons.get(10).setText(Config.enablePowerCubesRecycle ? "ON" : "OFF");
+        uiTweaksItem.buttons.get(11).setText(Config.isPrivacyOn ? "ON" : "OFF");
     }
 
     private void updateUiVariantValue() {

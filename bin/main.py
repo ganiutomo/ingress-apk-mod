@@ -92,7 +92,13 @@ def main():
     edit.add_invoke_entry('MenuShowBtn_onClick')
     edit.add_line(' move-result-object %s' % edit.vars[0])
     edit.save()
-
+    
+    edit = edit_cls('AvatarPlayerStatusBar_AvatarListener')
+    edit.prepare_after_prologue('clicked')
+    edit.add_invoke_entry('Mod_ShowAgentTab', '', 'v0')
+    edit.add_ret_if_result(False)
+    edit.save()
+    
     edit = edit_cls('AssetFinder')
     edit.find_line(r' const-string/jumbo v\d+, "\{"')
     edit.find_prologue(where="up")
@@ -166,11 +172,11 @@ def main():
     edit.save()
 
     #disable xm flow
-    edit = edit_cls('XmParticleRender')
+    edit = edit_cls('ParticleEnergyGlobVisuals')
     edit.find_line(r' const-string/jumbo v0, "u_timeSec"')
     edit.find_line(r' .*Lcom/badlogic/gdx/graphics/glutils/ShaderProgram;->setUniformf.*', where='down')
     edit.prepare_to_insert_before()
-    edit.add_invoke_entry('XmParticleRender_getTimeSec', 'v1', 'v1')
+    edit.add_invoke_entry('ParticleEnergyGlobVisuals_getTimeSec', 'v1', 'v1')
     edit.save()
     
     #disable shield animation
@@ -198,6 +204,13 @@ def main():
     edit.find_line('.*Lcom/badlogic/gdx/graphics/glutils/ShaderProgram;->end.*', where='down')
     edit.prepare_to_insert()
     edit.add_line(' :skip_item_shader')
+    edit.save()
+    
+    edit = edit_cls('PowerCubeDetailsUiCreator')
+    edit.find_method_def('addActionButtons')
+    edit.find_line(r' invoke-super .*', where='down')
+    edit.prepare_to_insert()
+    edit.add_invoke_entry('PowerCubeDetailsUiCreator_onActionButtonsTableCreated', 'p1')
     edit.save()
 
     #modify shader code before compiling it
@@ -266,7 +279,7 @@ def main():
     edit.add_line(' :noswap')
     edit.save()
 
-    #change format for AP and XM
+    #change format for AP and XM in COMM
     edit = edit_cls('CommPlayerListener')
     edit.find_line(r'(.+)%d XM(.+)$')
     edit.replace_in_line('%d', '%,d')
@@ -274,13 +287,26 @@ def main():
     edit.replace_in_line('%d', '%,d')
     edit.save()
 
-    edit = edit_cls('OldPlayerStatusBar')
-    edit.find_line(r'(.+)\+%d AP(.+)$')
-    edit.replace_in_line('%d', '%,d')
-    edit.find_line(r'(.+)%d AP(.+)$')
-    edit.replace_in_line('%d', '%,d')
-    edit.find_line(r'(.+)%d XM(.+)$')
-    edit.replace_in_line('%d', '%,d')
+    # privacy
+    edit = edit_cls('AvatarPlayerStatusBar')
+    edit.find_line(' invoke-interface {v0, v1}, Lcom/nianticproject/ingress/common/model/l;->a\(Ljava/lang/String;\)V')
+    edit.prepare_to_insert_before()
+    edit.add_invoke_entry('isPrivacyEnabled', ret='v5')
+    edit.add_line(' if-eqz v5, :lbl_privacy_disabled')
+    edit.add_line(' const-string/jumbo v1, ""')
+    edit.add_line(' :lbl_privacy_disabled')
+    edit.save()
+
+
+    edit = edit_cls('PlayerProfileTable')
+    edit.find_line(' invoke-virtual {v0, p1}, Lcom/nianticproject/ingress/common/ui/widget/g;->setText\(Ljava/lang/CharSequence;\)V')
+    edit.replace_in_line('p1', 'v5')
+    edit.prepare_to_insert_before()
+    edit.add_line(' move-object v5, p1')
+    edit.add_invoke_entry('isPrivacyEnabled', ret='v6')
+    edit.add_line(' if-eqz v6, :lbl_privacy_disabled')
+    edit.add_line(' const-string/jumbo v5, ""')
+    edit.add_line(' :lbl_privacy_disabled')
     edit.save()
 
 if __name__ == '__main__':
