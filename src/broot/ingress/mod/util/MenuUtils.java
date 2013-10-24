@@ -5,6 +5,8 @@ import java.util.List;
 
 import broot.ingress.mod.AboutModActivity;
 import broot.ingress.mod.ModItemsActivity;
+import broot.ingress.mod.util.Config.ItemsTab;
+import broot.ingress.mod.util.Config.Pref;
 
 import com.nianticproject.ingress.common.device.DeviceActivity;
 import com.nianticproject.ingress.common.intel.IntelActivity;
@@ -44,31 +46,32 @@ public class MenuUtils {
 
 	public static MenuTabId[] getTabs() {
 		final List<MenuTabId> tabs = new ArrayList<MenuTabId>();
-		if (Config.itemsTab == Config.ItemsTab.AT_START) {
+		final ItemsTab tab = Config.getEnumValue(Pref.ItemsTab);
+		if (tab == Config.ItemsTab.AT_START) {
 			tabs.add(MenuTabId.MOD_ITEMS);
 		}
-		if (Config.showOrigItemsTab) {
+		if (Config.getBoolean(Pref.ShowOrigItemsTab)) {
 			tabs.add(MenuTabId.INVENTORY);
 		}
-		if (Config.showAgentTab) {
+		if (Config.getBoolean(Pref.ShowAgentTab)) {
 			tabs.add(MenuTabId.AGENT);
 		}
-		if (Config.showMissionTab) {
+		if (Config.getBoolean(Pref.ShowMissionTab)) {
 			tabs.add(MenuTabId.MISSIONS);
 		}
-		if (Config.showIntelTab) {
+		if (Config.getBoolean(Pref.ShowIntelTab)) {
 			tabs.add(MenuTabId.INTEL);
 		}
-		if (Config.showRecruitTab) {
+		if (Config.getBoolean(Pref.ShowRecruitTab)) {
 			tabs.add(MenuTabId.RECRUIT);
 		}
-		if (Config.showPasscodeTab) {
+		if (Config.getBoolean(Pref.ShowPasscodeTab)) {
 			tabs.add(MenuTabId.PASSCODE);
 		}
-		if (Config.showDeviceTab) {
+		if (Config.getBoolean(Pref.ShowDeviceTab)) {
 			tabs.add(MenuTabId.DEVICE);
 		}
-		if (Config.itemsTab == Config.ItemsTab.AT_END) {
+		if (tab == Config.ItemsTab.AT_END) {
 			tabs.add(MenuTabId.MOD_ITEMS);
 		}
 		tabs.add(MenuTabId.MOD_ABOUT);

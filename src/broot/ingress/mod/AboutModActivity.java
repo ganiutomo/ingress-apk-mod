@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import broot.ingress.mod.util.Config;
-import broot.ingress.mod.util.UiVariant;
+import broot.ingress.mod.util.Config.ChatTimeFormat;
+import broot.ingress.mod.util.Config.GpsLockTime;
+import broot.ingress.mod.util.Config.Pref;
 
 import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -108,7 +110,7 @@ public class AboutModActivity extends BaseSubActivity {
 				gameplayTweaksItem.addButton("TARGET and FIRE", "", new ClickListener() {
 					@Override
 					public void clicked(final InputEvent event, final float x, final float y) {
-						Config.swapTouchMenuButtons = !Config.swapTouchMenuButtons;
+						Config.invertBooleanPreference(Pref.SwapTouchMenuButtons);
 						updateGameplayTweaksValues(true);
 					}
 				});
@@ -118,108 +120,101 @@ public class AboutModActivity extends BaseSubActivity {
 				tabsItem.addButton("[ITEMS]", "", new ClickListener() {
 					@Override
 					public void clicked(final InputEvent event, final float x, final float y) {
-						Config.nextItemsTab();
+						Config.setNextValue(Pref.ItemsTab);
 						updateTabsValues(false);
 					}
 				});
 				tabsItem.addButton("INVENTORY", "Show", new ClickListener() {
 					@Override
 					public void clicked(final InputEvent event, final float x, final float y) {
-						Config.showOrigItemsTab = !Config.showOrigItemsTab;
+						Config.invertBooleanPreference(Pref.ShowOrigItemsTab);
 						updateTabsValues(true);
 					}
 				});
 				tabsItem.addButton("AGENT", "Show", new ClickListener() {
 					@Override
 					public void clicked(final InputEvent event, final float x, final float y) {
-						Config.showAgentTab = !Config.showAgentTab;
+						Config.invertBooleanPreference(Pref.ShowAgentTab);
 						updateTabsValues(true);
 					}
 				});
 				tabsItem.addButton("MISSIONS", "Show", new ClickListener() {
 					@Override
 					public void clicked(final InputEvent event, final float x, final float y) {
-						Config.showMissionTab = !Config.showMissionTab;
+						Config.invertBooleanPreference(Pref.ShowMissionTab);
 						updateTabsValues(true);
 					}
 				});
 				tabsItem.addButton("INTEL", "Show", new ClickListener() {
 					@Override
 					public void clicked(final InputEvent event, final float x, final float y) {
-						Config.showIntelTab = !Config.showIntelTab;
+						Config.invertBooleanPreference(Pref.ShowIntelTab);
 						updateTabsValues(true);
 					}
 				});
 				tabsItem.addButton("RECRUIT", "Show", new ClickListener() {
 					@Override
 					public void clicked(final InputEvent event, final float x, final float y) {
-						Config.showRecruitTab = !Config.showRecruitTab;
+						Config.invertBooleanPreference(Pref.ShowRecruitTab);
 						updateTabsValues(true);
 					}
 				});
 				tabsItem.addButton("PASSCODE", "Show", new ClickListener() {
 					@Override
 					public void clicked(final InputEvent event, final float x, final float y) {
-						Config.showPasscodeTab = !Config.showPasscodeTab;
+						Config.invertBooleanPreference(Pref.ShowPasscodeTab);
 						updateTabsValues(true);
 					}
 				});
 				tabsItem.addButton("DEVICE", "Show", new ClickListener() {
 					@Override
 					public void clicked(final InputEvent event, final float x, final float y) {
-						Config.showDeviceTab = !Config.showDeviceTab;
+						Config.invertBooleanPreference(Pref.ShowDeviceTab);
 						updateTabsValues(true);
 					}
 				});
 				addItem(tabsItem);
 
 				animsItem = new ListItem(skin, "Animations", null);
-				// animsItem.addButton("Globe intro", "", new ClickListener() {
-				// @Override
-				// public void clicked(InputEvent event, float x, float y) {
-				// Config.skipIntro = !Config.skipIntro;
-				// updateAnimsValues(true);
-				// }
-				// });
 				animsItem.addButton("Scanner zoom in", "", new ClickListener() {
 					@Override
 					public void clicked(final InputEvent event, final float x, final float y) {
-						Config.scannerZoomInAnimEnabled = !Config.scannerZoomInAnimEnabled;
+						Config.invertBooleanPreference(Pref.ScannerZoomInAnimEnabled);
 						updateAnimsValues(true);
 					}
 				});
 				animsItem.addButton("Hacking", "", new ClickListener() {
 					@Override
 					public void clicked(final InputEvent event, final float x, final float y) {
-						Config.hackAnimEnabled = !Config.hackAnimEnabled;
+						Config.invertBooleanPreference(Pref.HackAnimEnabled);
 						updateAnimsValues(true);
 					}
 				});
 				animsItem.addButton("Item rotation", "", new ClickListener() {
 					@Override
 					public void clicked(final InputEvent event, final float x, final float y) {
-						Config.rotateInventoryItemsEnabled = !Config.rotateInventoryItemsEnabled;
+						Config.invertBooleanPreference(Pref.RotateInventoryItemsEnabled);
 						updateAnimsValues(true);
 					}
 				});
 				animsItem.addButton("Recycle animation", "", new ClickListener() {
 					@Override
 					public void clicked(final InputEvent event, final float x, final float y) {
-						Config.recycleAnimationsEnabled = !Config.recycleAnimationsEnabled;
+						Config.invertBooleanPreference(Pref.RecycleAnimationsEnabled);
 						updateAnimsValues(true);
 					}
 				});
 				animsItem.addButton("XM flow", "", new ClickListener() {
 					@Override
 					public void clicked(final InputEvent event, final float x, final float y) {
-						Config.xmFlowEnabled = !Config.xmFlowEnabled;
+						Config.invertBooleanPreference(Pref.XmFlowEnabled);
 						updateAnimsValues(true);
 					}
 				});
 				animsItem.addButton("Shield Animation", "", new ClickListener() {
 					@Override
 					public void clicked(final InputEvent event, final float x, final float y) {
-						Config.shieldAnimEnabled = !Config.shieldAnimEnabled;
+						Config.invertBooleanPreference(Pref.ShieldAnimEnabled);
 						updateAnimsValues(true);
 					}
 				});
@@ -229,7 +224,7 @@ public class AboutModActivity extends BaseSubActivity {
 				uiTweaksItem.addButton("Fullscreen", "", new ClickListener() {
 					@Override
 					public void clicked(final InputEvent event, final float x, final float y) {
-						Config.fullscreen = !Config.fullscreen;
+						Config.invertBooleanPreference(Pref.Fullscreen);
 						updateUiTweaksValues(true);
 						Mod.updateFullscreenMode();
 						restartItem.descLabel.setText("Restart is recommended");
@@ -238,36 +233,36 @@ public class AboutModActivity extends BaseSubActivity {
 				uiTweaksItem.addButton("Portal vectors", "", new ClickListener() {
 					@Override
 					public void clicked(final InputEvent event, final float x, final float y) {
-						Config.showPortalVectors = !Config.showPortalVectors;
+						Config.invertBooleanPreference(Pref.ShowPortalVectors);
 						updateUiTweaksValues(true);
 					}
 				});
 				uiTweaksItem.addButton("Portal particles", "", new ClickListener() {
 					@Override
 					public void clicked(final InputEvent event, final float x, final float y) {
-						Config.portalParticlesEnabled = !Config.portalParticlesEnabled;
+						Config.invertBooleanPreference(Pref.PortalParticlesEnabled);
 						updateUiTweaksValues(true);
-						PortalParticleRender.enabled = Config.portalParticlesEnabled;
+						PortalParticleRender.enabled = Config.getBoolean(Pref.PortalParticlesEnabled);
 					}
 				});
 				uiTweaksItem.addButton("Scanner objects", "", new ClickListener() {
 					@Override
 					public void clicked(final InputEvent event, final float x, final float y) {
-						Config.scannerObjectsEnabled = !Config.scannerObjectsEnabled;
+						Config.invertBooleanPreference(Pref.ScannerObjectsEnabled);
 						updateUiTweaksValues(true);
 					}
 				});
 				uiTweaksItem.addButton("Simplify Items", "", new ClickListener() {
 					@Override
 					public void clicked(final InputEvent event, final float x, final float y) {
-						Config.simplifyInventoryItems = !Config.simplifyInventoryItems;
+						Config.invertBooleanPreference(Pref.SimplifyInventoryItems);
 						updateUiTweaksValues(true);
 					}
 				});
 				uiTweaksItem.addButton("Chat time format", "", new ClickListener() {
 					@Override
 					public void clicked(final InputEvent event, final float x, final float y) {
-						Config.chatTimeFormat = (Config.chatTimeFormat + 1) % 3;
+						Config.setNextValue(Pref.ChatTimeFormat);
 						updateUiTweaksValues(true);
 						restartItem.descLabel.setText("Restart is recommended");
 					}
@@ -275,14 +270,14 @@ public class AboutModActivity extends BaseSubActivity {
 				uiTweaksItem.addButton("Vibrate", "", new ClickListener() {
 					@Override
 					public void clicked(final InputEvent event, final float x, final float y) {
-						Config.vibration = !Config.vibration;
+						Config.invertBooleanPreference(Pref.Vibration);
 						updateUiTweaksValues(true);
 					}
 				});
 				uiTweaksItem.addButton("Keep screen on", "", new ClickListener() {
 					@Override
 					public void clicked(final InputEvent event, final float x, final float y) {
-						Config.keepScreenOn = !Config.keepScreenOn;
+						Config.invertBooleanPreference(Pref.KeepScreenOn);
 						updateUiTweaksValues(true);
 						Mod.updateKeepScreenOn();
 					}
@@ -290,7 +285,7 @@ public class AboutModActivity extends BaseSubActivity {
 				uiTweaksItem.addButton("Keep GPS on", "", new ClickListener() {
 					@Override
 					public void clicked(final InputEvent event, final float x, final float y) {
-						Config.nextGpsLockTime();
+						Config.setNextValue(Pref.GpsLockTime);
 						updateUiTweaksValues(true);
 						Mod.updateKeepScreenOn();
 					}
@@ -298,21 +293,21 @@ public class AboutModActivity extends BaseSubActivity {
 				uiTweaksItem.addButton("Modify portal info", "", new ClickListener() {
 					@Override
 					public void clicked(final InputEvent event, final float x, final float y) {
-						Config.changePortalInfoDialog = !Config.changePortalInfoDialog;
+						Config.invertBooleanPreference(Pref.ChangePortalInfoDialog);
 						updateUiTweaksValues(true);
 					}
 				});
 				uiTweaksItem.addButton("Allow Cubes recyling", "", new ClickListener() {
 					@Override
 					public void clicked(final InputEvent event, final float x, final float y) {
-						Config.enablePowerCubesRecycle = !Config.enablePowerCubesRecycle;
+						Config.invertBooleanPreference(Pref.EnablePowerCubesRecycle);
 						updateUiTweaksValues(true);
 					}
 				});
 				uiTweaksItem.addButton("Privacy", "", new ClickListener() {
 					@Override
 					public void clicked(final InputEvent event, final float x, final float y) {
-						Config.isPrivacyOn = !Config.isPrivacyOn;
+						Config.invertBooleanPreference(Pref.IsPrivacyOn);
 						updateUiTweaksValues(true);
 						restartItem.descLabel.setText("Restart is recommended");
 					}
@@ -320,7 +315,7 @@ public class AboutModActivity extends BaseSubActivity {
 				uiTweaksItem.addButton("Block invite nag", "", new ClickListener() {
 					@Override
 					public void clicked(final InputEvent event, final float x, final float y) {
-						Config.needInviteNagBlock = !Config.needInviteNagBlock;
+						Config.invertBooleanPreference(Pref.NeedInviteNagBlock);
 						updateUiTweaksValues(true);
 					}
 				});
@@ -329,7 +324,7 @@ public class AboutModActivity extends BaseSubActivity {
 				addItem(uiVariantItem = new ListItem(skin, "UI variant", "", "Toggle", new ClickListener() {
 					@Override
 					public void clicked(final InputEvent event, final float x, final float y) {
-						Config.nextUiVariant();
+						Config.setNextValue(Pref.UiVariant);
 						Mod.updateCurrUiVariant();
 						updateUiVariantValue();
 						restartItem.descLabel.setText("Restart is recommended");
@@ -385,98 +380,58 @@ public class AboutModActivity extends BaseSubActivity {
 		if (save) {
 			Config.save();
 		}
-		// animsItem.buttons.get(0).setText(!Config.skipIntro ? "ON" : "OFF");
-		animsItem.buttons.get(0).setText(Config.scannerZoomInAnimEnabled ? "ON" : "OFF");
-		animsItem.buttons.get(1).setText(Config.hackAnimEnabled ? "ON" : "OFF");
-		animsItem.buttons.get(2).setText(Config.rotateInventoryItemsEnabled ? "ON" : "OFF");
-		animsItem.buttons.get(3).setText(Config.recycleAnimationsEnabled ? "ON" : "OFF");
-		animsItem.buttons.get(4).setText(Config.xmFlowEnabled ? "ON" : "OFF");
-		animsItem.buttons.get(5).setText(Config.shieldAnimEnabled ? "ON" : "OFF");
+		animsItem.buttons.get(0).setText(Config.getBoolean(Pref.ScannerZoomInAnimEnabled) ? "ON" : "OFF");
+		animsItem.buttons.get(1).setText(Config.getBoolean(Pref.HackAnimEnabled) ? "ON" : "OFF");
+		animsItem.buttons.get(2).setText(Config.getBoolean(Pref.RotateInventoryItemsEnabled) ? "ON" : "OFF");
+		animsItem.buttons.get(3).setText(Config.getBoolean(Pref.RecycleAnimationsEnabled) ? "ON" : "OFF");
+		animsItem.buttons.get(4).setText(Config.getBoolean(Pref.XmFlowEnabled) ? "ON" : "OFF");
+		animsItem.buttons.get(5).setText(Config.getBoolean(Pref.ShieldAnimEnabled) ? "ON" : "OFF");
 	}
 
 	private void updateGameplayTweaksValues(final boolean save) {
 		if (save) {
 			Config.save();
 		}
-		gameplayTweaksItem.buttons.get(0).setText(Config.swapTouchMenuButtons ? "Swap" : "Leave");
+		gameplayTweaksItem.buttons.get(0).setText(Config.getBoolean(Pref.SwapTouchMenuButtons) ? "Swap" : "Leave");
 	}
 
 	private void updateTabsValues(final boolean save) {
 		if (save) {
 			Config.save();
 		}
-		tabsItem.buttons.get(0).setText(Config.itemsTab.desc);
-		tabsItem.buttons.get(1).setText(Config.showOrigItemsTab ? "Show" : "Hide");
-		tabsItem.buttons.get(2).setText(Config.showAgentTab ? "Show" : "Hide");
-		tabsItem.buttons.get(3).setText(Config.showMissionTab ? "Show" : "Hide");
-		tabsItem.buttons.get(4).setText(Config.showIntelTab ? "Show" : "Hide");
-		tabsItem.buttons.get(5).setText(Config.showRecruitTab ? "Show" : "Hide");
-		tabsItem.buttons.get(6).setText(Config.showPasscodeTab ? "Show" : "Hide");
-		tabsItem.buttons.get(7).setText(Config.showDeviceTab ? "Show" : "Hide");
+		tabsItem.buttons.get(0).setText(Config.getEnumValue(Pref.ItemsTab).toString());
+		tabsItem.buttons.get(1).setText(Config.getBoolean(Pref.ShowOrigItemsTab) ? "Show" : "Hide");
+		tabsItem.buttons.get(2).setText(Config.getBoolean(Pref.ShowAgentTab) ? "Show" : "Hide");
+		tabsItem.buttons.get(3).setText(Config.getBoolean(Pref.ShowMissionTab) ? "Show" : "Hide");
+		tabsItem.buttons.get(4).setText(Config.getBoolean(Pref.ShowIntelTab) ? "Show" : "Hide");
+		tabsItem.buttons.get(5).setText(Config.getBoolean(Pref.ShowRecruitTab) ? "Show" : "Hide");
+		tabsItem.buttons.get(6).setText(Config.getBoolean(Pref.ShowPasscodeTab) ? "Show" : "Hide");
+		tabsItem.buttons.get(7).setText(Config.getBoolean(Pref.ShowDeviceTab) ? "Show" : "Hide");
 		topWidget.createTabs();
 	}
 
 	private void updateUiTweaksValues(final boolean save) {
-		String timeFormatLabel, gpsLockLabel;
 		if (save) {
 			Config.save();
 		}
-		uiTweaksItem.buttons.get(0).setText(Config.fullscreen ? "ON" : "OFF");
-		uiTweaksItem.buttons.get(1).setText(Config.showPortalVectors ? "ON" : "OFF");
-		uiTweaksItem.buttons.get(2).setText(Config.portalParticlesEnabled ? "ON" : "OFF");
-		uiTweaksItem.buttons.get(3).setText(Config.scannerObjectsEnabled ? "ON" : "OFF");
-		uiTweaksItem.buttons.get(4).setText(Config.simplifyInventoryItems ? "ON" : "OFF");
-		switch (Config.chatTimeFormat) {
-		case 0:
-			timeFormatLabel = "12:00 AM";
-			break;
-		case 1:
-			timeFormatLabel = "00:00:00";
-			break;
-		default:
-			timeFormatLabel = "00:00";
-			break;
-		}
-		uiTweaksItem.buttons.get(5).setText(timeFormatLabel);
-		uiTweaksItem.buttons.get(6).setText(Config.vibration ? "ON" : "OFF");
-		uiTweaksItem.buttons.get(7).setText(Config.keepScreenOn ? "ON" : "OFF");
-		switch (Config.gpsLockTime) {
-		case 0:
-			gpsLockLabel = "Disabled";
-			break;
-		case 30000:
-			gpsLockLabel = "30sec";
-			break;
-		case 60000:
-			gpsLockLabel = "1min";
-			break;
-		case 120000:
-			gpsLockLabel = "2min";
-			break;
-		case 300000:
-			gpsLockLabel = "5min";
-			break;
-		case 600000:
-			gpsLockLabel = "10min";
-			break;
-		case 900000:
-			gpsLockLabel = "15min";
-			break;
-		default:
-			gpsLockLabel = "Unknown";
-		}
-		uiTweaksItem.buttons.get(8).setText(gpsLockLabel);
-		uiTweaksItem.buttons.get(9).setText(Config.changePortalInfoDialog ? "ON" : "OFF");
-		uiTweaksItem.buttons.get(10).setText(Config.enablePowerCubesRecycle ? "ON" : "OFF");
-		uiTweaksItem.buttons.get(11).setText(Config.isPrivacyOn ? "ON" : "OFF");
-		uiTweaksItem.buttons.get(12).setText(Config.needInviteNagBlock ? "ON" : "OFF");
+		uiTweaksItem.buttons.get(0).setText(Config.getBoolean(Pref.Fullscreen) ? "ON" : "OFF");
+		uiTweaksItem.buttons.get(1).setText(Config.getBoolean(Pref.ShowPortalVectors) ? "ON" : "OFF");
+		uiTweaksItem.buttons.get(2).setText(Config.getBoolean(Pref.PortalParticlesEnabled) ? "ON" : "OFF");
+		uiTweaksItem.buttons.get(3).setText(Config.getBoolean(Pref.ScannerObjectsEnabled) ? "ON" : "OFF");
+		uiTweaksItem.buttons.get(4).setText(Config.getBoolean(Pref.SimplifyInventoryItems) ? "ON" : "OFF");
+		ChatTimeFormat f = Config.getEnumValue(Pref.ChatTimeFormat);
+		uiTweaksItem.buttons.get(5).setText(f.toString());
+		uiTweaksItem.buttons.get(6).setText(Config.getBoolean(Pref.Vibration) ? "ON" : "OFF");
+		uiTweaksItem.buttons.get(7).setText(Config.getBoolean(Pref.KeepScreenOn) ? "ON" : "OFF");
+		GpsLockTime t = Config.getEnumValue(Pref.GpsLockTime);
+		uiTweaksItem.buttons.get(8).setText(t.toString());
+		uiTweaksItem.buttons.get(9).setText(Config.getBoolean(Pref.ChangePortalInfoDialog) ? "ON" : "OFF");
+		uiTweaksItem.buttons.get(10).setText(Config.getBoolean(Pref.EnablePowerCubesRecycle) ? "ON" : "OFF");
+		uiTweaksItem.buttons.get(11).setText(Config.getBoolean(Pref.IsPrivacyOn) ? "ON" : "OFF");
+		uiTweaksItem.buttons.get(12).setText(Config.getBoolean(Pref.NeedInviteNagBlock) ? "ON" : "OFF");
 	}
 
 	private void updateUiVariantValue() {
-		String text = Config.uiVariant.desc;
-		if (Config.uiVariant == UiVariant.AUTO) {
-			text += " (" + Mod.currUiVariant.desc + ")";
-		}
-		uiVariantItem.descLabel.setText(text);
+		uiVariantItem.descLabel.setText(Config.getEnumValue(Pref.UiVariant).toString());
 	}
 }

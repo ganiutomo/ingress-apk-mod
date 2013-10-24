@@ -9,10 +9,13 @@ import android.content.Context;
 import android.os.PowerManager;
 import android.util.DisplayMetrics;
 import android.view.WindowManager;
+import broot.ingress.mod.BuildConfig.UiVariant;
 import broot.ingress.mod.util.Config;
+import broot.ingress.mod.util.Config.ChatTimeFormat;
+import broot.ingress.mod.util.Config.GpsLockTime;
+import broot.ingress.mod.util.Config.Pref;
 import broot.ingress.mod.util.InventoryUtils;
 import broot.ingress.mod.util.MenuUtils;
-import broot.ingress.mod.util.UiVariant;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
@@ -37,11 +40,7 @@ import com.nianticproject.ingress.shared.location.LocationUtils;
 
 public class Entry {
 
-	private static Label            portalInfoDistLabel;
-
-	private static SimpleDateFormat tf12   = new SimpleDateFormat("h:mma");
-	private static SimpleDateFormat tf24   = new SimpleDateFormat("HH:mm:ss");
-	private static SimpleDateFormat tf24ns = new SimpleDateFormat("HH:mm");
+	private static Label portalInfoDistLabel;
 
 	static {
 		Mod.init();
@@ -57,13 +56,11 @@ public class Entry {
 		final String post = "/" + in.substring(pos1 + 6, pos2);
 
 		UiVariant variant = Mod.currUiVariant;
-		while (variant != null) {
-			final FileHandle file = Gdx.files.internal(pre + variant.name + post);
-			if (file.exists()) {
-				return file;
-			}
-			variant = UiVariant.byName.get(variant.parent);
+		final FileHandle file = Gdx.files.internal(pre + variant.getName() + post);
+		if (file.exists()) {
+			return file;
 		}
+		variant = UiVariant.valueOf(variant.getParent());
 		return null;
 	}
 
@@ -73,14 +70,8 @@ public class Entry {
 	}
 
 	public static SimpleDateFormat CommsAdapter_getDateFormat() {
-		switch (Config.chatTimeFormat) {
-		case 0:
-			return tf12;
-		case 1:
-			return tf24;
-		default:
-			return tf24ns;
-		}
+		final ChatTimeFormat f = Config.getEnumValue(Pref.ChatTimeFormat);
+		return f.getFormat();
 	}
 
 	public static ClientType getClientType() {
@@ -92,35 +83,36 @@ public class Entry {
 	}
 
 	public static long GpsSensor_lockTimeout() {
-		return Config.gpsLockTime;
+		final GpsLockTime t = Config.getEnumValue(Pref.GpsLockTime);
+		return t.getLockTime();
 	}
 
 	public static float HackAnimationStage_getTotalTime(final float orig) {
-		return Config.hackAnimEnabled ? orig : 0;
+		return Config.getBoolean(Pref.HackAnimEnabled) ? orig : 0;
 	}
 
 	public static boolean HackController_shouldShowAnimation() {
-		return Config.hackAnimEnabled;
+		return Config.getBoolean(Pref.HackAnimEnabled);
 	}
 
 	public static boolean InventoryItemRenderer_shouldRotate() {
-		return Config.rotateInventoryItemsEnabled;
+		return Config.getBoolean(Pref.RotateInventoryItemsEnabled);
 	}
 
 	public static boolean InventoryItemRenderer_simplifyItems() {
-		return Config.simplifyInventoryItems;
+		return Config.getBoolean(Pref.SimplifyInventoryItems);
 	}
 
 	public static boolean isInviteNagBlockEnabled() {
-		return Config.needInviteNagBlock;
+		return Config.getBoolean(Pref.NeedInviteNagBlock);
 	}
 
 	public static boolean isPrivacyEnabled() {
-		return Config.isPrivacyOn;
+		return Config.getBoolean(Pref.IsPrivacyOn);
 	}
 
 	public static boolean ItemActionHandler_recycleAnimationsEnabled() {
-		return Config.recycleAnimationsEnabled;
+		return Config.getBoolean(Pref.RecycleAnimationsEnabled);
 	}
 
 	public static void MenuController_onInit(final MenuControllerImpl menuController) {
@@ -150,7 +142,7 @@ public class Entry {
 	}
 
 	public static boolean Mod_ShowAgentTab() {
-		return Config.showAgentTab;
+		return Config.getBoolean(Pref.ShowAgentTab);
 	}
 
 	public static void NemesisActivity_onOnCreate(final NemesisActivity activity) {
@@ -163,7 +155,7 @@ public class Entry {
 	}
 
 	public static void NemesisActivity_onOnPause(final NemesisActivity activity) {
-		if (Config.keepScreenOn) {
+		if (Config.getBoolean(Pref.KeepScreenOn)) {
 			if (Mod.ksoWakeLock.isHeld()) {
 				Mod.ksoWakeLock.release();
 			}
@@ -171,7 +163,7 @@ public class Entry {
 	}
 
 	public static void NemesisActivity_onOnResume(final NemesisActivity activity) {
-		if (Config.keepScreenOn) {
+		if (Config.getBoolean(Pref.KeepScreenOn)) {
 			if (!Mod.ksoWakeLock.isHeld()) {
 				Mod.ksoWakeLock.acquire();
 			}
@@ -191,15 +183,15 @@ public class Entry {
 	}
 
 	public static float ParticleEnergyGlobVisuals_getTimeSec(final float orig) {
-		return Config.xmFlowEnabled ? orig : 0;
+		return Config.getBoolean(Pref.XmFlowEnabled) ? orig : 0;
 	}
 
 	public static float PortalInfoDialog_getOpenDelay(final float orig) {
-		return Config.scannerZoomInAnimEnabled ? orig : 0;
+		return Config.getBoolean(Pref.ScannerZoomInAnimEnabled) ? orig : 0;
 	}
 
 	public static void PortalInfoDialog_onPlayerLocationChanged() {
-		if (!Config.changePortalInfoDialog) {
+		if (!Config.getBoolean(Pref.ChangePortalInfoDialog)) {
 			return;
 		}
 		final double dist = LocationUtils.calculateDistance(Mod.world.getPlayerModel().getPlayerLocation().getLatLng(),
@@ -211,7 +203,7 @@ public class Entry {
 	public static void PortalInfoDialog_onStatsTableCreated(final PortalInfoDialog dialog, final Table t) {
 		Mod.portalInfoDialog = dialog;
 
-		if (!Config.changePortalInfoDialog) {
+		if (!Config.getBoolean(Pref.ChangePortalInfoDialog)) {
 			return;
 		}
 
@@ -235,7 +227,7 @@ public class Entry {
 	}
 
 	public static void PowerCubeDetailsUiCreator_onActionButtonsTableCreated(final Table t) {
-		if (Config.enablePowerCubesRecycle) {
+		if (Config.getBoolean(Pref.EnablePowerCubesRecycle)) {
 			return;
 		}
 
@@ -253,11 +245,11 @@ public class Entry {
 	}
 
 	public static boolean ScannerStateManager_onEnablePortalVectors() {
-		return Config.showPortalVectors;
+		return Config.getBoolean(Pref.ShowPortalVectors);
 	}
 
 	public static boolean ScannerTouchHandler_shouldSwapTouchMenuButtons() {
-		return Config.swapTouchMenuButtons;
+		return Config.getBoolean(Pref.SwapTouchMenuButtons);
 	}
 
 	public static ShaderProgram ShaderUtils_compileShader(final String vertex, final String frag, final String name) {
@@ -265,19 +257,19 @@ public class Entry {
 	}
 
 	public static float ShieldShader_getRampTargetInvWidthX(final float orig) {
-		return Config.shieldAnimEnabled ? orig : 0;
+		return Config.getBoolean(Pref.ShieldAnimEnabled) ? orig : 0;
 	}
 
 	public static float ShieldShader_getRampTargetInvWidthY(final float orig) {
-		return Config.shieldAnimEnabled ? orig : 1;
+		return Config.getBoolean(Pref.ShieldAnimEnabled) ? orig : 1;
 	}
 
 	public static boolean shouldDrawScannerObject() {
-		return Config.scannerObjectsEnabled;
+		return Config.getBoolean(Pref.ScannerObjectsEnabled);
 	}
 
 	public static boolean shouldSkipIntro() {
-		return Config.skipIntro;
+		return false;
 	}
 
 	// At this point most stuff should be already initialized
@@ -292,10 +284,10 @@ public class Entry {
 	}
 
 	public static boolean vibrationEnabled() {
-		return Config.vibration;
+		return Config.getBoolean(Pref.Vibration);
 	}
 
 	public static boolean ZoomInMode_shouldZoomIn() {
-		return Config.scannerZoomInAnimEnabled;
+		return Config.getBoolean(Pref.ScannerZoomInAnimEnabled);
 	}
 }

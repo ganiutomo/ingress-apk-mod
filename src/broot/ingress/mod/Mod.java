@@ -12,8 +12,9 @@ import android.content.pm.PackageManager;
 import android.os.PowerManager;
 import android.util.DisplayMetrics;
 import android.view.WindowManager;
+import broot.ingress.mod.BuildConfig.UiVariant;
 import broot.ingress.mod.util.Config;
-import broot.ingress.mod.util.UiVariant;
+import broot.ingress.mod.util.Config.Pref;
 
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.nianticproject.ingress.NemesisActivity;
@@ -55,7 +56,7 @@ public class Mod {
 	}
 
 	public static void onConfigLoaded() {
-		PortalParticleRender.enabled = Config.portalParticlesEnabled;
+		PortalParticleRender.enabled = Config.getBoolean(Pref.PortalParticlesEnabled);
 		// EnergyGlobVisuals.initEnabled = Config.xmGlobsEnabled;
 	}
 
@@ -70,18 +71,17 @@ public class Mod {
 	}
 
 	public static void updateCurrUiVariant() {
-		currUiVariant = Config.uiVariant;
-		if (currUiVariant != UiVariant.AUTO) {
-			currUiVariant = Config.uiVariant;
+		currUiVariant = Config.getEnumValue(Pref.UiVariant);
+		if (currUiVariant != UiVariant.auto) {
 			return;
 		}
 
 		final List<String> names = new ArrayList<String>();
 		switch (assetFinder.screenDensity) {
 		case XXHIGH:
-			names.add("data-xxhdpi");
+			names.add("xxhdpi");
 		case XHIGH:
-			names.add("data-xhdpi");
+			names.add("xhdpi");
 			break;
 		case HIGH:
 			break;
@@ -89,22 +89,24 @@ public class Mod {
 		case LOW:
 			final int w = Mod.displayMetrics.widthPixels;
 			if (w < 320) {
-				names.add("data-qvga");
-				names.add("data-ingressopt-qvga");
+				names.add("qvga");
+				names.add("ingressopt_qvga");
 			} else if (w < 480) {
-				names.add("data-hvga");
-				names.add("data-ingressopt-hvga");
+				names.add("hvga");
+				names.add("ingressopt_hvga");
 			}
 			break;
 		}
-		names.add("data");
+		names.add("normal");
 		for (final String name : names) {
-			currUiVariant = UiVariant.byName.get(name);
-			if (currUiVariant != null) {
-				return;
+			for (final UiVariant variant : UiVariant.values()) {
+				if (variant.name().equals(name)) {
+					currUiVariant = variant;
+					return;
+				}
 			}
 		}
-		currUiVariant = UiVariant.variants.get(1);
+		currUiVariant = UiVariant.values()[1];
 	}
 
 	public static void updateFullscreenMode() {
@@ -112,7 +114,7 @@ public class Mod {
 			@Override
 			public void run() {
 				final WindowManager.LayoutParams attrs = nemesisActivity.getWindow().getAttributes();
-				if (Config.fullscreen) {
+				if (Config.getBoolean(Pref.Fullscreen)) {
 					attrs.flags |= WindowManager.LayoutParams.FLAG_FULLSCREEN;
 				} else {
 					attrs.flags &= ~WindowManager.LayoutParams.FLAG_FULLSCREEN;
@@ -126,7 +128,7 @@ public class Mod {
 		nemesisActivity.runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
-				if (Config.keepScreenOn) {
+				if (Config.getBoolean(Pref.KeepScreenOn)) {
 					if (!ksoWakeLock.isHeld()) {
 						ksoWakeLock.acquire();
 					}
