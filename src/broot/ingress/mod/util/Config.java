@@ -132,6 +132,13 @@ public class Config {
 	public static boolean getBoolean(final Pref pref) {
 		return getRawValue(pref) != 0;
 	}
+	
+	public static String getButtonText(Pref pref) {
+        if (pref.getClassLink().equals(Boolean.class)){
+        	return (getBoolean(pref)) ? "ON" : "OFF";
+        }
+        return getEnumValue(pref).toString();
+    }
 
 	public static <T extends Enum<T>> T getEnumValue(final Pref pref) {
 		final T[] values = getEnumValues(pref);
