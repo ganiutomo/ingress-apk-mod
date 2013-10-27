@@ -7,8 +7,8 @@ env:
  global:
   - "ARTIFACTS_AWS_REGION=eu-west-1"
   - "ARTIFACTS_S3_BUCKET=ingress-apk-mod"
-  - secure: "qZ+iOQF75UxSghFC2cQpGUBfSTu/Hvny9ek2Wim/2/xrSVtK8X/kY4poQ05iS2TNmC5R0GTegYpf1p0Wz65NCfIk+UcjJQ4Xu5wF3GnH9ZmxhOPdnMR54TiDSLkJifWc7DtcgaxP+6HcZLQXHM2i2bWV3Bdjc8kQueOMPorp//I="
-  - secure: "hsI8TzN1l+X75kKe6qcu+6rLAsU3l2rzdDrArVGK08Wtm8Gm8Zp3fdLYgSzoIFOzWQguiRDOA0UVzK1PMSC/SASkgvc/ssCRTtb9lxlMxm7htPF03TRiUltOrm4iqMcy68Rwoe4lsmttFZDkuwpred5d40oN+qzk5auUA0CxTiI="
+  - secure: "R8NVyaL8GRIes8z487YQvOTEnd/kCIgzJ/3daqsIRoL67RbHdI7T+EPgMKWm2WPq17E9iFHfXgbhctNDXHItN7xk14SdeVZp6zVIyUyPWDkjBnayEdEnTi/iu4uWt5yXAj85jxTicVttju/Wnc04fw/vEWCHyMpZk8XK8K28xFg="
+  - secure: "oGuAbtcKuPyiqhzV0J+EAmDpEqUvgOpg321CvWN9SxVKSlgnakjfWrHSvwjALzPqI+lPeiw9m/ht4APPqqRU6rfMSwAEvj6SSqNi++jqixl6etessSmyovtPCSxK7HWOgY68nKjSR9gJOHIyYwWdTasJ0FSzRAPik5zd29mnn+0="
 before_install:
   - sudo apt-get update -qq
   - if [ `uname -m` = x86_64 ]; then sudo apt-get install -qq --force-yes libgd2-xpm ia32-libs ia32-libs-multiarch; fi
