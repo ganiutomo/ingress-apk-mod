@@ -3,6 +3,12 @@ python:
   - "3.2"
 jdk:
   - oraclejdk7
+env:
+ global:
+  - "ARTIFACTS_AWS_REGION=eu-west-1"
+  - "ARTIFACTS_S3_BUCKET=ingress-apk-mod"
+  - secure: "qZ+iOQF75UxSghFC2cQpGUBfSTu/Hvny9ek2Wim/2/xrSVtK8X/kY4poQ05iS2TNmC5R0GTegYpf1p0Wz65NCfIk+UcjJQ4Xu5wF3GnH9ZmxhOPdnMR54TiDSLkJifWc7DtcgaxP+6HcZLQXHM2i2bWV3Bdjc8kQueOMPorp//I="
+  - secure: "hsI8TzN1l+X75kKe6qcu+6rLAsU3l2rzdDrArVGK08Wtm8Gm8Zp3fdLYgSzoIFOzWQguiRDOA0UVzK1PMSC/SASkgvc/ssCRTtb9lxlMxm7htPF03TRiUltOrm4iqMcy68Rwoe4lsmttFZDkuwpred5d40oN+qzk5auUA0CxTiI="
 before_install:
   - sudo apt-get update -qq
   - if [ `uname -m` = x86_64 ]; then sudo apt-get install -qq --force-yes libgd2-xpm ia32-libs ia32-libs-multiarch; fi
@@ -16,19 +22,16 @@ before_install:
   - wget http://dekanszn.ru/ingress-latest.apk
 install:
   - pip install -r requirements.txt --use-mirrors
+before_script:
+  - "gem install travis-artifacts"
 script:
   - git config --global user.email ""
   - git config --global user.name "Ingress apk mod"
   - python bin/import_apk.py ingress-latest.apk
   - python bin/release.py
-deploy: 
-  secret_access_key: 
-    secure: hF+c/etM42EjVVmGCbe15sK19lmLTgQy/Ms/C9+Z7H/k+cP/pE5C9ZDaMjv15IXq+Nq9G1chW7g0/D6yLLnVeV98KECGKEroG6cEzjTuFI29132yP8N5VMskxXtFiPuZE9MvTNLsXaAF4/3PIw4W2GAZl12mu7djrNShwxeH+EE=
-  skip_cleanup: true
-  provider: s3
-  bucket: ingress-apk-mod
-  access_key_id: 
-    secure: ohCvnV2Hu7gcrxp02yELlRGsPgc4R6FRKFa1+fAoxolqsbG0JsKVJTgjFuWAUaB6NyYJfpPMcSGUcDRKVSl7CmvCgDOq+Ylow5tPSBaGDKfRWSBgS54AvGM4wt/SWRDgYrD8kNgq9JWHiXyGicJFouqZlgnv63fnYvy/KRjj6tQ=
+after_success:
+  - "travis-artifacts upload --path ingress-latest-broot-*.apk --target-path builds"
+  - "travis-artifacts upload --path ingress-latest-broot-*-mute.apk --target-path builds"
 notifications:
   email:
     on_success: never
