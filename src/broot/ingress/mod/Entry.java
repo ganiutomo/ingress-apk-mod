@@ -13,6 +13,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.esotericsoftware.tablelayout.Cell;
@@ -145,6 +146,10 @@ public class Entry {
             variant = UiVariant.byName.get(variant.parent);
         }
         return null;
+    }
+
+    public static boolean AvatarPlayerStatusBar_shouldCreateUi() {
+        return true;
     }
 
     public static void PortalInfoDialog_onStatsTableCreated(PortalInfoDialog dialog, Table t) {

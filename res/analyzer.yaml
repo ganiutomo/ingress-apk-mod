@@ -15,6 +15,8 @@ broot.ingress.mod.Entry:
 
     SubActiityApplicationLisener_onCreated: [null, V]
 
+    AvatarPlayerStatusBar_shouldCreateUi: [null, Z]
+
     MenuShowBtn_onClick: [null, Ljava/lang/Class;]
     MenuTopWidget_getTabs: [null, '$MenuTabId[]']
     MenuTabId_onToString: [null, $String, $MenuTabId]
@@ -371,7 +373,12 @@ com.nianticproject.ingress.common.ui.elements.OldPlayerStatusBar:
   find_by_string: "%d AP"
 
 com.nianticproject.ingress.common.ui.elements.AvatarPlayerStatusBar:
-  find_by_string: '"scanner-ap-progress-neutral"'
+  methods:
+    createUi: [a, V, $Skin, $Stage]
+
+  find:
+    - [by_string, false, true, '"scanner-ap-progress-neutral"']
+    - [by_method, false, true, createUi]
 
 com.nianticproject.ingress.common.ui.elements.AvatarPlayerStatusBar_OpsButtonListener:
   methods:

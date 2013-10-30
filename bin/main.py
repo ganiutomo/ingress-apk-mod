@@ -295,6 +295,10 @@ def main():
     edit.add_line(' if-eqz v5, :lbl_privacy_disabled')
     edit.add_line(' const-string/jumbo v1, ""')
     edit.add_line(' :lbl_privacy_disabled')
+    
+    edit.prepare_after_prologue('createUi')
+    edit.add_invoke_entry('AvatarPlayerStatusBar_shouldCreateUi', '', 'v0')
+    edit.add_ret_if_result(False)
     edit.save()
 
     # invite nag reminder
