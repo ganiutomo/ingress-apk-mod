@@ -25,8 +25,8 @@ def main():
     cwd = os.getcwd()
     os.chdir(HOME)
     try:
-        resize('hvga', .6, (24, 30, 36))
-        resize('qvga', .4, (16, 20, 24))
+        resize('hvga', .6, (20, 24, 30, 36))
+        resize('qvga', .4, (16, 16, 20, 24))
     finally:
         os.chdir(cwd)
 
@@ -39,7 +39,7 @@ def resize(name, scale, coda_sizes):
         os.makedirs('build/assets/data-%s/%s' % (name, f))
 
     # Copy some files
-    for f in 'inconsolata-14.fnt', 'inconsolata-14.png', 'inconsolata-28.fnt', 'inconsolata-28.png', 'coda-x-small.fnt':
+    for f in 'inconsolata-14.fnt', 'inconsolata-14.png', 'inconsolata-28.fnt', 'inconsolata-28.png':
         shutil.copy('app/assets/common/data/%s' % f, 'build/assets/data-%s/common' % name)
     shutil.copy('app/assets/portal_info/data/portal_ui.json', 'build/assets/data-%s/portal_info' % name)
 
@@ -67,7 +67,7 @@ def resize(name, scale, coda_sizes):
     d = tempfile.mkdtemp()
     texture_unpacker.Unpacker('app/assets/%s/data/%s.atlas' % ('packed', 'common')).unpack(d, scale)
     # For common.atlas copy fonts
-    for size, font_name in zip(coda_sizes, ('sm', 'med', 'lg')):
+    for size, font_name in zip(coda_sizes, ('x-small', 'sm', 'med', 'lg')):
         shutil.copy('res/fonts/coda-%d.fnt' % size,
                     'build/assets/data-%s/common/coda-%s.fnt' % (name, font_name))
         shutil.copy('res/fonts/coda-%d_0.png' % size, '%s/coda-%s.png' % (d, font_name))

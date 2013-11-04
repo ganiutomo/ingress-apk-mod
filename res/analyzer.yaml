@@ -13,7 +13,7 @@ broot.ingress.mod.Entry:
     MenuController_onInit: [null, V, $MenuControllerImpl]
     AssetFinder_onInit: [null, V, $AssetFinder]
 
-    SubActiityApplicationLisener_onCreated: [null, V]
+    SubActivityApplicationLisener_onCreated: [null, V]
 
     MenuShowBtn_onClick: [null, Ljava/lang/Class;]
     MenuTopWidget_getTabs: [null, '$MenuTabId[]']
@@ -56,11 +56,6 @@ broot.ingress.mod.Entry:
     CommsAdapter_getDateFormat: [null, $SimpleDateFormat]
 
 ### MODEL
-
-com.nianticproject.ingress.common.CommChannel:
-  is_enum: true
-  
-  find_by_string: '" is an unknown channel ID"'
 
 com.nianticproject.ingress.common.model.GameState:
   is_real_name: true
@@ -185,9 +180,12 @@ com.nianticproject.ingress.NemesisActivity:
 com.nianticproject.ingress.common.app.NemesisWorld:
   methods:
     getPlayerModel: [b, $PlayerModel]
-    getSubActivityManager: [n, $SubActivityManager]
+    getSubActivityManager: [m, $SubActivityManager]
 
-  find_by_string: "PlayerModel is not in training mode"
+  find:
+    - [by_string, false, true, "PlayerModel is not in training mode"]
+    - [by_method, false, true, getPlayerModel]
+    - [by_method, false, true, getSubActivityManager]
 
 com.nianticproject.ingress.common.app.NemesisCache:
   methods:
@@ -470,7 +468,7 @@ com.nianticproject.ingress.common.scanner.visuals.shaders.ShieldShader:
   find_by_string: '"u_rampTargetInvWidth"'
 
 com.nianticproject.ingress.common.scanner.visuals.ScannerDestinationVisuals:
-  find_by_string: "CLEAR"
+  find_by_string: ScannerDestinationVisuals
 
 com.nianticproject.ingress.common.scanner.visuals.HackController:
   methods:
@@ -675,26 +673,19 @@ com.nianticproject.ingress.common.passcode.PasscodeTabActivity:
   find_by_string: PasscodeTabActivity
 
 ### COMM
-com.nianticproject.ingress.ui.CommsAdapter:
+com.nianticproject.ingress.comm.CommStreamAdapter:
   methods:
-    bindView: [a, V, $View, $Context, $Cursor]
-
-  find_by_string: "MMM dd"
-
-com.nianticproject.ingress.content.CommsLoader:
-  find_by_string: "CommsLoader.deserializeNoneOnFail"
-
-com.nianticproject.ingress.content.CommsData:
-  methods:
-    addMessage: [a, V, $Context, $CommChannel, $String, '[B', Z, J, I, $String, I]
+    getView: [getView, $View, I, $View, $ViewGroup]
 
   find:
-    - [by_string, false, true, "Massive plext in CommsData"]
-    - [by_method, false, true, addMessage]
-
+    - [by_string, false, true, "MMM dd"]
+    - [by_method, false, true, getView]
 
 ### FRAMEWORK
 android.view.View:
+  is_real_name: true
+
+android.view.ViewGroup:
   is_real_name: true
 
 android.content.Context:

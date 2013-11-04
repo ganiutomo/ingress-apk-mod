@@ -100,7 +100,7 @@ public class Entry {
     }
 
     // At this point most stuff should be already initialized
-    public static void SubActiityApplicationLisener_onCreated() {
+    public static void SubActivityApplicationLisener_onCreated() {
         Mod.cache = (NemesisMemoryCache) NemesisMemoryCacheFactory.getCache();
         Mod.skin = Mod.world.getSubActivityManager().skin;
     }

@@ -55,7 +55,7 @@ def main():
     edit.find_method_def('create')
     edit.find_line(r' return-void', where='down')
     edit.prepare_to_insert_before(True)
-    edit.add_invoke_entry('SubActiityApplicationLisener_onCreated')
+    edit.add_invoke_entry('SubActivityApplicationLisener_onCreated')
     edit.save()
 
     edit = edit_cls('MenuTabId')
@@ -224,11 +224,11 @@ def main():
     edit.add_invoke_entry('ShaderUtils_compileShader', 'p0, p1, p2', shaderReg)
     edit.save()
 
-    edit = edit_cls('CommsAdapter')
-    edit.prepare_after_prologue('bindView')
-    edit.find_line(r' iget-object v3, p0, %s->m:%s' % (expr('$CommsAdapter'), expr('$SimpleDateFormat')))
+    edit = edit_cls('CommStreamAdapter')
+    edit.prepare_after_prologue('getView')
+    edit.find_line(r' sget-object ([pv]\d+), %s->a:%s' % (expr('$CommStreamAdapter'), expr('$SimpleDateFormat')))
     edit.comment_line()
-    edit.add_invoke_entry('CommsAdapter_getDateFormat', '', 'v3')
+    edit.add_invoke_entry('CommsAdapter_getDateFormat', '', edit.vars[0])
     edit.save()
 
     #remove recycle animation
@@ -289,7 +289,7 @@ def main():
 
     # privacy
     edit = edit_cls('AvatarPlayerStatusBar')
-    edit.find_line(' invoke-interface {v0, v1}, Lcom/nianticproject/ingress/common/model/l;->a\(Ljava/lang/String;\)V')
+    edit.find_line(' invoke-interface {v0, v1}, Lcom/nianticproject/ingress/common/model/k;->a\(Ljava/lang/String;\)V')
     edit.prepare_to_insert_before()
     edit.add_invoke_entry('isPrivacyEnabled', ret='v5')
     edit.add_line(' if-eqz v5, :lbl_privacy_disabled')
