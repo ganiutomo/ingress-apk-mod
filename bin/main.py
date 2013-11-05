@@ -307,12 +307,9 @@ def main():
     edit.mod_field_def('contentGroup', 'public')
 
     edit.find_method_def('createUi')
-    edit.find_line(' \.locals 10', where='down')
-    edit.replace_in_line('10', '11')
     edit.find_line(' new-instance v0, %s' % expr('$Group'))
     edit.prepare_to_insert_before()
     edit.add_invoke_entry('AvatarPlayerStatusBar_onCreateUi', 'p0')
-    edit.add_line(' iget-object v10, p0, %s->m:%s' % (expr('$AvatarPlayerStatusBar'), expr('$Stage')))
 
     edit.find_line(r' invoke-virtual \{p2, ([pv]\d+)\}, %s->addActor\(%s\)V' % (expr('$Stage'), expr('$Actor')))
     edit.prepare_to_insert_before()
