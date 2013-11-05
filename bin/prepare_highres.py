@@ -47,10 +47,10 @@ def repack(name, coda_sizes):
     for size, font_name in zip(coda_sizes, ('x-small', 'sm', 'med', 'lg')):
         shutil.copy('res/fonts/coda-%d.fnt' % size,
                     'build/assets/data%s/common/coda-%s.fnt' % (name, font_name))
-        shutil.copy('res/fonts/coda-%d_0.png' % size, 'build/assets/data%s/common/coda-%s_0.png' % (name, size))
-        if os.path.exists('%s/coda-%s.png' % (d, font_name)):
-            os.remove('%s/coda-%s.png' % (d, font_name))
-#        shutil.copy('res/fonts/coda-%d_0.png' % size, '%s/coda-%s.png' % (d, font_name))
+#        shutil.copy('res/fonts/coda-%d_0.png' % size, 'build/assets/data%s/common/coda-%s_0.png' % (name, size))
+#        if os.path.exists('%s/coda-%s.png' % (d, font_name)):
+#            os.remove('%s/coda-%s.png' % (d, font_name))
+        shutil.copy('res/fonts/coda-%d_0.png' % size, '%s/coda-%s.png' % (d, font_name))
 
     shutil.copy('res/lowres/%s-pack.json' % 'common', '%s/pack.json' % d)
     texture_pack(d, 'build/assets/data%s/%s' % (name, 'packed'), 'common')

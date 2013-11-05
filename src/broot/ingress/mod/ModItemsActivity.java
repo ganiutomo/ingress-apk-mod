@@ -114,7 +114,7 @@ public class ModItemsActivity extends BaseSubActivity {
 				        ItemType.MULTIHACK }, new ItemRarity[] { ItemRarity.COMMON, ItemRarity.RARE,
 				        ItemRarity.VERY_RARE });
 				addRarityRows(t, skin, new String[] { "Link Amp" }, new Object[] { ItemType.LINK_AMPLIFIER },
-				        new ItemRarity[] { ItemRarity.RARE });
+				        new ItemRarity[] { ItemRarity.RARE , ItemRarity.VERY_RARE});
 				addRarityRows(t, skin, new String[] { "Force Amp", "Turret" }, new Object[] { ItemType.FORCE_AMP,
 				        ItemType.TURRET }, new ItemRarity[] { ItemRarity.RARE });
 				addRarityRows(t, skin, new String[] { "ADA Refactor", "JARVIS Virus" }, new Object[] {
