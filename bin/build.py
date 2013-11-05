@@ -48,7 +48,6 @@ def generate_build_config(release):
                        + ('' if os.path.exists(HOME + '/app/assets/sounds') else '-mute')
                        + ('' if release else '-dev')
                        + '"',
-        'AVAILABLE_ASSETS': 'new String[] {' + ', '.join(['"' + x + '"' for x in assets]) + '}',
     }
     bc_str = open(HOME + '/src/broot/ingress/mod/BuildConfig.java').read()
     for k, v in bc.items():
