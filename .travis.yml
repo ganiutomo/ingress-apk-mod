@@ -19,7 +19,7 @@ before_install:
   - echo y | android update sdk --filter android-17,platform-tools,build-tools-17.0.0 --all --no-ui --force
   - wget http://ingress-apk-mod.o4kapuk.info/files/lib.tar.gz
   - tar xvfz lib.tar.gz
-  - wget http://dekanszn.ru/ingress-latest.apk
+  - wget --no-check-certificate https://dl.dropboxusercontent.com/u/4976322/ingress/apk/ingress-latest.apk
 install:
   - pip install -r requirements.txt --use-mirrors
 before_script:
