@@ -3,14 +3,9 @@ package broot.ingress.mod;
 public class BuildConfig {
 
 	public static enum UiVariant {
-		auto("auto", "Auto"),
-		xxhdpi("data-xxhdpi", "Original xxhdpi", "xhdpi"),
-		xhdpi("data-xhdpi", "Original xhdpi", "normal"),
-		normal("data", "Original normal"),
-		hvga("data-hvga", "Mod HVGA"),
-		qvga("data-qvga", "Mod QVGA"),
-		ingressopt_hvga("data-ingressopt-hvga", "Ingressopt HVGA"),
-		ingressopt_qvga("data-ingressopt-qvga", "Ingressopt QVGA");
+		auto("auto", "Auto")
+		// AVAILABLE_ASSETS
+		;
 
 		private final String name;
 		private final String desc;

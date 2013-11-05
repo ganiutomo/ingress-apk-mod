@@ -11,6 +11,24 @@ signing:
     pass: qwerty
     alias: ingress_mod
 
+assets:
+  data:
+    caption: Original normal
+  data-xhdpi:
+    caption: Original xhdpi
+    parent: normal
+  data-xxhdpi:
+    caption: Original xxhdpi
+    parent: xhdpi
+  data-hvga:
+    caption: Mod HVGA
+  data-qvga:
+    caption: Mod QVGA
+  data-ingressopt-hvga:
+    caption: Ingressopt HVGA
+  data-ingressopt-qvga:
+    caption: Ingressopt QVGA
+
 maps_key:
   debug: AIzaSyDnBplgAJZudNKNy7n2xwfvcHnrZuVVGsk
   release: AIzaSyDnBplgAJZudNKNy7n2xwfvcHnrZuVVGsk
