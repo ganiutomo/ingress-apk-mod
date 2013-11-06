@@ -1,168 +1,189 @@
 package broot.ingress.mod.util;
 
-import android.content.SharedPreferences;
-import broot.ingress.mod.Mod;
+import java.text.SimpleDateFormat;
 
-import java.util.List;
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.util.SparseIntArray;
+import broot.ingress.mod.BuildConfig.UiVariant;
+import broot.ingress.mod.Mod;
 
 public class Config {
 
-    public static boolean swapTouchMenuButtons;
+	public static enum ChatTimeFormat {
+		tf12("h:mma", "12:00 AM"), tf24("HH:mm:ss", "00:00:00"), tf24ns("HH:mm", "00:00");
 
-    public static ItemsTab itemsTab;
-    public static boolean showOrigItemsTab;
-    public static boolean showAgentTab;
-    public static boolean showIntelTab;
-    public static boolean showMissionTab;
-    public static boolean showRecruitTab;
-    public static boolean showPasscodeTab;
-    public static boolean showDeviceTab;
+		private final String           desc;
+		private final SimpleDateFormat format;
 
-    public static boolean skipIntro;
-    public static boolean scannerZoomInAnimEnabled;
-    public static boolean hackAnimEnabled;
-    public static boolean rotateInventoryItemsEnabled;
-    public static boolean recycleAnimationsEnabled;
-    public static boolean xmFlowEnabled;
-    public static boolean shieldAnimEnabled;
+		private ChatTimeFormat(final String dateTimeFormat, final String desc) {
+			this.desc = desc;
+			format = new SimpleDateFormat(dateTimeFormat);
+		}
 
-    public static boolean fullscreen;
-    public static boolean showPortalVectors;
-    public static boolean portalParticlesEnabled;
-    public static boolean xmGlobsEnabled;
-    public static boolean scannerObjectsEnabled;
-    public static boolean simplifyInventoryItems;
-    public static int chatTimeFormat;
-    public static int gpsLockTime;
-    public static boolean vibration;
-    public static boolean keepScreenOn;
-    public static boolean changePortalInfoDialog;
-    public static boolean enablePowerCubesRecycle;
-    public static boolean isPrivacyOn;
-    public static boolean needInviteNagBlock;
+		public SimpleDateFormat getFormat() {
+			return format;
+		}
 
-    public static UiVariant uiVariant;
+		@Override
+		public String toString() {
+			return desc;
+		}
+	}
 
-    public static void load() {
-        SharedPreferences prefs = Mod.app.getSharedPreferences("mod", 0);
+	public static enum GpsLockTime {
+		None(0, "Disabled"), HalfMinute(30000, "30sec"), Minute(60000, "1min"), TwoMinutes(120000, "2min"), FiveMinutes(
+		        300000, "5min"), TenMinutes(600000, "10min"), FifteenMinutes(900000, "15min");
 
-        swapTouchMenuButtons = prefs.getBoolean("swapTouchMenuButtons", false);
+		private final String desc;
+		private final int    lockTime;
 
-        itemsTab = ItemsTab.valueOf(prefs.getString("itemsTab", "HIDDEN"));
-        showOrigItemsTab = prefs.getBoolean("showOrigItemsTab", true);
-        showAgentTab = prefs.getBoolean("showAgentTab", true);
-        showIntelTab = prefs.getBoolean("showIntelTab", true);
-        showMissionTab = prefs.getBoolean("showMissionTab", true);
-        showRecruitTab = prefs.getBoolean("showRecruitTab", true);
-        showPasscodeTab = prefs.getBoolean("showPasscodeTab", true);
-        showDeviceTab = prefs.getBoolean("showDeviceTab", true);
+		private GpsLockTime(final int time, final String desc) {
+			this.desc = desc;
+			lockTime = time;
+		}
 
-        skipIntro = prefs.getBoolean("skipIntro", false);
-        scannerZoomInAnimEnabled = prefs.getBoolean("scannerZoomInAnimEnabled", true);
-        hackAnimEnabled = prefs.getBoolean("hackAnimEnabled", true);
-        rotateInventoryItemsEnabled = prefs.getBoolean("rotateInventoryItemsEnabled", true);
-        recycleAnimationsEnabled = prefs.getBoolean("recycleAnimationsEnabled", true);
-        xmFlowEnabled = prefs.getBoolean("xmFlowEnabled", true);
-        shieldAnimEnabled = prefs.getBoolean("shieldAnimEnabled", true);
+		public int getLockTime() {
+			return lockTime;
+		}
 
-        fullscreen = prefs.getBoolean("fullscreen", false);
-        showPortalVectors = prefs.getBoolean("showPortalVectors", true);
-        portalParticlesEnabled = prefs.getBoolean("portalParticlesEnabled", true);
-        xmGlobsEnabled = prefs.getBoolean("xmGlobsEnabled", true);
-        scannerObjectsEnabled = prefs.getBoolean("scannerObjectsEnabled", true);
-        simplifyInventoryItems = prefs.getBoolean("simplifyInventoryItems", false);
-        gpsLockTime = prefs.getInt("gpsLockTime", 120000);
-        chatTimeFormat = prefs.getInt("chatTimeFormat", 0);
-        vibration = prefs.getBoolean("vibration", true);
-        keepScreenOn = prefs.getBoolean("keepScreenOn", false);
-        changePortalInfoDialog = prefs.getBoolean("changePortalInfoDialog", false);
-        enablePowerCubesRecycle = prefs.getBoolean("enablePowerCubesRecycle", true);
-        isPrivacyOn = prefs.getBoolean("isPrivacyOn", false);
-        needInviteNagBlock = prefs.getBoolean("needInviteNagBlock", false);
+		@Override
+		public String toString() {
+			return desc;
+		}
+	}
 
-        uiVariant = UiVariant.byName.get(prefs.getString("uiVariant", "auto"));
-        if (uiVariant == null) {
-            uiVariant = UiVariant.AUTO;
+	public static enum ItemsTab {
+		HIDDEN("Hide"), AT_END("Last"), AT_START("First");
+
+		private final String desc;
+
+		private ItemsTab(final String desc) {
+			this.desc = desc;
+		}
+
+		@Override
+		public String toString() {
+			return desc;
+		}
+	}
+
+	public static enum Pref {
+		SwapTouchMenuButtons(0, "Swap TARGET and FIRE"),
+		ItemsTab(0, "[ITEMS]", ItemsTab.class),
+		ShowOrigItemsTab(1, "INVENTORY"),
+		ShowAgentTab(1, "AGENT"),
+		ShowIntelTab(1, "INTEL"),
+		ShowMissionTab(1, "MISSIONS"),
+		ShowRecruitTab(1, "RECRUIT"),
+		ShowPasscodeTab(1, "PASSCODE"),
+		ShowDeviceTab(1, "DEVICE"),
+		ScannerZoomInAnimEnabled(1, "Scanner zoom in"),
+		HackAnimEnabled(1, "Hacking"),
+		RotateInventoryItemsEnabled(1, "Item rotation"),
+		RecycleAnimationsEnabled(1, "Recycle animation"),
+		XmFlowEnabled(1, "XM flow"),
+		ShieldAnimEnabled(1, "Shield Animation"),
+		Fullscreen(0, "Fullscreen"),
+		ShowPortalVectors(1, "Portal vectors"),
+		PortalParticlesEnabled(1, "Portal particles"),
+		XmGlobsEnabled(1, ""),
+		ScannerObjectsEnabled(1, "Scanner objects"),
+		SimplifyInventoryItems(0, "Simplify Items"),
+		ChatTimeFormat(0, "Chat time format", ChatTimeFormat.class),
+		GpsLockTime(3, "Keep GPS on", GpsLockTime.class),
+		Vibration(1, "Vibrate"),
+		KeepScreenOn(0, "Keep screen on"),
+		ChangePortalInfoDialog(0, "Modify portal info"),
+		EnablePowerCubesRecycle(1, "Allow Cubes recyling"),
+		IsPrivacyOn(0, "Privacy"),
+		NeedInviteNagBlock(0, "Block invite nag"),
+		UiVariant(0, "", UiVariant.class);
+
+		private final int      defaultValue;
+		private final String   description;
+		private final Class<?> classLink;
+
+		private Pref(final int defValue, final String desc) {
+			this(defValue, desc, Boolean.class);
+		}
+
+		private Pref(final int defValue, final String desc, final Class<?> clazz) {
+			defaultValue = defValue;
+			description = desc;
+			classLink = clazz;
+		}
+
+		public final Class<?> getClassLink() {
+			return classLink;
+		}
+
+		public final int getDefaultValue() {
+			return defaultValue;
+		}
+
+		public final String getDescription() {
+			return description;
+		}
+	}
+
+	private static SparseIntArray configArray = new SparseIntArray();
+
+	public static boolean getBoolean(final Pref pref) {
+		return getRawValue(pref) != 0;
+	}
+	
+	public static String getButtonText(Pref pref) {
+        if (pref.getClassLink().equals(Boolean.class)){
+        	return (getBoolean(pref)) ? "ON" : "OFF";
         }
-
-        Mod.onConfigLoaded();
+        return getEnumValue(pref).toString();
     }
 
-    public static void save() {
-        SharedPreferences.Editor e = Mod.app.getSharedPreferences("mod", 0).edit();
+	public static <T extends Enum<T>> T getEnumValue(final Pref pref) {
+		final T[] values = getEnumValues(pref);
+		return values[getRawValue(pref)];
+	}
 
-        e.putBoolean("swapTouchMenuButtons", swapTouchMenuButtons);
+	@SuppressWarnings("unchecked")
+	private static <T extends Enum<T>> T[] getEnumValues(final Pref pref) {
+		return ((Class<T>) pref.getClassLink()).getEnumConstants();
+	}
 
-        e.putString("itemsTab", itemsTab.toString());
-        e.putBoolean("showOrigItemsTab", showOrigItemsTab);
-        e.putBoolean("showAgentTab", showAgentTab);
-        e.putBoolean("showIntelTab", showIntelTab);
-        e.putBoolean("showMissionTab", showMissionTab);
-        e.putBoolean("showRecruitTab", showRecruitTab);
-        e.putBoolean("showPasscodeTab", showPasscodeTab);
-        e.putBoolean("showDeviceTab", showDeviceTab);
+	private static int getKey(final Pref pref) {
+		return pref.ordinal();
+	}
 
-        e.putBoolean("skipIntro", skipIntro);
-        e.putBoolean("hackAnimEnabled", hackAnimEnabled);
-        e.putBoolean("scannerZoomInAnimEnabled", scannerZoomInAnimEnabled);
-        e.putBoolean("rotateInventoryItemsEnabled", rotateInventoryItemsEnabled);
-        e.putBoolean("recycleAnimationsEnabled", recycleAnimationsEnabled);
-        e.putBoolean("xmFlowEnabled", xmFlowEnabled);
-        e.putBoolean("shieldAnimEnabled", shieldAnimEnabled);
+	private static int getRawValue(final Pref pref) {
+		return configArray.get(getKey(pref));
+	}
 
-        e.putBoolean("fullscreen", fullscreen);
-        e.putBoolean("showPortalVectors", showPortalVectors);
-        e.putBoolean("portalParticlesEnabled", portalParticlesEnabled);
-        e.putBoolean("xmGlobsEnabled", xmGlobsEnabled);
-        e.putBoolean("scannerObjectsEnabled", scannerObjectsEnabled);
-        e.putBoolean("simplifyInventoryItems", simplifyInventoryItems);
-        e.putInt("gpsLockTime", gpsLockTime);
-        e.putInt("chatTimeFormat", chatTimeFormat);
-        e.putBoolean("vibration", vibration);
-        e.putBoolean("keepScreenOn", keepScreenOn);
-        e.putBoolean("changePortalInfoDialog", changePortalInfoDialog);
-        e.putBoolean("enablePowerCubesRecycle", enablePowerCubesRecycle);
-        e.putBoolean("isPrivacyOn", isPrivacyOn);
-        e.putBoolean("needInviteNagBlock", needInviteNagBlock);
+	public static void invertBooleanPreference(final Pref pref) {
+		configArray.put(getKey(pref), (getRawValue(pref) + 1) % 2);
+		save();
+	}
 
-        e.putString("uiVariant", uiVariant.name);
+	public static void load() {
+		final SharedPreferences prefs = Mod.app.getSharedPreferences("mod", Context.MODE_PRIVATE);
+		for (final Pref pref : Pref.values()) {
+			configArray.put(getKey(pref), prefs.getInt(pref.name(), pref.getDefaultValue()));
+		}
 
-        e.commit();
-    }
+		Mod.onConfigLoaded();
+	}
 
-    public static void nextItemsTab() {
-        itemsTab = ItemsTab.values()[(itemsTab.ordinal() + 1) % ItemsTab.values().length];
-        save();
-    }
-    
-    public static void nextUiVariant() {
-        List<UiVariant> variants = UiVariant.variants;
-        uiVariant = variants.get((variants.indexOf(uiVariant) + 1) % variants.size());
-        save();
-    }
+	public static void save() {
+		final SharedPreferences.Editor e = Mod.app.getSharedPreferences("mod", Context.MODE_PRIVATE).edit();
+		for (final Pref pref : Pref.values()) {
+			e.putInt(pref.name(), configArray.get(getKey(pref)));
+		}
 
-    public static void nextGpsLockTime() {
-        switch (gpsLockTime) {
-            case 0: gpsLockTime = 30000; break;
-            case 30000: gpsLockTime = 60000; break;
-            case 60000: gpsLockTime = 120000; break;
-            case 120000: gpsLockTime = 300000; break;
-            case 300000: gpsLockTime = 600000; break;
-            case 600000: gpsLockTime = 900000; break;
-            case 900000: gpsLockTime = 0;
-        }
-    }
+		e.commit();
+	}
 
-    public static enum ItemsTab {
-        HIDDEN("Hide"),
-        AT_END("Last"),
-        AT_START("First"),
-        ;
-
-        public final String desc;
-
-        private ItemsTab(String desc) {
-            this.desc = desc;
-        }
-    }
+	public static <T extends Enum<T>> void setNextValue(final Pref pref) {
+		final T[] values = getEnumValues(pref);
+		configArray.put(getKey(pref), (getRawValue(pref) + 1) % values.length);
+		save();
+	}
 }
