@@ -30,6 +30,7 @@ import com.badlogic.gdx.utils.SnapshotArray;
 import com.esotericsoftware.tablelayout.Cell;
 import com.nianticproject.ingress.NemesisActivity;
 import com.nianticproject.ingress.NemesisApplication;
+import com.nianticproject.ingress.common.ComponentManager;
 import com.nianticproject.ingress.common.app.NemesisMemoryCache;
 import com.nianticproject.ingress.common.app.NemesisMemoryCacheFactory;
 import com.nianticproject.ingress.common.app.NemesisWorld;
@@ -127,7 +128,7 @@ public class Entry {
 	}
 
 	public static void MenuControllerImpl_onSelectTab(final MenuTabId tabId) {
-		Mod.world.getSubActivityManager().replaceForegroundActivity(MenuUtils.getActivityClassForMenuTabId(tabId));
+		ComponentManager.getSubActivityManager().replaceForegroundActivity(MenuUtils.getActivityClassForMenuTabId(tabId));
 	}
 
 	public static Class<?> MenuShowBtn_onClick() {
@@ -227,7 +228,7 @@ public class Entry {
 		if (!Config.getBoolean(Pref.ChangePortalInfoDialog)) {
 			return;
 		}
-		final double dist = LocationUtils.calculateDistance(Mod.world.getPlayerModel().getPlayerLocation().getLatLng(),
+		final double dist = LocationUtils.calculateDistance(ComponentManager.getPlayerModel().getPlayerLocation().getLatLng(),
 		        ((LocationE6) Mod.portalInfoDialog.portalComponent.getEntity().getComponent(LocationE6.class))
 		                .getLatLng());
 		portalInfoDistLabel.setText(FormatUtils.formatDistance((float) dist));
@@ -277,8 +278,8 @@ public class Entry {
 		t.row();
 	}
 
-	public static boolean ScannerStateManager_onEnablePortalVectors() {
-		return Config.getBoolean(Pref.ShowPortalVectors);
+	public static boolean ScannerStateManager_onTogglePortalVectors(boolean org) {
+		return Config.getBoolean(Pref.ShowPortalVectors) ? org : false;
 	}
 
 	public static boolean ScannerTouchHandler_shouldSwapTouchMenuButtons() {
@@ -308,7 +309,7 @@ public class Entry {
 	// At this point most stuff should be already initialized
 	public static void SubActivityApplicationLisener_onCreated() {
 		Mod.cache = (NemesisMemoryCache) NemesisMemoryCacheFactory.getCache();
-		Mod.skin = Mod.world.getSubActivityManager().skin;
+		Mod.skin = ComponentManager.getSubActivityManager().skin;
 	}
 
 	public static void SubActivityManager_onInit(final List<BaseSubActivity> activities) {

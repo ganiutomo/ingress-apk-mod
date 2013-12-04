@@ -96,6 +96,7 @@ class Analyzer:
         self.analyze_enums()
 
     def auto_identify_class(self, cls, max_unknown_pkg):
+        print(cls.get_orig_name())
         if cls.is_identified() or not cls.raw['find']:
             return False, -1
 

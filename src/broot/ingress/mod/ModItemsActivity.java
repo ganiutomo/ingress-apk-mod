@@ -16,6 +16,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.nianticproject.ingress.common.ComponentManager;
 import com.nianticproject.ingress.common.inventory.ui.IndistinguishableItems;
 import com.nianticproject.ingress.common.ui.BaseSubActivity;
 import com.nianticproject.ingress.common.ui.FormatUtils;
@@ -293,7 +294,7 @@ public class ModItemsActivity extends BaseSubActivity {
 		buttonsByLvl.get(ItemType.POWER_CUBE).get(LEVEL_COUNT).button.setText(formatValue(cubeCnt));
 		buttonsByLvl.get(ItemType.MEDIA).get(LEVEL_COUNT).button.setText(formatValue(mediaCnt));
 
-		final long xm = Mod.world.getPlayerModel().getCurrentXM();
+		final long xm = ComponentManager.getPlayerModel().getCurrentXM();
 		sumLabel.setText(String.format(Locale.US, "Items: %,d - XM: %,d", sum, xm));
 		keysLabel.setText("Keys:  " + keysNumber + " for " + distinctKeysNumber + " distinct portals");
 	}

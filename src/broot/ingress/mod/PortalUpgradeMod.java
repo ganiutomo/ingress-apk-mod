@@ -7,6 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.esotericsoftware.tablelayout.Cell;
+import com.nianticproject.ingress.common.ComponentManager;
 import com.nianticproject.ingress.common.PlayerLocation;
 import com.nianticproject.ingress.common.model.BasePlayerListener;
 import com.nianticproject.ingress.common.model.PlayerListener;
@@ -39,13 +40,13 @@ public class PortalUpgradeMod {
 				updateDistLabel(location);
 			}
 		};
-		Mod.world.getPlayerModel().addListener(playerListener);
+		ComponentManager.getPlayerModel().addListener(playerListener);
 	}
 
 	public static void onDispose() {
 		portalEntity = null;
 		distLabel = null;
-		Mod.world.getPlayerModel().removeListener(playerListener);
+		ComponentManager.getPlayerModel().removeListener(playerListener);
 	}
 
 	public static void onStatsTableCreated(final PortalUpgradeUi ui, final Table t) {
@@ -68,11 +69,11 @@ public class PortalUpgradeMod {
 		t.add(new Label("Dist.:", style)).padLeft(16 * den);
 		t.add(distLabel = new Label("", style)).padLeft(8 * den);
 
-		updateDistLabel(Mod.world.getPlayerModel().getPlayerLocation());
+		updateDistLabel(ComponentManager.getPlayerModel().getPlayerLocation());
 	}
 
 	private static void updateDistLabel(final PlayerLocation location) {
-		final double dist = LocationUtils.calculateDistance(Mod.world.getPlayerModel().getPlayerLocation().getLatLng(),
+		final double dist = LocationUtils.calculateDistance(ComponentManager.getPlayerModel().getPlayerLocation().getLatLng(),
 		        ((LocationE6) portalEntity.getComponent(LocationE6.class)).getLatLng());
 		distLabel.setText(FormatUtils.formatDistance((float) dist));
 	}

@@ -28,7 +28,7 @@ broot.ingress.mod.Entry:
     PortalInfoDialog_onStatsTableCreated: [null, V, $PortalInfoDialog, $Table]
     PowerCubeDetailsUiCreator_onActionButtonsTableCreated: [null, V, $Table]
     PortalInfoDialog_onPlayerLocationChanged: [null, V]
-    ScannerStateManager_onEnablePortalVectors: [null, Z]
+    ScannerStateManager_onTogglePortalVectors: [null, Z, Z]
     PlayerModelUtils_onGetDefaultResonatorToDeploy: [null, Ljava/util/Map;, Ljava/util/TreeMap;]
     ScannerActivity_onUpdateState: [null, V, $ScannerActivity]
     ScannerTouchHandler_shouldSwapTouchMenuButtons: [null, Z]
@@ -180,26 +180,42 @@ com.nianticproject.ingress.NemesisActivity:
     onPause: [onPause, V]
     onResume: [onResume, V]
 
-com.nianticproject.ingress.common.app.NemesisWorld:
+com.nianticproject.ingress.common.ComponentManager:
   methods:
-    getPlayerModel: [b, $PlayerModel]
-    getSubActivityManager: [m, $SubActivityManager]
+    getPlayerModel: [a, $PlayerModel]
+    getSubActivityManager: [j, $SubActivityManager]
 
   find:
-    - [by_string, false, true, "PlayerModel is not in training mode"]
+    - [by_string, false, true, "playerModel not initialized."]
+    - [by_string, false, true, "subActivityManager not initialized."]
     - [by_method, false, true, getPlayerModel]
     - [by_method, false, true, getSubActivityManager]
 
+com.nianticproject.ingress.common.app.NemesisWorld:
+  fields:
+    subActivityManager: [m, $SubActivityManager]
+
+  find:
+    - [by_string, false, true, '"NemesisWorld.init"']
+    - [by_field, false, true, subActivityManager]
+
 com.nianticproject.ingress.common.app.NemesisCache:
   methods:
-    getInventory: [e, Ljava/util/Collection;]
-    getInventorySize: [f, I]
-    addInventoryListener: [a, $InventoryListener]
-    removeInventoryListener: [b, $InventoryListener]
-    addGameStateListener: [a, $GameStateListener]
-    removeGameStateListener: [b, $GameStateListener]
+    getInventory: [d, Ljava/util/Collection;]
+    getInventorySize: [e, I]
+#    addInventoryListener: [a, $InventoryListener]
+#    removeInventoryListener: [b, $InventoryListener]
+#    addGameStateListener: [a, $GameStateListener]
+#    removeGameStateListener: [b, $GameStateListener]
 
   find_interface_of: $NemesisMemoryCache
+#  find:
+#    - [by_method, false, true, getInventory]
+#    - [by_method, false, true, getInventorySize]
+#    - [by_method, false, true, addInventoryListener]
+#    - [by_method, false, true, removeInventoryListener]
+#    - [by_method, false, true, addGameStateListener]
+#    - [by_method, false, true, removeGameStateListener]
 
 com.nianticproject.ingress.common.app.NemesisMemoryCache:
   find_by_string: "Local change applied to server-deleted Entity.  Ignoring."
@@ -208,7 +224,8 @@ com.nianticproject.ingress.common.app.NemesisMemoryCacheFactory:
   methods:
     getCache: [a, $NemesisCache]
 
-  find_by_method: getCache
+  find:
+    - [by_method, false, true, getCache]
 
 ### RESOURCES
 
@@ -337,7 +354,7 @@ com.nianticproject.ingress.common.ui.SubActivityManager:
 com.nianticproject.ingress.common.ui.BaseSubActivity:
   methods:
     getName: [d, $String]
-    getRenderer: [L, $UiRenderer]
+    getRenderer: [K, $UiRenderer]
     onResume: [a, V]
     onPause: [e, V]
 
@@ -375,9 +392,9 @@ com.nianticproject.ingress.common.ui.elements.OldPlayerStatusBar:
 
 com.nianticproject.ingress.common.ui.elements.AvatarPlayerStatusBar:
   fields:
-    contentGroup: [o, $Group]
-    skin: [n, $Skin]
-    stage: [m, $Stage]
+    contentGroup: [n, $Group]
+    skin: [m, $Skin]
+    stage: [l, $Stage]
 
   methods:
     createUi: [a, V, $Skin, $Stage]
@@ -464,16 +481,18 @@ com.nianticproject.ingress.common.scanner.PortalKeyScannerActivity:
 
 com.nianticproject.ingress.common.scanner.ScannerStateManager:
   methods:
-    disablePortalVectors: [a, V, $ScannerStateManager]
-    enablePortalVectors: [b, V, $ScannerStateManager]
+    togglePortalVectors: [a, Z, $ScannerStateManager, Z]
 
-  find_by_string: STATE_NO_PORTALS
+  find:
+    - [by_string, false, true, STATE_NO_PORTALS]
+#    - [by_method, false, true, togglePortalVectors]
 
 com.nianticproject.ingress.common.scanner.visuals.PortalParticleRender:
   fields:
     enabled: [a, Z]
 
-  find_by_string: Portal Particle Render
+  find:
+    - [by_string, false, true, Portal Particle Render]
 
 #com.nianticproject.ingress.common.scanner.visuals.EnergyGlobVisuals:
 #  fields:

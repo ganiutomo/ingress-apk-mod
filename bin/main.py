@@ -24,6 +24,7 @@ def main():
     edit.save()
 
     edit = edit_cls('NemesisWorld')
+    edit.mod_field_def('subActivityManager', 'public')
     edit.find_line(r' new-array ([vp]\d+), ([vp]\d+), \[%s' % expr_type('$BaseSubActivity'))
     edit.find_line(r' return-void', where='down')
     edit.prepare_to_insert_before(True)
@@ -140,9 +141,11 @@ def main():
 
 
     edit = edit_cls('ScannerStateManager')
-    edit.prepare_after_prologue('enablePortalVectors')
-    edit.add_invoke_entry('ScannerStateManager_onEnablePortalVectors', '', 'v0')
-    edit.add_ret_if_result(False)
+    edit.find_method_def('togglePortalVectors')
+    edit.find_line(r' if-eqz (v\d+), .+', where='down')
+    edit.prepare_to_insert_before()
+    edit.add_invoke_entry('ScannerStateManager_onTogglePortalVectors', edit.vars[0], edit.vars[0])
+#    edit.add_ret_if_result(False)
     edit.save()
 
     edit = edit_cls('ZoomInMode')
