@@ -69,7 +69,7 @@ public class Config {
 	}
 
 	public static enum Pref {
-		SwapTouchMenuButtons(0, "Swap TARGET/FIRE"),
+		SwapTouchMenuButtons(0, "Swap NAV/FIRE"),
 		ItemsTab(0, "[ITEMS]", ItemsTab.class),
 		ShowOrigItemsTab(1, "INVENTORY"),
 		ShowAgentTab(1, "AGENT"),
