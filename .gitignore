@@ -10,3 +10,4 @@
 __pycache__
 .classpath
 .project
+release/*
