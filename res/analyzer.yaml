@@ -322,7 +322,7 @@ com.nianticproject.ingress.common.playerprofile.PlayerProfileTable:
 
 com.nianticproject.ingress.common.ui.widget.Spectrograph:
   methods:
-    draw: [draw, V, Lcom/badlogic/gdx/graphics/g2d/SpriteBatch;, F]
+    draw: [draw, V, Lcom/badlogic/gdx/graphics/g2d/Batch;, F]
 
   is_real_name: true
 
