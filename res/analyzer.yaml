@@ -22,7 +22,7 @@ broot.ingress.mod.Entry:
     MenuShowBtn_onClick: [null, Ljava/lang/Class;]
     MenuTopWidget_getTabs: [null, '$MenuTabId[]']
     MenuTabId_onToString: [null, $String, $MenuTabId]
-    MenuControllerImpl_onSelectTab: [null, V, $MenuTabId]
+    MenuControllerImpl_onSelectTab: [null, V, $MenuControllerImpl, $MenuTabId]
     Mod_ShowAgentTab: [null, Z]
     AssetFinder_onGetAssetPath: [null, Lcom/badlogic/gdx/files/FileHandle;, $String]
     PortalInfoDialog_onStatsTableCreated: [null, V, $PortalInfoDialog, $Table]
@@ -349,7 +349,12 @@ com.nianticproject.ingress.common.ui.SubActivityManager:
     getForegroundActivity: [b, $SubActivity]
     replaceForegroundActivity: [d, $SubActivity, Ljava/lang/Class;]
 
-  find_by_string: "Ambiguous SubActivity Class: "
+  find:
+    - [by_method, false, true, getSubActivity]
+    - [by_method, false, true, getForegroundActivity]
+    - [by_method, false, true, replaceForegroundActivity]
+
+#  find_by_string: "Ambiguous SubActivity Class: "
 
 com.nianticproject.ingress.common.ui.BaseSubActivity:
   methods:
@@ -368,7 +373,7 @@ com.nianticproject.ingress.common.ui.SubActivityApplicationListener:
   methods:
     create: [create, V]
 
-  find_by_string: '"SpriteBatch.render"'
+  find_by_string: '"CreateSpriteBatch"'
 
 com.nianticproject.ingress.common.ui.LabelButtonActivity:
   find_super_of: $RecruitActivity
@@ -392,9 +397,9 @@ com.nianticproject.ingress.common.ui.elements.OldPlayerStatusBar:
 
 com.nianticproject.ingress.common.ui.elements.AvatarPlayerStatusBar:
   fields:
-    contentGroup: [n, $Group]
-    skin: [m, $Skin]
-    stage: [l, $Stage]
+    stage: [j, $Stage]
+    skin: [k, $Skin]
+    contentGroup: [l, $Group]
 
   methods:
     createUi: [a, V, $Skin, $Stage]
@@ -530,7 +535,7 @@ com.nianticproject.ingress.common.scanner.visuals.HackAnimationStage:
 com.nianticproject.ingress.common.scanner.modes.ScannerTouchHandler:
   methods:
     longPress: [longPress, Z, F, F]
-    touchDown: [touchDown, Z, F, F, I]
+    touchDown: [touchDown, Z, F, F, I, I]
 
   find:
     - [by_method, false, true, longPress]
@@ -638,6 +643,9 @@ com.nianticproject.ingress.common.inventory.ui.ItemsMenuController:
 
 com.nianticproject.ingress.common.inventory.MenuControllerImpl:
   super: [$MenuController, $ItemsMenuController]
+
+  fields:
+    subActivityManager: [a, $SubActivityManager]
 
   find_by_string: $SubActivityManager->replaceForegroundActivity()
 
@@ -788,49 +796,49 @@ com.esotericsoftware.tablelayout.Cell:
     prefWidth: [c, $Cell, $Value]
     maxWidth: [d, $Cell, F]
 
-    expand: [n, $Cell]
-    expandX: [o, $Cell]
-    expandY: [p, $Cell]
+    expand: [m, $Cell]
+    expandX: [n, $Cell]
+    expandY: [o, $Cell]
 
     space: [d, $Cell, $Value]
-    space_2: [a, $Cell]
-    space_10: [e, $Cell]
-    spaceTop_3: [c, $Cell]
-    spaceLeft_10: [d, $Cell]
+#    space_2: [a, $Cell]
+    space_10: [d, $Cell]
+    spaceTop_3: [b, $Cell]
+    spaceLeft_10: [c, $Cell]
 
     pad: [a, $Cell, F, F, F, F]
     pad__1: [e, $Cell, F]
     pad__2: [e, $Cell, $Value]
     padTop: [f, $Cell, F]
     padTop__1: [f, $Cell, $Value]
-    padLeft: [g, $Cell, F]
+    padLeft: [h, $Cell, F]
     padLeft__1: [g, $Cell, $Value]
-    padBottom: [h, $Cell, F]
+    padBottom: [i, $Cell, F]
     padBottom__1: [h, $Cell, $Value]
-    padRight: [i, $Cell, F]
+    padRight: [j, $Cell, F]
     padRight__1: [i, $Cell, $Value]
 
     fill: [a, $Cell, Ljava/lang/Float;, Ljava/lang/Float;]
-    fill__1: [f, $Cell]
-    fillX: [g, $Cell]
-    fillY: [h, $Cell]
+    fill__1: [e, $Cell]
+    fillX: [f, $Cell]
+    fillY: [g, $Cell]
 
     align: [a, $Cell, Ljava/lang/Integer;]
-    center: [i, $Cell]
-    top: [j, $Cell]
-    left: [k, $Cell]
-    bottom: [l, $Cell]
-    right: [m, $Cell]
+    center: [h, $Cell]
+    top: [i, $Cell]
+    left: [j, $Cell]
+    bottom: [k, $Cell]
+    right: [l, $Cell]
 
     colspan: [b, $Cell, Ljava/lang/Integer;]
 
     getWidget: [a, Ljava/lang/Object;]
     set: [a, V, $Cell]
-    getIgnore: [q, Z]
-    getWidgetX: [r, F]
-    getWidgetY: [s, F]
-    getWidgetWidth: [t, F]
-    getWidgetHeight: [u, F]
+    getIgnore: [p, Z]
+    getWidgetX: [q, F]
+    getWidgetY: [r, F]
+    getWidgetWidth: [s, F]
+    getWidgetHeight: [t, F]
 
 com.esotericsoftware.tablelayout.Toolkit:
   obf_name: com.a.a.d
@@ -842,15 +850,15 @@ com.esotericsoftware.tablelayout.Value:
     percentWidth: [a, $Value, F]
 
 com.esotericsoftware.tablelayout.Value$Anon_PercentWidthTableValue:
-  obf_name: com.a.a.l
+  obf_name: com.a.a.m
   super: $Value$TableValue
 
 com.esotericsoftware.tablelayout.Value$FixedValue:
-  obf_name: com.a.a.o
+  obf_name: com.a.a.p
   super: $Value
 
 com.esotericsoftware.tablelayout.Value$TableValue:
-  obf_name: com.a.a.p
+  obf_name: com.a.a.q
   super: $Value
 
 ### JAVA

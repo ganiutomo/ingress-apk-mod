@@ -127,8 +127,8 @@ public class Entry {
 		Mod.menuController = menuController;
 	}
 
-	public static void MenuControllerImpl_onSelectTab(final MenuTabId tabId) {
-		ComponentManager.getSubActivityManager().replaceForegroundActivity(MenuUtils.getActivityClassForMenuTabId(tabId));
+	public static void MenuControllerImpl_onSelectTab(MenuControllerImpl controller, final MenuTabId tabId) {
+		controller.subActivityManager.replaceForegroundActivity(MenuUtils.getActivityClassForMenuTabId(tabId));
 	}
 
 	public static Class<?> MenuShowBtn_onClick() {

@@ -62,7 +62,7 @@ def main():
     edit = edit_cls('MenuTabId')
     edit.add_enum('MOD_ABOUT')
     edit.add_enum('MOD_ITEMS')
-    edit.prepare_after_prologue('toString')
+    edit.prepare_after_prologue('getText2')
     edit.add_invoke_entry('MenuTabId_onToString', 'p0', 'v0')
     edit.add_ret_if_result(True, 'result')
     edit.save()
@@ -74,8 +74,9 @@ def main():
     edit.save()
 
     edit = edit_cls('MenuControllerImpl')
+    edit.mod_field_def('subActivityManager', 'public')
     edit.prepare_after_prologue('selectTab')
-    edit.add_invoke_entry('MenuControllerImpl_onSelectTab', 'p1')
+    edit.add_invoke_entry('MenuControllerImpl_onSelectTab', 'p0, p1')
     edit.add_line(' return-void')
     #edit.add_ret_if_result(True)
     edit.save()
@@ -298,7 +299,7 @@ def main():
 
     # privacy
     edit = edit_cls('AvatarPlayerStatusBar')
-    edit.find_line(' invoke-interface {v0, v1}, Lcom/nianticproject/ingress/common/model/k;->a\(Ljava/lang/String;\)V')
+    edit.find_line(' invoke-interface {v0, v1}, %s->a\(Ljava/lang/String;\)V' % expr('$PlayerListener'))
     edit.prepare_to_insert_before()
     edit.add_invoke_entry('isPrivacyEnabled', ret='v5')
     edit.add_line(' if-eqz v5, :lbl_privacy_disabled')
