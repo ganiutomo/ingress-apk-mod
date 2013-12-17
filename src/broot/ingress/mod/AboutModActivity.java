@@ -19,6 +19,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.esotericsoftware.tablelayout.Value;
+import com.nianticproject.ingress.common.scanner.ScannerStateManager;
 import com.nianticproject.ingress.common.scanner.visuals.PortalParticleRender;
 import com.nianticproject.ingress.common.ui.BaseSubActivity;
 import com.nianticproject.ingress.common.ui.UiLayer;
@@ -392,5 +393,8 @@ public class AboutModActivity extends BaseSubActivity {
 		topWidget.createTabs();
 		UiVariant v = Config.getEnumValue(Pref.UiVariant);
 		uiVariantItem.descLabel.setText(v.getDescription());
+		if(!Config.getBoolean(Pref.ShowPortalVectors)) {
+			ScannerStateManager.togglePortalVectors(Mod.scannerStateManager, false);
+		}
 	}
 }

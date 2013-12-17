@@ -29,7 +29,7 @@ broot.ingress.mod.Entry:
     PowerCubeDetailsUiCreator_onActionButtonsTableCreated: [null, V, $Table]
     PortalInfoDialog_onPlayerLocationChanged: [null, V]
     ScannerStateManager_onInit: [null, V, $ScannerStateManager]
-    ScannerStateManager_onTogglePortalVectors: [null, Z, Z]
+    ShouldShowPortalVectors: [null, Z]
     PlayerModelUtils_onGetDefaultResonatorToDeploy: [null, Ljava/util/Map;, Ljava/util/TreeMap;]
     ScannerActivity_onUpdateState: [null, V, $ScannerActivity]
     ScannerTouchHandler_shouldSwapTouchMenuButtons: [null, Z]
@@ -492,6 +492,11 @@ com.nianticproject.ingress.common.scanner.ScannerStateManager:
   find:
     - [by_string, false, true, STATE_NO_PORTALS]
 #    - [by_method, false, true, togglePortalVectors]
+
+com.nianticproject.ingress.common.scanner.NoPortalsScannerState:
+  find:
+    - [by_string, false, true, "const/4 v1, 0x1"]
+    - [by_string, false, true, $ScannerStateManager->togglePortalVectors()]
 
 com.nianticproject.ingress.common.scanner.visuals.PortalParticleRender:
   fields:

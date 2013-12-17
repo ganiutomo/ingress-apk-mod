@@ -283,14 +283,8 @@ public class Entry {
 		Mod.scannerStateManager = instance;
 	}
 
-	public static boolean ScannerStateManager_onTogglePortalVectors(boolean org) {
-		if(Config.getBoolean(Pref.ShowPortalVectors)) {
-			return org;
-		}
-
-		ScannerStateManager.togglePortalVectors(Mod.scannerStateManager, false);
-
-		return false;
+	public static boolean ShouldShowPortalVectors() {
+		return Config.getBoolean(Pref.ShowPortalVectors);
 	}
 
 	public static boolean ScannerTouchHandler_shouldSwapTouchMenuButtons() {
