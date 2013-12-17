@@ -24,6 +24,7 @@ import com.nianticproject.ingress.common.app.NemesisMemoryCache;
 import com.nianticproject.ingress.common.app.NemesisWorld;
 import com.nianticproject.ingress.common.assets.AssetFinder;
 import com.nianticproject.ingress.common.inventory.MenuControllerImpl;
+import com.nianticproject.ingress.common.scanner.ScannerStateManager;
 import com.nianticproject.ingress.common.scanner.visuals.PortalParticleRender;
 import com.nianticproject.ingress.common.ui.elements.PortalInfoDialog;
 import com.nianticproject.ingress.common.ui.elements.AvatarPlayerStatusBar;
@@ -37,6 +38,7 @@ public class Mod {
 	public static MenuControllerImpl    menuController;
 	public static AssetFinder           assetFinder;
 	public static Skin                  skin;
+	public static ScannerStateManager   scannerStateManager;
 
 	public static PortalInfoDialog      portalInfoDialog;
     public static AvatarPlayerStatusBar avatarPlayerStatusBar;

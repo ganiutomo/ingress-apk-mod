@@ -28,6 +28,7 @@ broot.ingress.mod.Entry:
     PortalInfoDialog_onStatsTableCreated: [null, V, $PortalInfoDialog, $Table]
     PowerCubeDetailsUiCreator_onActionButtonsTableCreated: [null, V, $Table]
     PortalInfoDialog_onPlayerLocationChanged: [null, V]
+    ScannerStateManager_onInit: [null, V, $ScannerStateManager]
     ScannerStateManager_onTogglePortalVectors: [null, Z, Z]
     PlayerModelUtils_onGetDefaultResonatorToDeploy: [null, Ljava/util/Map;, Ljava/util/TreeMap;]
     ScannerActivity_onUpdateState: [null, V, $ScannerActivity]

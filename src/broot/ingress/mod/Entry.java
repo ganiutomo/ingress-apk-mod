@@ -37,6 +37,7 @@ import com.nianticproject.ingress.common.app.NemesisWorld;
 import com.nianticproject.ingress.common.assets.AssetFinder;
 import com.nianticproject.ingress.common.inventory.MenuControllerImpl;
 import com.nianticproject.ingress.common.scanner.ScannerActivity;
+import com.nianticproject.ingress.common.scanner.ScannerStateManager;
 import com.nianticproject.ingress.common.ui.BaseSubActivity;
 import com.nianticproject.ingress.common.ui.FormatUtils;
 import com.nianticproject.ingress.common.ui.elements.PortalInfoDialog;
@@ -278,8 +279,18 @@ public class Entry {
 		t.row();
 	}
 
+	public static void ScannerStateManager_onInit(ScannerStateManager instance) {
+		Mod.scannerStateManager = instance;
+	}
+
 	public static boolean ScannerStateManager_onTogglePortalVectors(boolean org) {
-		return Config.getBoolean(Pref.ShowPortalVectors) ? org : false;
+		if(Config.getBoolean(Pref.ShowPortalVectors)) {
+			return org;
+		}
+
+		ScannerStateManager.togglePortalVectors(Mod.scannerStateManager, false);
+
+		return false;
 	}
 
 	public static boolean ScannerTouchHandler_shouldSwapTouchMenuButtons() {

@@ -139,13 +139,20 @@ def main():
     edit.add_invoke_entry('PortalInfoDialog_getOpenDelay', edit.vars[0], edit.vars[0])
     edit.save()
 
-
     edit = edit_cls('ScannerStateManager')
+    edit.find_line(r'.method public constructor \<init\>\(.*') # instance constructor
+    edit.find_line(r' return-void', where='down')
+    edit.add_invoke_entry('ScannerStateManager_onInit', 'p0')
+
+    edit.mod_method_def('togglePortalVectors', 'public')
+
     edit.find_method_def('togglePortalVectors')
     edit.find_line(r' if-eqz (v\d+), .+', where='down')
-    edit.prepare_to_insert_before()
-    edit.add_invoke_entry('ScannerStateManager_onTogglePortalVectors', edit.vars[0], edit.vars[0])
-#    edit.add_ret_if_result(False)
+    fv = edit.vars[0];
+    edit.find_line(r' iget-boolean %s, p0, %s->p:Z' % (fv, expr_type('$ScannerStateManager')), where='up');
+    edit.prepare_to_insert()
+    edit.add_invoke_entry('ScannerStateManager_onTogglePortalVectors', fv, fv)
+    edit.add_line(r' iput-boolean %s, p0, %s->p:Z' % (fv, expr_type('$ScannerStateManager')))
     edit.save()
 
     edit = edit_cls('ZoomInMode')
