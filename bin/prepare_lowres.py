@@ -26,7 +26,7 @@ def main():
     os.chdir(HOME)
     try:
         resize('hvga', .6, (20, 24, 30, 36))
-        resize('qvga', .4, (14, 16, 20, 24))
+        resize('qvga', .4, (16, 16, 20, 24))
     finally:
         os.chdir(cwd)
 
