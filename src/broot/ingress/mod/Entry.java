@@ -267,12 +267,16 @@ public class Entry {
 		}
 
 		final List<Cell> cells = new ArrayList<Cell>(t.getCells());
+		final List<Object> widgets = new ArrayList<Object>();
+		for (int i = 0; i < cells.size(); i++) {
+			widgets.add(cells.get(i).getWidget());
+		}
 		t.clear();
-		t.add((Actor) cells.get(0).getWidget())
+		t.add((Actor) widgets.get(0))
 		        .left()
 		        .size(com.esotericsoftware.tablelayout.Value.percentWidth(0.29F),
 		                com.esotericsoftware.tablelayout.Value.percentWidth(0.12F));
-		t.add((Actor) cells.get(1).getWidget())
+		t.add((Actor) widgets.get(1))
 		        .left()
 		        .size(com.esotericsoftware.tablelayout.Value.percentWidth(0.29F),
 		                com.esotericsoftware.tablelayout.Value.percentWidth(0.12F));
