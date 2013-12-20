@@ -21,7 +21,7 @@ def main():
         $MOD_HOME/bin/copy_assets.py
         $MOD_HOME/bin/build.py release
         rm -f $MOD_HOME/release/$f-broot-$version.apk
-        zipalign 4 $MOD_HOME/app/dist/$f.apk $MOD_HOME/release/$f-broot-$version.apk
+        cp $MOD_HOME/app/dist/$f.apk $MOD_HOME/release/$f-broot-$version.apk
 
 
         $MOD_HOME/bin/clean_app.py
@@ -31,7 +31,7 @@ def main():
         $MOD_HOME/bin/mute.py
         $MOD_HOME/bin/build.py release
         rm -f $MOD_HOME/release/$f-broot-$version-mute.apk
-        zipalign 4 $MOD_HOME/app/dist/$f.apk $MOD_HOME/release/$f-broot-$version-mute.apk
+        cp $MOD_HOME/app/dist/$f.apk $MOD_HOME/release/$f-broot-$version-mute.apk
     ''' % config['version'], shell=True, executable='/bin/bash')
 
 
