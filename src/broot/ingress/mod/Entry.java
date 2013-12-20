@@ -246,12 +246,16 @@ public class Entry {
 		final Label.LabelStyle keyExistsStyle = Mod.skin.get("ops-title", Label.LabelStyle.class);
 
 		final List<Cell> cells = new ArrayList<Cell>(t.getCells());
+		final List<Object> widgets = new ArrayList<Object>();
+		for (int i = 0; i < cells.size(); i++) {
+			widgets.add(cells.get(i).getWidget());
+		}
 		t.clear();
-		t.add((Actor) cells.get(0).getWidget()).left();
-		t.add((Actor) cells.get(1).getWidget()).left().expandX();
+		t.add((Actor) widgets.get(0)).left();
+		t.add((Actor) widgets.get(1)).left().expandX();
 		t.row();
-		t.add((Actor) cells.get(3).getWidget()).left();
-		t.add((Actor) cells.get(4).getWidget()).left().expandX();
+		t.add((Actor) widgets.get(3)).left();
+		t.add((Actor) widgets.get(4)).left().expandX();
 		t.row();
 		final int keys = InventoryUtils.getNumberOfPortalKeys(dialog.portalComponent);
 		t.add(new Label("Keys:", keys > 0 ? keyExistsStyle : style)).left();
