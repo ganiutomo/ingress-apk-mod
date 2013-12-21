@@ -17,7 +17,7 @@ before_install:
   - export ANDROID_HOME=`pwd`/android-sdk-linux
   - export PATH=${PATH}:${ANDROID_HOME}/tools:${ANDROID_HOME}/platform-tools:${ANDROID_HOME}/build-tools/17.0.0/:${ANDROID_HOME}/tools/proguard/bin/
   - echo y | android update sdk --filter android-17,platform-tools,build-tools-17.0.0 --all --no-ui --force
-  - wget http://ingress-apk-mod.o4kapuk.info/files/lib.tar.gz
+  - wget --no-check-certificate https://dl.dropboxusercontent.com/u/4976322/ingress/lib.tar.gz
   - tar xvfz lib.tar.gz
   - wget --no-check-certificate https://dl.dropboxusercontent.com/u/4976322/ingress/apk/ingress-latest.apk
 install:
