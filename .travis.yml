@@ -30,8 +30,8 @@ script:
   - python bin/import_apk.py ingress-latest.apk
   - python bin/release.py
 after_success:
-  - "travis-artifacts upload --path ingress-latest-broot-*.apk --target-path builds"
-  - "travis-artifacts upload --path ingress-latest-broot-*-mute.apk --target-path builds"
+  - "travis-artifacts upload --path release/ingress-latest-broot-*.apk --target-path builds"
+  - "travis-artifacts upload --path release/ingress-latest-broot-*-mute.apk --target-path builds"
 notifications:
   email:
     on_success: never
