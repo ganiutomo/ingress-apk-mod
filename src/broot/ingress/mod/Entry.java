@@ -12,10 +12,10 @@ import android.util.Log;
 import android.view.WindowManager;
 import broot.ingress.mod.BuildConfig.UiVariant;
 import broot.ingress.mod.util.Config;
+import broot.ingress.mod.util.Config.AllowModRecycle;
 import broot.ingress.mod.util.Config.ChatTimeFormat;
 import broot.ingress.mod.util.Config.GpsLockTime;
 import broot.ingress.mod.util.Config.Pref;
-import broot.ingress.mod.util.Config.AllowModRecycle;
 import broot.ingress.mod.util.InventoryUtils;
 import broot.ingress.mod.util.MenuUtils;
 
@@ -24,14 +24,12 @@ import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.utils.SnapshotArray;
 import com.esotericsoftware.tablelayout.Cell;
+import com.esotericsoftware.tablelayout.Value;
 import com.nianticproject.ingress.NemesisActivity;
-import com.nianticproject.ingress.NemesisApplication;
 import com.nianticproject.ingress.common.ComponentManager;
 import com.nianticproject.ingress.common.app.NemesisMemoryCache;
 import com.nianticproject.ingress.common.app.NemesisMemoryCacheFactory;
@@ -42,17 +40,17 @@ import com.nianticproject.ingress.common.scanner.ScannerActivity;
 import com.nianticproject.ingress.common.scanner.ScannerStateManager;
 import com.nianticproject.ingress.common.ui.BaseSubActivity;
 import com.nianticproject.ingress.common.ui.FormatUtils;
-import com.nianticproject.ingress.common.ui.elements.PortalInfoDialog;
 import com.nianticproject.ingress.common.ui.elements.AvatarPlayerStatusBar;
+import com.nianticproject.ingress.common.ui.elements.PortalInfoDialog;
 import com.nianticproject.ingress.common.ui.widget.MenuTabId;
-import com.nianticproject.ingress.gameentity.components.LocationE6;
 import com.nianticproject.ingress.gameentity.components.ItemRarity;
+import com.nianticproject.ingress.gameentity.components.LocationE6;
 import com.nianticproject.ingress.shared.ClientType;
 import com.nianticproject.ingress.shared.location.LocationUtils;
 
 public class Entry {
 
-	private static Label portalInfoDistLabel;
+	private static Label      portalInfoDistLabel;
 	private static ItemRarity lastItemRarity;
 
 	static {
@@ -142,10 +140,10 @@ public class Entry {
 
 	public static String MenuTabId_onToString(final MenuTabId tab) {
 		switch (tab) {
-		case MOD_ABOUT:
-			return "[MOD]";
-		case MOD_ITEMS:
-			return "[ITEMS]";
+			case MOD_ABOUT:
+				return "[MOD]";
+			case MOD_ITEMS:
+				return "[ITEMS]";
 		}
 		return null;
 	}
@@ -173,32 +171,32 @@ public class Entry {
 				Mod.ksoWakeLock.release();
 			}
 		}
-    }
+	}
 
-    public static void ScannerActivity_onUpdateState(ScannerActivity activity) {
-//        if((System.currentTimeMillis() - Mod.lastTap > 1000*5) && Mod.statusBarIsVisible) {
-//            Mod.avatarPlayerStatusBar.stage.getRoot().clear();
-//            Mod.statusBarIsVisible = false;
-//        }
-    }
+	public static void ScannerActivity_onUpdateState(ScannerActivity activity) {
+		// if((System.currentTimeMillis() - Mod.lastTap > 1000*5) && Mod.statusBarIsVisible) {
+		// Mod.avatarPlayerStatusBar.stage.getRoot().clear();
+		// Mod.statusBarIsVisible = false;
+		// }
+	}
 
-    public static void AvatarPlayerStatusBar_onStageAddActor(Actor actor) {
-    }
+	public static void AvatarPlayerStatusBar_onStageAddActor(Actor actor) {
+	}
 
-    public static void AvatarPlayerStatusBar_onCreateUi(AvatarPlayerStatusBar avatarPlayerStatusBar) {
-        Mod.avatarPlayerStatusBar = avatarPlayerStatusBar;
-        Mod.lastTap = System.currentTimeMillis();
-    }
+	public static void AvatarPlayerStatusBar_onCreateUi(AvatarPlayerStatusBar avatarPlayerStatusBar) {
+		Mod.avatarPlayerStatusBar = avatarPlayerStatusBar;
+		Mod.lastTap = System.currentTimeMillis();
+	}
 
-    public static void AvatarPlayerStatusBar_onCreatedUi(AvatarPlayerStatusBar avatarPlayerStatusBar) {
-    }
+	public static void AvatarPlayerStatusBar_onCreatedUi(AvatarPlayerStatusBar avatarPlayerStatusBar) {
+	}
 
-    public static void ScannerTouchHandler_onTouchDown(float x, float y, int z) {
-        if(!Mod.statusBarIsVisible) {
-            Mod.avatarPlayerStatusBar.createUi(Mod.avatarPlayerStatusBar.skin, Mod.avatarPlayerStatusBar.stage);
-            Mod.lastTap = System.currentTimeMillis();
-            Mod.statusBarIsVisible = true;
-        }
+	public static void ScannerTouchHandler_onTouchDown(float x, float y, int z) {
+		if (!Mod.statusBarIsVisible) {
+			Mod.avatarPlayerStatusBar.createUi(Mod.avatarPlayerStatusBar.skin, Mod.avatarPlayerStatusBar.stage);
+			Mod.lastTap = System.currentTimeMillis();
+			Mod.statusBarIsVisible = true;
+		}
 	}
 
 	public static void NemesisActivity_onOnResume(final NemesisActivity activity) {
@@ -233,7 +231,8 @@ public class Entry {
 		if (!Config.getBoolean(Pref.ChangePortalInfoDialog)) {
 			return;
 		}
-		final double dist = LocationUtils.calculateDistance(ComponentManager.getPlayerModel().getPlayerLocation().getLatLng(),
+		final double dist = LocationUtils.calculateDistance(ComponentManager.getPlayerModel().getPlayerLocation()
+		        .getLatLng(),
 		        ((LocationE6) Mod.portalInfoDialog.portalComponent.getEntity().getComponent(LocationE6.class))
 		                .getLatLng());
 		portalInfoDistLabel.setText(FormatUtils.formatDistance((float) dist));
@@ -270,25 +269,9 @@ public class Entry {
 	}
 
 	public static void PowerCubeDetailsUiCreator_onActionButtonsTableCreated(final Table t) {
-		if (Config.getBoolean(Pref.EnablePowerCubesRecycle)) {
-			return;
+		if (!Config.getBoolean(Pref.EnablePowerCubesRecycle)) {
+			hideLastButton(t);
 		}
-
-		final List<Cell> cells = new ArrayList<Cell>(t.getCells());
-		final List<Object> widgets = new ArrayList<Object>();
-		for (int i = 0; i < cells.size(); i++) {
-			widgets.add(cells.get(i).getWidget());
-		}
-		t.clear();
-		t.add((Actor) widgets.get(0))
-		        .left()
-		        .size(com.esotericsoftware.tablelayout.Value.percentWidth(0.29F),
-		                com.esotericsoftware.tablelayout.Value.percentWidth(0.12F));
-		t.add((Actor) widgets.get(1))
-		        .left()
-		        .size(com.esotericsoftware.tablelayout.Value.percentWidth(0.29F),
-		                com.esotericsoftware.tablelayout.Value.percentWidth(0.12F));
-		t.row();
 	}
 
 	public static void ScannerStateManager_onInit(ScannerStateManager instance) {
@@ -347,38 +330,31 @@ public class Entry {
 	}
 
 	public static void BaseItemDetailsUiCreator_OnAddActionButtons(Table table, Skin skin, Stage stage) {
-//		Log.v("broot", "BaseItemDetailsUiCreator_OnAddActionButtons");
+		// Log.v("broot", "BaseItemDetailsUiCreator_OnAddActionButtons");
 		final AllowModRecycle allowRecycle = Config.getEnumValue(Pref.AllowModRecycle);
 
-		if(allowRecycle == AllowModRecycle.ALL) {
-			return;
+		switch (allowRecycle) {
+			case ALL:
+				return;
+			case COMMON:
+				if (ItemRarity.RARE.compareTo(lastItemRarity) > 0)
+					return;
+				break;
+			case NOT_VR:
+				if (ItemRarity.RARE.compareTo(lastItemRarity) >= 0)
+					return;
+				break;
 		}
 
-		if(allowRecycle == AllowModRecycle.COMMON && 
-			lastItemRarity != ItemRarity.EXTREMELY_RARE && 
-			lastItemRarity != ItemRarity.VERY_RARE && 
-			lastItemRarity != ItemRarity.RARE) {
-			return;
-		}
-
-		if(allowRecycle == AllowModRecycle.NOT_VR && 
-			lastItemRarity != ItemRarity.EXTREMELY_RARE && 
-			lastItemRarity != ItemRarity.VERY_RARE) {
-			return;
-		}
-
-		final List<Cell> cells = new ArrayList<Cell>(table.getCells());
-		final List<Object> widgets = new ArrayList<Object>();
-		for (int i = 0; i < cells.size(); i++) {
-			widgets.add(cells.get(i).getWidget());
-		}
-		table.clear();
-
-		for (int i = 0; i < widgets.size() - 1; i++) {
-			table.add((Actor) widgets.get(i))
-			        .left()
-			      .size(com.esotericsoftware.tablelayout.Value.percentWidth(0.29F),
-			                com.esotericsoftware.tablelayout.Value.percentWidth(0.12F));
-		}
+		hideLastButton(table);
 	}
+
+	private static void hideLastButton(Table table) {
+	    final List<Cell> cells = table.getCells();
+		if (cells != null && cells.size() > 0) {
+			Actor lastBtn = (Actor) cells.get(cells.size() - 1).getWidget();
+			if (lastBtn != null)
+				lastBtn.setVisible(false);
+		}
+    }
 }
