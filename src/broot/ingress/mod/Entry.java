@@ -374,9 +374,11 @@ public class Entry {
 		}
 		table.clear();
 
-		table.add((Actor) widgets.get(0))
-		        .left()
-		        .size(com.esotericsoftware.tablelayout.Value.percentWidth(0.29F),
-		                com.esotericsoftware.tablelayout.Value.percentWidth(0.12F));
+		for (int i = 0; i < widgets.size() - 1; i++) {
+			table.add((Actor) widgets.get(i))
+			        .left()
+			      .size(com.esotericsoftware.tablelayout.Value.percentWidth(0.29F),
+			                com.esotericsoftware.tablelayout.Value.percentWidth(0.12F));
+		}
 	}
 }
