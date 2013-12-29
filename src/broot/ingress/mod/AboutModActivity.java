@@ -307,6 +307,13 @@ public class AboutModActivity extends BaseSubActivity {
 						updateValues();
 					}
 				});
+				uiTweaksItem.addButton(Pref.AllowModRecycle, new ClickListener() {
+					@Override
+					public void clicked(final InputEvent event, final float x, final float y) {
+						Config.setNextValue(Pref.AllowModRecycle);
+						updateValues();
+					}
+				});
 				uiTweaksItem.addButton(Pref.EnablePowerCubesRecycle, new ClickListener() {
 					@Override
 					public void clicked(final InputEvent event, final float x, final float y) {

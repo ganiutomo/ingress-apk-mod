@@ -68,6 +68,21 @@ public class Config {
 		}
 	}
 
+	public static enum AllowModRecycle {
+		ALL("All mods"), NOT_VR("All but VR"), COMMON("Common only");
+
+		private final String desc;
+
+		private AllowModRecycle(final String desc) {
+			this.desc = desc;
+		}
+
+		@Override
+		public String toString() {
+			return desc;
+		}
+	}
+
 	public static enum Pref {
 		SwapTouchMenuButtons(0, "Swap NAV/FIRE"),
 		ItemsTab(0, "[ITEMS]", ItemsTab.class),
@@ -96,6 +111,7 @@ public class Config {
 		KeepScreenOn(0, "Keep screen on"),
 		ChangePortalInfoDialog(0, "Modify portal info"),
 		EnablePowerCubesRecycle(1, "Allow Cubes recyling"),
+		AllowModRecycle(0, "Allow Mods recycling", AllowModRecycle.class),
 		IsPrivacyOn(0, "Privacy"),
 		NeedInviteNagBlock(0, "Block invite nag"),
 		UiVariant(0, "", UiVariant.class);

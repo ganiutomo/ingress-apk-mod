@@ -59,6 +59,9 @@ broot.ingress.mod.Entry:
 
     CommsAdapter_getDateFormat: [null, $SimpleDateFormat]
 
+    BaseItemDetailsUiCreator_OnAddRarityLabel: [null, V, $Table, $Skin, $Stage, $ItemRarity]
+    BaseItemDetailsUiCreator_OnAddActionButtons: [null, V, $Table, $Skin, $Stage]
+
 ### MODEL
 
 com.nianticproject.ingress.common.model.GameState:
@@ -673,6 +676,10 @@ com.nianticproject.ingress.common.inventory.ui.ItemDetailsUiCreator:
   find_interface_of: $BaseItemDetailsUiCreator
 
 com.nianticproject.ingress.common.inventory.ui.BaseItemDetailsUiCreator:
+  methods:
+    addRarityLabel: [a, V, $Table, $Skin, $Stage]
+    addActionButtons: [b, V, $Table, $Skin, $Stage]
+
   find:
     - [by_string, false, true, '"DROP"']
     - [by_string, false, true, '"RECYCLE"']

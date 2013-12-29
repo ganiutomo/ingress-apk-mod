@@ -15,6 +15,7 @@ import broot.ingress.mod.util.Config;
 import broot.ingress.mod.util.Config.ChatTimeFormat;
 import broot.ingress.mod.util.Config.GpsLockTime;
 import broot.ingress.mod.util.Config.Pref;
+import broot.ingress.mod.util.Config.AllowModRecycle;
 import broot.ingress.mod.util.InventoryUtils;
 import broot.ingress.mod.util.MenuUtils;
 
@@ -25,6 +26,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.SnapshotArray;
 import com.esotericsoftware.tablelayout.Cell;
@@ -44,12 +46,14 @@ import com.nianticproject.ingress.common.ui.elements.PortalInfoDialog;
 import com.nianticproject.ingress.common.ui.elements.AvatarPlayerStatusBar;
 import com.nianticproject.ingress.common.ui.widget.MenuTabId;
 import com.nianticproject.ingress.gameentity.components.LocationE6;
+import com.nianticproject.ingress.gameentity.components.ItemRarity;
 import com.nianticproject.ingress.shared.ClientType;
 import com.nianticproject.ingress.shared.location.LocationUtils;
 
 public class Entry {
 
 	private static Label portalInfoDistLabel;
+	private static ItemRarity lastItemRarity;
 
 	static {
 		Mod.init();
@@ -336,5 +340,43 @@ public class Entry {
 
 	public static boolean ZoomInMode_shouldZoomIn() {
 		return Config.getBoolean(Pref.ScannerZoomInAnimEnabled);
+	}
+
+	public static void BaseItemDetailsUiCreator_OnAddRarityLabel(Table table, Skin skin, Stage stage, ItemRarity rarity) {
+		lastItemRarity = rarity;
+	}
+
+	public static void BaseItemDetailsUiCreator_OnAddActionButtons(Table table, Skin skin, Stage stage) {
+//		Log.v("broot", "BaseItemDetailsUiCreator_OnAddActionButtons");
+		final AllowModRecycle allowRecycle = Config.getEnumValue(Pref.AllowModRecycle);
+
+		if(allowRecycle == AllowModRecycle.ALL) {
+			return;
+		}
+
+		if(allowRecycle == AllowModRecycle.COMMON && 
+			lastItemRarity != ItemRarity.EXTREMELY_RARE && 
+			lastItemRarity != ItemRarity.VERY_RARE && 
+			lastItemRarity != ItemRarity.RARE) {
+			return;
+		}
+
+		if(allowRecycle == AllowModRecycle.NOT_VR && 
+			lastItemRarity != ItemRarity.EXTREMELY_RARE && 
+			lastItemRarity != ItemRarity.VERY_RARE) {
+			return;
+		}
+
+		final List<Cell> cells = new ArrayList<Cell>(table.getCells());
+		final List<Object> widgets = new ArrayList<Object>();
+		for (int i = 0; i < cells.size(); i++) {
+			widgets.add(cells.get(i).getWidget());
+		}
+		table.clear();
+
+		table.add((Actor) widgets.get(0))
+		        .left()
+		        .size(com.esotericsoftware.tablelayout.Value.percentWidth(0.29F),
+		                com.esotericsoftware.tablelayout.Value.percentWidth(0.12F));
 	}
 }
