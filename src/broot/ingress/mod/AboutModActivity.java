@@ -292,14 +292,14 @@ public class AboutModActivity extends BaseSubActivity {
 						Mod.updateKeepScreenOn();
 					}
 				});
-				uiTweaksItem.addButton(Pref.GpsLockTime, new ClickListener() {
-					@Override
-					public void clicked(final InputEvent event, final float x, final float y) {
-						Config.setNextValue(Pref.GpsLockTime);
-						updateValues();
-						Mod.updateKeepScreenOn();
-					}
-				});
+//				uiTweaksItem.addButton(Pref.GpsLockTime, new ClickListener() {
+//					@Override
+//					public void clicked(final InputEvent event, final float x, final float y) {
+//						Config.setNextValue(Pref.GpsLockTime);
+//						updateValues();
+//						Mod.updateKeepScreenOn();
+//					}
+//				});
 				uiTweaksItem.addButton(Pref.ChangePortalInfoDialog, new ClickListener() {
 					@Override
 					public void clicked(final InputEvent event, final float x, final float y) {

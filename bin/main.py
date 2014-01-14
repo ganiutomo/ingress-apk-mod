@@ -81,13 +81,6 @@ def main():
     #edit.add_ret_if_result(True)
     edit.save()
 
-    edit = edit_cls('OldPlayerStatusBar_OpsButtonListener')
-    edit.find_line(' const-class (v\d+), %s' % expr_type('$ItemsActivity'))
-    edit.comment_line()
-    edit.add_invoke_entry('MenuShowBtn_onClick')
-    edit.add_line(' move-result-object %s' % edit.vars[0])
-    edit.save()
-
     edit = edit_cls('AvatarPlayerStatusBar_OpsButtonListener')
     edit.find_line(' const-class (v\d+), %s' % expr_type('$ItemsActivity'))
     edit.comment_line()
@@ -163,12 +156,16 @@ def main():
     edit.add_ret_if_result(False)
     edit.save()
 
-#    edit = edit_cls('ClientFeatureKnobBundle')
-#    edit.save()
+    edit = edit_cls('ClientFeatureKnobBundle')
+    edit.find_method_def('getEnableInviteNag')
+    edit.find_line(r' return (v\d+)', where='down')
+    edit.prepare_to_insert_before()
+    edit.add_invoke_entry('isInviteNagBlockEnabled', '', edit.vars[0])
+    edit.save()
 
     edit = edit_cls('HackController')
-    edit.find_line(r' const-string/jumbo v1, " acquired"')
-    edit.find_prologue(where="up")
+    edit.find_line(r'.*method private a\(.*;Z\)V')
+    edit.find_prologue(where="down")
     edit.prepare_to_insert()
     edit.add_invoke_entry('HackController_shouldShowAnimation', '', 'v0')
     edit.add_ret_if_result(False)
@@ -280,11 +277,11 @@ def main():
     edit.save()
 
     # change gps lock timeout
-    edit = edit_cls('GpsSensor')
-    edit.find_line(' .*Landroid/os/Handler;->postDelayed.*')
-    edit.prepare_to_insert_before()
-    edit.add_invoke_entry('GpsSensor_lockTimeout', ret='v2')
-    edit.save()
+#    edit = edit_cls('GpsSensor')
+#    edit.find_line(' .*Landroid/os/Handler;->postDelayed.*')
+#    edit.prepare_to_insert_before()
+#    edit.add_invoke_entry('GpsSensor_lockTimeout', ret='v2')
+#    edit.save()
 
     #change order of buttons in round menu
     edit = edit_cls('ScannerTouchHandler')
@@ -347,13 +344,6 @@ def main():
     edit.find_line(r' return-void', where='down')
     edit.prepare_to_insert_before()
     edit.add_invoke_entry('AvatarPlayerStatusBar_onCreatedUi', 'p0')
-    edit.save()
-
-    # invite nag reminder
-    edit = edit_cls('RecruitReminder')
-    edit.find_line(' invoke-virtual {v1}, Lcom/nianticproject/ingress/knobs/ClientFeatureKnobBundle;->g\(\)Z')
-    edit.comment_line()
-    edit.add_invoke_entry('isInviteNagBlockEnabled')
     edit.save()
 
 if __name__ == '__main__':

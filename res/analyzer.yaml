@@ -154,16 +154,17 @@ com.nianticproject.ingress.shared.location.LocationUtils:
 
 com.nianticproject.ingress.knobs.ClientFeatureKnobBundle:
   fields:
-    enableNewHackAnimations: [enableNewHackAnimations, Z]
-    enableNewDeployUi: [enableNewDeployUi, Z]
-    enableCommsAlertsTab: [enableCommsAlertsTab, Z]
+    enableInviteNag: [enableInviteNag, Z]
 
-  is_real_name: true
+  methods:
+    getEnableInviteNag: [g, Z]
+
+  find:
+    - [by_field, false, true, enableInviteNag]
+    - [by_method, false, true, getEnableInviteNag]
+
 
 ### MISC
-
-com.nianticproject.ingress.common.json.JacksonInitializer:
-  find_by_string: 'Lorg/codehaus/jackson/map/ObjectMapper;->configure\('
 
 com.nianticproject.ingress.sensors.GpsSensor:
   find_by_string: 'could not request GPS updates'
@@ -296,13 +297,6 @@ com.nianticproject.ingress.common.ui.UiRenderer:
     - [by_string, false, true, "UI Render"]
     - [by_method, false, true, addUiLayer]
 
-com.nianticproject.ingress.common.ui.mode.UiMode:
-  methods:
-    onEnter: [a, V, $CameraControls]
-    onExit: [a, V]
-
-  find_interface_of: $ZoomInMode
-
 com.nianticproject.ingress.common.ui.mode.UiModeManager:
   find_by_string: Top mode died.
 
@@ -329,8 +323,8 @@ com.nianticproject.ingress.common.ui.widget.Spectrograph:
 
   is_real_name: true
 
-com.nianticproject.ingress.common.recruit.RecruitReminder:
-  obf_name: com.nianticproject.ingress.common.m.e
+#com.nianticproject.ingress.common.recruit.RecruitReminder:
+#  obf_name: com.nianticproject.ingress.common.m.e
 
 ### SUB ACTIVIVITY
 
@@ -363,7 +357,7 @@ com.nianticproject.ingress.common.ui.SubActivityManager:
 com.nianticproject.ingress.common.ui.BaseSubActivity:
   methods:
     getName: [d, $String]
-    getRenderer: [K, $UiRenderer]
+    getRenderer: [L, $UiRenderer]
     onResume: [a, V]
     onPause: [e, V]
 
@@ -379,9 +373,6 @@ com.nianticproject.ingress.common.ui.SubActivityApplicationListener:
 
   find_by_string: '"CreateSpriteBatch"'
 
-com.nianticproject.ingress.common.ui.LabelButtonActivity:
-  find_super_of: $RecruitActivity
-
 com.nianticproject.ingress.common.ui.LabelButtonActivityUi:
   find_multi_by_implements: $UiLayer
   find_multi_by_string: default
@@ -396,14 +387,11 @@ com.nianticproject.ingress.common.ui.widget.MenuTabId:
 
   find_by_string: RECRUIT
 
-com.nianticproject.ingress.common.ui.elements.OldPlayerStatusBar:
-  find_by_string: "%d AP"
-
 com.nianticproject.ingress.common.ui.elements.AvatarPlayerStatusBar:
   fields:
-    stage: [j, $Stage]
-    skin: [k, $Skin]
-    contentGroup: [l, $Group]
+    stage: [k, $Stage]
+    skin: [l, $Skin]
+    contentGroup: [m, $Group]
 
   methods:
     createUi: [a, V, $Skin, $Stage]
@@ -436,17 +424,6 @@ com.nianticproject.ingress.common.ui.elements.AvatarPlayerStatusBar_AvatarListen
     - [by_method, false, true, init]
     - [by_method, false, true, clicked]
     - [by_string, false, true, $MyProfileActivity]
-
-com.nianticproject.ingress.common.ui.elements.OldPlayerStatusBar_OpsButtonListener:
-  methods:
-    init: [<init>, V, $OldPlayerStatusBar]
-    clicked: [clicked, V, Lcom/badlogic/gdx/scenes/scene2d/InputEvent;, F, F]
-
-  find:
-    - [by_super,  false, true, Lcom/badlogic/gdx/scenes/scene2d/utils/ClickListener;]
-    - [by_method, false, true, init]
-    - [by_method, false, true, clicked]
-    - [by_string, false, true, Lcom/nianticproject/ingress/common/inventory]
 
 com.nianticproject.ingress.common.ui.widget.MenuTabClickListener:
   fields:
@@ -552,19 +529,16 @@ com.nianticproject.ingress.common.scanner.modes.ScannerTouchHandler:
     - [by_string, false, true, '0x3ea3d70a']
 
 com.nianticproject.ingress.common.scanner.modes.ZoomInMode:
-  super: $UiMode
+#  super: $UiMode
+  methods:
+    onEnter: [a, V, $CameraControls]
+    onExit: [a, V]
+
   find_super_of: $PortalDialogMode
 
 com.nianticproject.ingress.common.scanner.modes.PortalDialogMode:
   super: $ZoomInMode
   find_by_string: new-instance [pv]\d+, ${PortalInfoDialog}
-
-#com.nianticproject.ingress.common.scanner.modes.ResourceZoomMode:
-#  super: $BasePlayerListener
-#  methods:
-#    AcquireResource: [a, V, $PlayerLocation]
-
-#  find_by_string: '"ResourceZoomMode:playerListener"'
 
 com.nianticproject.ingress.common.scanner.modes.RepeatedActionUi:
   super: $UiLayer
@@ -579,12 +553,15 @@ com.nianticproject.ingress.common.ui.elements.PortalInfoDialog:
   super: $UiLayer
 
   fields:
-    portalComponent: [r, Lcom/nianticproject/ingress/gameentity/components/Portal;]
+    portalComponent: [s, Lcom/nianticproject/ingress/gameentity/components/Portal;]
 
   methods:
     onPlayerLocationChanged: [l, V]
 
-  find_by_string: "Unknown Portal"
+  find:
+    - [by_string, false, true, "Unknown Portal"]
+    - [by_field, false, true, portalComponent]
+    - [by_method, false, true, onPlayerLocationChanged]
 
 ### PORTAL UPGRADE
 
@@ -733,9 +710,6 @@ com.nianticproject.ingress.common.device.DeviceActivity:
 
 com.nianticproject.ingress.common.device.DeviceActivityUi:
   find_by_string: Go to the help center
-
-com.nianticproject.ingress.common.recruit.RecruitActivity:
-  find_by_string: RecruitActivity
 
 com.nianticproject.ingress.common.passcode.PasscodeTabActivity:
   find_by_string: PasscodeTabActivity
