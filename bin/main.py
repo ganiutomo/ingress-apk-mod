@@ -76,9 +76,8 @@ def main():
     edit = edit_cls('MenuControllerImpl')
     edit.mod_field_def('subActivityManager', 'public')
     edit.prepare_after_prologue('selectTab')
-    edit.add_invoke_entry('MenuControllerImpl_onSelectTab', 'p0, p1')
-    edit.add_line(' return-void')
-    #edit.add_ret_if_result(True)
+    edit.add_invoke_entry('MenuControllerImpl_onSelectTab', 'p0, p1', 'v0')
+    edit.add_ret_if_result(True)
     edit.save()
 
     edit = edit_cls('AvatarPlayerStatusBar_OpsButtonListener')

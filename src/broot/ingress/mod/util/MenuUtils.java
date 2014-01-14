@@ -23,24 +23,10 @@ public class MenuUtils {
 		switch (tab) {
 		case MOD_ITEMS:
 			return ModItemsActivity.class;
-		case INVENTORY:
-			return ItemsActivity.class;
-		case AGENT:
-			return MyProfileActivity.class;
-		case MISSIONS:
-			return MissionListActivity.class;
-		case INTEL:
-			return IntelActivity.class;
-		case RECRUIT:
-			return RecruitActivity.class;
-		case PASSCODE:
-			return PasscodeTabActivity.class;
-		case DEVICE:
-			return DeviceActivity.class;
 		case MOD_ABOUT:
 			return AboutModActivity.class;
 		default:
-			throw new RuntimeException();
+			return null;
 		}
 	}
 

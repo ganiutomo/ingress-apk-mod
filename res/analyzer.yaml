@@ -22,7 +22,7 @@ broot.ingress.mod.Entry:
     MenuShowBtn_onClick: [null, Ljava/lang/Class;]
     MenuTopWidget_getTabs: [null, '$MenuTabId[]']
     MenuTabId_onToString: [null, $String, $MenuTabId]
-    MenuControllerImpl_onSelectTab: [null, V, $MenuControllerImpl, $MenuTabId]
+    MenuControllerImpl_onSelectTab: [null, Z, $MenuControllerImpl, $MenuTabId]
     Mod_ShowAgentTab: [null, Z]
     AssetFinder_onGetAssetPath: [null, Lcom/badlogic/gdx/files/FileHandle;, $String]
     PortalInfoDialog_onStatsTableCreated: [null, V, $PortalInfoDialog, $Table]
@@ -710,6 +710,9 @@ com.nianticproject.ingress.common.device.DeviceActivity:
 
 com.nianticproject.ingress.common.device.DeviceActivityUi:
   find_by_string: Go to the help center
+
+com.nianticproject.ingress.common.recruit.RecruitActivity:
+  find_by_string: RecruitActivity
 
 com.nianticproject.ingress.common.passcode.PasscodeTabActivity:
   find_by_string: PasscodeTabActivity
