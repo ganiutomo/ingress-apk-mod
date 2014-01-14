@@ -388,11 +388,11 @@ public class AboutModActivity extends BaseSubActivity {
 	protected void onResume() {
 		updateValues();
 	}
-	
+
 	private void setRestartRecommended() {
-        restartItem.descLabel.setText("Restart is recommended");
-    }
-	
+		restartItem.descLabel.setText("Restart is recommended");
+	}
+
 	private void updateValues(){
 		for (Pref pref : buttons.keySet()){
 			buttons.get(pref).setText(Config.getButtonText(pref));

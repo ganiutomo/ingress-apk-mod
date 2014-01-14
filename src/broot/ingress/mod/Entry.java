@@ -133,11 +133,9 @@ public class Entry {
 	public static boolean MenuControllerImpl_onSelectTab(MenuControllerImpl controller, final MenuTabId tabId) {
 		Class<?> newActivityClass = MenuUtils.getActivityClassForMenuTabId(tabId);
 		if(newActivityClass == null) {
-			Log.d("broot", "No activity for class" + tabId.toString());
 			return false;
 		}
 
-		Log.d("broot", "Have activity for class" + tabId.toString());
 		controller.subActivityManager.replaceForegroundActivity(newActivityClass);
 		return true;
 	}

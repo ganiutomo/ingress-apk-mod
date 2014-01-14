@@ -25,6 +25,8 @@ public class MenuUtils {
 			return ModItemsActivity.class;
 		case MOD_ABOUT:
 			return AboutModActivity.class;
+		case INVENTORY:
+			return ItemsActivity.class;
 		default:
 			return null;
 		}
