@@ -252,7 +252,7 @@ public class Entry {
 		}
 
 		final Label.LabelStyle style = Mod.skin.get("portal-stats", Label.LabelStyle.class);
-		final Label.LabelStyle keyExistsStyle = Mod.skin.get("ops-title", Label.LabelStyle.class);
+		final Label.LabelStyle keyExistsStyle = Mod.skin.get("small-yellow", Label.LabelStyle.class);
 
 		final List<Cell> cells = new ArrayList<Cell>(t.getCells());
 		final List<Object> widgets = new ArrayList<Object>();
