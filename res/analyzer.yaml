@@ -206,21 +206,13 @@ com.nianticproject.ingress.common.app.NemesisWorld:
 
 com.nianticproject.ingress.common.app.NemesisCache:
   methods:
-    getInventory: [d, Ljava/util/Collection;]
-    getInventorySize: [e, I]
-#    addInventoryListener: [a, $InventoryListener]
-#    removeInventoryListener: [b, $InventoryListener]
-#    addGameStateListener: [a, $GameStateListener]
-#    removeGameStateListener: [b, $GameStateListener]
+    getInventory: [e, Ljava/util/Collection;]
+    getInventorySize: [f, I]
 
   find_interface_of: $NemesisMemoryCache
 #  find:
 #    - [by_method, false, true, getInventory]
 #    - [by_method, false, true, getInventorySize]
-#    - [by_method, false, true, addInventoryListener]
-#    - [by_method, false, true, removeInventoryListener]
-#    - [by_method, false, true, addGameStateListener]
-#    - [by_method, false, true, removeGameStateListener]
 
 com.nianticproject.ingress.common.app.NemesisMemoryCache:
   find_by_string: "Local change applied to server-deleted Entity.  Ignoring."
@@ -787,35 +779,33 @@ com.esotericsoftware.tablelayout.Cell:
   obf_name: com.a.a.c
 
   methods:
-    size: [a, $Cell, F]
     size__1: [a, $Cell, $Value, $Value]
     width: [a, $Cell, $Value]
-    width__1: [b, $Cell, F]
+    width__1: [a, $Cell, F]
     height: [b, $Cell, $Value]
-    height__1: [c, $Cell, F]
+    height__1: [b, $Cell, F]
     prefWidth: [c, $Cell, $Value]
-    maxWidth: [d, $Cell, F]
+    maxWidth: [c, $Cell, F]
 
     expand: [m, $Cell]
     expandX: [n, $Cell]
     expandY: [o, $Cell]
 
     space: [d, $Cell, $Value]
-#    space_2: [a, $Cell]
     space_10: [d, $Cell]
     spaceTop_3: [b, $Cell]
     spaceLeft_10: [c, $Cell]
 
     pad: [a, $Cell, F, F, F, F]
-    pad__1: [e, $Cell, F]
+    pad__1: [c, $Cell, F]
     pad__2: [e, $Cell, $Value]
-    padTop: [f, $Cell, F]
+    padTop: [e, $Cell, F]
     padTop__1: [f, $Cell, $Value]
-    padLeft: [h, $Cell, F]
+    padLeft: [g, $Cell, F]
     padLeft__1: [g, $Cell, $Value]
-    padBottom: [i, $Cell, F]
+    padBottom: [h, $Cell, F]
     padBottom__1: [h, $Cell, $Value]
-    padRight: [j, $Cell, F]
+    padRight: [i, $Cell, F]
     padRight__1: [i, $Cell, $Value]
 
     fill: [a, $Cell, Ljava/lang/Float;, Ljava/lang/Float;]
