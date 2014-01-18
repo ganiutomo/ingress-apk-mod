@@ -345,5 +345,11 @@ def main():
     edit.add_invoke_entry('AvatarPlayerStatusBar_onCreatedUi', 'p0')
     edit.save()
 
+    edit = edit_cls('com.nianticproject.ingress.common.missions.tutorial.TutorialDialog$Style')
+    edit.find_line(r' iput v0, p0, Lcom/nianticproject/ingress/common/missions/tutorial/TutorialDialog\$Style;->padTop:I')
+    edit.prepare_to_insert_before()
+    edit.add_invoke_entry('TutorialDialogStyle_getPadTop', 'v0', 'v0')
+    edit.save()
+
 if __name__ == '__main__':
     main()

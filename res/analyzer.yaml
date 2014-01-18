@@ -62,6 +62,8 @@ broot.ingress.mod.Entry:
     BaseItemDetailsUiCreator_OnAddRarityLabel: [null, V, $Table, $Skin, $Stage, $ItemRarity]
     BaseItemDetailsUiCreator_OnAddActionButtons: [null, V, $Table, $Skin, $Stage]
 
+    TutorialDialogStyle_getPadTop: [null, I, I]
+
 ### MODEL
 
 com.nianticproject.ingress.common.model.GameState:
@@ -555,23 +557,8 @@ com.nianticproject.ingress.common.ui.elements.PortalInfoDialog:
     - [by_field, false, true, portalComponent]
     - [by_method, false, true, onPlayerLocationChanged]
 
-### PORTAL UPGRADE
-
-#com.nianticproject.ingress.common.upgrade.PortalUpgradeActivity:
-#  fields:
-#    portalEntity: [j, $GameEntity]
-#  find_by_string: '"UpgradePortalActivity"'
-
-#com.nianticproject.ingress.common.upgrade.PortalUpgradeUi:
-#  super: $UiLayer
-#  fields:
-#    activity: [a, $PortalUpgradeActivity]
-#  find:
-#    - [by_string, false, true, portal-details-stats]
-#    - [by_string, false, true, '"Range: "']
-
-#com.nianticproject.ingress.common.upgrade.ResonatorBrowser:
-#  find_by_string: resonatorBrowser
+com.nianticproject.ingress.common.missions.tutorial.TutorialDialog$Style:
+  is_real_name: true
 
 ### INVENTORY
 

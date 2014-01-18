@@ -58,6 +58,8 @@ public class Entry {
 	}
 
 	public static FileHandle AssetFinder_onGetAssetPath(final String in) {
+		Log.v("broot", in);
+
 		if (!in.startsWith("{data:")) {
 			return null;
 		}
@@ -353,6 +355,10 @@ public class Entry {
 		}
 
 		hideLastButton(table);
+	}
+
+	public static int TutorialDialogStyle_getPadTop(int org) {
+		return Mod.displayMetrics.heightPixels < 480 ? 0 : org;
 	}
 
 	private static void hideLastButton(Table table) {
