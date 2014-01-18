@@ -36,6 +36,8 @@ import com.nianticproject.ingress.common.app.NemesisMemoryCacheFactory;
 import com.nianticproject.ingress.common.app.NemesisWorld;
 import com.nianticproject.ingress.common.assets.AssetFinder;
 import com.nianticproject.ingress.common.inventory.MenuControllerImpl;
+import com.nianticproject.ingress.common.missions.tutorial.TutorialDialog;
+import com.nianticproject.ingress.common.missions.tutorial.TutorialDialogNextListener;
 import com.nianticproject.ingress.common.scanner.ScannerActivity;
 import com.nianticproject.ingress.common.scanner.ScannerStateManager;
 import com.nianticproject.ingress.common.ui.BaseSubActivity;
@@ -58,22 +60,20 @@ public class Entry {
 	}
 
 	public static FileHandle AssetFinder_onGetAssetPath(final String in) {
-		Log.v("broot", in);
-
-		if (!in.startsWith("{data:")) {
-			return null;
-		}
-		final int pos1 = in.indexOf("/data/", 6);
-		final int pos2 = in.indexOf(",", pos1 + 6);
-		final String pre = in.substring(6, pos1) + "/";
-		final String post = "/" + in.substring(pos1 + 6, pos2);
-
 		UiVariant variant = Mod.currUiVariant;
-		final FileHandle file = Gdx.files.internal(pre + variant.getName() + post);
-		if (file.exists()) {
-			return file;
+
+		if (in.startsWith("{data:")) {
+			final int pos1 = in.indexOf("/data/", 6);
+			final int pos2 = in.indexOf(",", pos1 + 6);
+			final String pre = in.substring(6, pos1) + "/";
+			final String post = "/" + in.substring(pos1 + 6, pos2);
+
+			final FileHandle file = Gdx.files.internal(pre + variant.getName() + post);
+			if (file.exists()) {
+				return file;
+			}
 		}
-		variant = UiVariant.valueOf(variant.getParent());
+
 		return null;
 	}
 
@@ -359,6 +359,12 @@ public class Entry {
 
 	public static int TutorialDialogStyle_getPadTop(int org) {
 		return Mod.displayMetrics.heightPixels < 480 ? 0 : org;
+	}
+
+	public static void TutorialDialog_onCreateUi(TutorialDialog dialog, List<Actor> actors) {
+		for(Actor actor : actors) {
+			actor.addListener(new TutorialDialogNextListener(dialog));
+		}
 	}
 
 	private static void hideLastButton(Table table) {

@@ -345,6 +345,18 @@ def main():
     edit.add_invoke_entry('AvatarPlayerStatusBar_onCreatedUi', 'p0')
     edit.save()
 
+    edit = edit_cls('TutorialDialogNextListener')
+    edit.mod_class_def('public')
+    edit.mod_method_def('init', 'public')
+    edit.save()
+
+    edit = edit_cls('TutorialDialog')
+    edit.find_method_def('createUi')
+    edit.find_line(r' new-instance v5, %s' % expr('$Table'), where='down')
+    edit.prepare_to_insert_before()
+    edit.add_invoke_entry('TutorialDialog_onCreateUi', 'p0, v4')
+    edit.save()
+
     edit = edit_cls('com.nianticproject.ingress.common.missions.tutorial.TutorialDialog$Style')
     edit.find_line(r' iput v0, p0, Lcom/nianticproject/ingress/common/missions/tutorial/TutorialDialog\$Style;->padTop:I')
     edit.prepare_to_insert_before()

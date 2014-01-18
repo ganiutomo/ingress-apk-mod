@@ -63,6 +63,7 @@ broot.ingress.mod.Entry:
     BaseItemDetailsUiCreator_OnAddActionButtons: [null, V, $Table, $Skin, $Stage]
 
     TutorialDialogStyle_getPadTop: [null, I, I]
+    TutorialDialog_onCreateUi: [null, V, $TutorialDialog, Ljava/util/List;]
 
 ### MODEL
 
@@ -557,8 +558,26 @@ com.nianticproject.ingress.common.ui.elements.PortalInfoDialog:
     - [by_field, false, true, portalComponent]
     - [by_method, false, true, onPlayerLocationChanged]
 
+com.nianticproject.ingress.common.missions.tutorial.TutorialDialog:
+  is_real_name: true
+
+  methods:
+    createUi: [a, $Table, $Skin, $Stage, I]
+
 com.nianticproject.ingress.common.missions.tutorial.TutorialDialog$Style:
   is_real_name: true
+
+com.nianticproject.ingress.common.missions.tutorial.TutorialDialogNextListener:
+  fields:
+    dialog: [a, $TutorialDialog]
+
+  methods:
+    init: [<init>, V, $TutorialDialog]
+    clicked: [clicked, V, $InputEvent, F, F]
+
+  find:
+    - [by_field, false, true, dialog]
+    - [by_method, false, true, clicked]
 
 ### INVENTORY
 
@@ -669,7 +688,7 @@ com.nianticproject.ingress.common.playerprofile.MyProfileActivity:
 com.nianticproject.ingress.common.space2face.Space2FaceActivity:
   find_by_string: Space2FaceActivity
 
-com.nianticproject.ingress.common.mission.ui.MissionScanner:
+com.nianticproject.ingress.common.missions.ui.MissionScanner:
   find_by_string: MissionScanner
 
 com.nianticproject.ingress.common.intel.IntelActivity:
@@ -678,10 +697,10 @@ com.nianticproject.ingress.common.intel.IntelActivity:
 com.nianticproject.ingress.common.intel.IntelActivityUi:
   find_by_string: "Mind Units:"
 
-com.nianticproject.ingress.common.mission.MissionListActivity:
+com.nianticproject.ingress.common.missions.MissionListActivity:
   find_by_string: MissionListActivity
 
-com.nianticproject.ingress.common.mission.MissionListActivityUi:
+com.nianticproject.ingress.common.missions.MissionListActivityUi:
   find_by_string: View Briefing
 
 com.nianticproject.ingress.common.device.DeviceActivity:
@@ -736,6 +755,9 @@ com.badlogic.gdx.scenes.scene2d.Group:
   is_real_name: true
 
 com.badlogic.gdx.scenes.scene2d.Stage:
+  is_real_name: true
+
+com.badlogic.gdx.scenes.scene2d.InputEvent:
   is_real_name: true
 
 com.badlogic.gdx.scenes.scene2d.ui.Skin:

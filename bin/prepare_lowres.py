@@ -63,12 +63,6 @@ def resize(name, scale, coda_sizes):
         im.resize((round(im.size[0] * scale), round(im.size[1] * scale)), Image.ANTIALIAS).save(
             'build/assets/data-%s/upgrade/%s' % (name, f))
 
-    # Resize tutorial/* images
-    for f in os.listdir('app/assets/tutorial'):
-        im = Image.open('app/assets/tutorial/%s' % f)
-        im.resize((round(im.size[0] * scale), round(im.size[1] * scale)), Image.ANTIALIAS).save(
-            'build/assets/data-%s/tutorial/%s' % (name, f))
-
     # Resize atlases
     d = tempfile.mkdtemp()
     texture_unpacker.Unpacker('app/assets/%s/data/%s.atlas' % ('packed', 'common')).unpack(d, scale)
