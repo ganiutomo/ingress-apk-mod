@@ -363,5 +363,12 @@ def main():
     edit.add_invoke_entry('TutorialDialogStyle_getPadTop', 'v0', 'v0')
     edit.save()
 
+    edit = edit_cls('ActionButton')
+    edit.find_method_def('init')
+    edit.find_line(r' const/high16 v1, 0x3f80')
+    edit.prepare_to_insert()
+    edit.add_invoke_entry('ActionButton_getScale', 'v1', 'v1')
+    edit.save()
+
 if __name__ == '__main__':
     main()

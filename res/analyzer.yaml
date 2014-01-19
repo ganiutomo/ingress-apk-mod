@@ -62,6 +62,7 @@ broot.ingress.mod.Entry:
     BaseItemDetailsUiCreator_OnAddRarityLabel: [null, V, $Table, $Skin, $Stage, $ItemRarity]
     BaseItemDetailsUiCreator_OnAddActionButtons: [null, V, $Table, $Skin, $Stage]
 
+    ActionButton_getScale: [null, F, F]
     TutorialDialogStyle_getPadTop: [null, I, I]
     TutorialDialog_onCreateUi: [null, V, $TutorialDialog, Ljava/util/List;]
 
@@ -419,6 +420,12 @@ com.nianticproject.ingress.common.ui.elements.AvatarPlayerStatusBar_AvatarListen
     - [by_method, false, true, init]
     - [by_method, false, true, clicked]
     - [by_string, false, true, $MyProfileActivity]
+
+com.nianticproject.ingress.common.ui.widget.ActionButton:
+  is_real_name: true
+
+  methods:
+    init: [<init>, V, $String, $String, $Skin]
 
 com.nianticproject.ingress.common.ui.widget.MenuTabClickListener:
   fields:

@@ -28,6 +28,7 @@ class Unpacker:
                 orig_x, orig_y = p['orig']
                 offset_x, offset_y = p['offset']
                 split = p.get('split')
+                pad = p.get('pad')
 
                 margin = 1 if split and scale == 1.0 else 0
                 im2 = Image.new('RGBA', (orig_x + 2 * margin, orig_y + 2 * margin))
@@ -97,7 +98,7 @@ class Unpacker:
                 else:
                     if key == 'rotate':
                         val = val == 'true'
-                    elif key in ('xy', 'size', 'orig', 'offset', 'split'):
+                    elif key in ('xy', 'size', 'orig', 'offset', 'split', 'pad'):
                         val = [int(x.strip()) for x in val.split(',')]
                     elif key == 'index':
                         val = int(val)
@@ -148,7 +149,7 @@ class Unpacker:
             self.write_params(out, page.params, ['format', 'filter', 'repeat'])
             for image in page.images:
                 out.write(image.name + '\n')
-                self.write_params(out, image.params, ['rotate', 'xy', 'size', 'split', 'orig', 'offset', 'index'], '  ')
+                self.write_params(out, image.params, ['rotate', 'xy', 'size', 'split', 'pad', 'orig', 'offset', 'index'], '  ')
         out.close()
 
     def write_params(self, out, params, names, indent=''):

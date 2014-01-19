@@ -367,6 +367,10 @@ public class Entry {
 		}
 	}
 
+	public static float ActionButton_getScale(float org) {
+		return Mod.getUiScale();
+	}
+
 	private static void hideLastButton(Table table) {
 	    final List<Cell> cells = table.getCells();
 		if (cells != null && cells.size() > 0) {

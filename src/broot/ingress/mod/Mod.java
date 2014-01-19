@@ -11,6 +11,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.PowerManager;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.WindowManager;
 import broot.ingress.mod.BuildConfig.UiVariant;
 import broot.ingress.mod.util.Config;
@@ -78,6 +79,20 @@ public class Mod {
 		mgr.set(AlarmManager.RTC, System.currentTimeMillis() + 1000, PendingIntent.getActivity(ctx, 0, i, 0));
 
 		android.os.Process.killProcess(android.os.Process.myPid());
+	}
+
+	public static float getUiScale() {
+		final int w = Mod.displayMetrics.widthPixels;
+		if(w < 320) {
+			Log.v("broot", "return 0.4");
+			return 0.4f;
+		}
+
+		if(w < 480) {
+			return 0.6f;
+		}
+
+		return 1f;
 	}
 
 	public static void updateCurrUiVariant() {
