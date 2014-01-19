@@ -368,7 +368,7 @@ public class Entry {
 	}
 
 	public static float ActionButton_getScale(float org) {
-		return Mod.getUiScale();
+		return 1;
 	}
 
 	private static void hideLastButton(Table table) {
