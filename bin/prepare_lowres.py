@@ -35,7 +35,7 @@ def resize(name, scale, coda_sizes):
     shutil.rmtree('build/assets/data-%s' % name, ignore_errors=True)
 
     # Create dirs
-    for f in 'common', 'packed', 'portal_info', 'upgrade', 'tutorial':
+    for f in 'common', 'packed', 'portal_info', 'upgrade', 'levelup', 'verify':
         os.makedirs('build/assets/data-%s/%s' % (name, f))
 
     # Copy some files
@@ -62,6 +62,18 @@ def resize(name, scale, coda_sizes):
         im = Image.open('app/assets/upgrade/data/%s' % f)
         im.resize((round(im.size[0] * scale), round(im.size[1] * scale)), Image.ANTIALIAS).save(
             'build/assets/data-%s/upgrade/%s' % (name, f))
+
+    # Resize levelup/data*/* images
+    for f in os.listdir('app/assets/levelup/data'):
+        im = Image.open('app/assets/levelup/data/%s' % f)
+        im.resize((round(im.size[0] * scale), round(im.size[1] * scale)), Image.ANTIALIAS).save(
+            'build/assets/data-%s/levelup/%s' % (name, f))
+
+    # Resize verify/data*/* images
+    for f in os.listdir('app/assets/verify/data'):
+        im = Image.open('app/assets/verify/data/%s' % f)
+        im.resize((round(im.size[0] * scale), round(im.size[1] * scale)), Image.ANTIALIAS).save(
+            'build/assets/data-%s/verify/%s' % (name, f))
 
     # Resize atlases
     d = tempfile.mkdtemp()
