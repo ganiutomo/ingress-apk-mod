@@ -19,6 +19,8 @@ broot.ingress.mod.Entry:
     AvatarPlayerStatusBar_onCreateUi: [null, V, $AvatarPlayerStatusBar]
     AvatarPlayerStatusBar_onCreatedUi: [null, V, $AvatarPlayerStatusBar]
 
+    ItemRewardDialogElement_getCaption: [null, $String, $ItemRewardDialogElement, $String]
+
     MenuShowBtn_onClick: [null, Ljava/lang/Class;]
     MenuTopWidget_getTabs: [null, '$MenuTabId[]']
     MenuTabId_onToString: [null, $String, $MenuTabId]
@@ -420,6 +422,26 @@ com.nianticproject.ingress.common.ui.elements.AvatarPlayerStatusBar_AvatarListen
     - [by_method, false, true, init]
     - [by_method, false, true, clicked]
     - [by_string, false, true, $MyProfileActivity]
+
+com.nianticproject.ingress.common.ui.elements.ItemRewardDialog:
+  is_real_name: true
+
+  methods:
+    createItemsTable: [a, $Table, $Skin, $Stage, I]
+
+com.nianticproject.ingress.common.ui.elements.ItemRewardDialogElement:
+  fields:
+    count: [b, I]
+    caption: [d, $String]
+
+  methods:
+    getCaption: [f, $String, $ItemRewardDialogElement]
+    getCount: [g, I, $ItemRewardDialogElement]
+
+  find:
+    - [by_string, false, true, '"Unknown media"']
+    - [by_field, false, true, count]
+    - [by_field, false, true, caption]
 
 com.nianticproject.ingress.common.ui.widget.ActionButton:
   is_real_name: true

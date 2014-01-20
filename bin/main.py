@@ -345,6 +345,14 @@ def main():
     edit.add_invoke_entry('AvatarPlayerStatusBar_onCreatedUi', 'p0')
     edit.save()
 
+    edit = edit_cls('ItemRewardDialogElement')
+    edit.mod_method_def('getCount', 'public')
+    edit.find_method_def('getCaption')
+    edit.find_line(r' return-object v0', where='down')
+    edit.prepare_to_insert_before()
+    edit.add_invoke_entry('ItemRewardDialogElement_getCaption', 'p0, v0', 'v0')
+    edit.save()
+
     edit = edit_cls('TutorialDialogNextListener')
     edit.mod_class_def('public')
     edit.mod_method_def('init', 'public')
