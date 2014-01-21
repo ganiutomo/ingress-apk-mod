@@ -183,6 +183,35 @@ class AtlasImage:
         self.name = name
         self.params = {}
 
+def reprocess_atlas(org, new, scale):
+    u = Unpacker(org)
+    u.parse_atlas()
+    u2 = Unpacker(new)
+    u2.parse_atlas()
+    page = u.atlas.pages[0]
+    images_new = list()
+    for im in page.images:
+        p = im.params
+        imgs = list(filter(lambda i: i.name == im.name, u2.atlas.pages[0].images))
+        if len(imgs) == 0:
+            raise Exception("%s was not found in %s" % (im.name, new))
+        if len(imgs) > 1:
+            raise Exception("Multiple %s was found in %s o_0" % (im.name, new))
+        img = imgs[0]
+        if 'pad' in p.keys():
+            if scale == 1.0:
+                img.params['pad'] = p['pad']
+            else:
+                pad = p['pad']
+                img.params['pad'] = (
+                    round(pad[0] * scale),
+                    round(pad[1] * scale),
+                    round(pad[2] * scale),
+                    round(pad[3] * scale)
+                )
+        images_new.append(img)
+    u2.atlas.pages[0].images = images_new
+    u2.save_atlas(new)
 
 if __name__ == '__main__':
     argv = sys.argv

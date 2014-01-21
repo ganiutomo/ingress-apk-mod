@@ -86,6 +86,7 @@ def resize(name, scale, coda_sizes):
 
     shutil.copy('res/lowres/%s-pack.json' % 'common', '%s/pack.json' % d)
     texture_pack(d, 'build/assets/data-%s/%s' % (name, 'packed'), 'common')
+    texture_unpacker.reprocess_atlas('app/assets/%s/data/%s.atlas' % ('packed', 'common'), 'build/assets/data-%s/%s/%s.atlas' % (name, 'packed', 'common'), scale)
     shutil.rmtree(d)
 
     # Resize "magic" portal_ui.atlas
@@ -120,7 +121,6 @@ def texture_pack(in_dir, out_dir, name):
 def partition(pred, iterable):
     t1, t2 = tee(iterable)
     return filter(pred, t2), filterfalse(pred, t1)
-
 
 if __name__ == '__main__':
     main()
