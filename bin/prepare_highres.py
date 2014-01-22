@@ -16,7 +16,7 @@ def main():
     os.chdir(HOME)
     try:
         repack('', (20, 32, 40, 48))
-        repack('-xhdpi', (32, 60, 72, 85))
+        repack('-xhdpi', (33, 60, 72, 85))
         repack('-xxhdpi', (50, 85, 103, 121))
     finally:
         os.chdir(cwd)
@@ -47,18 +47,13 @@ def repack(name, coda_sizes):
     for size, font_name in zip(coda_sizes, ('x-small', 'sm', 'med', 'lg')):
         shutil.copy('res/fonts/coda-%d.fnt' % size,
                     'build/assets/data%s/common/coda-%s.fnt' % (name, font_name))
-#        shutil.copy('res/fonts/coda-%d_0.png' % size, 'build/assets/data%s/common/coda-%s_0.png' % (name, size))
-#        if os.path.exists('%s/coda-%s.png' % (d, font_name)):
-#            os.remove('%s/coda-%s.png' % (d, font_name))
         shutil.copy('res/fonts/coda-%d_0.png' % size, '%s/coda-%s.png' % (d, font_name))
 
     shutil.copy('res/lowres/%s-pack.json' % 'common', '%s/pack.json' % d)
     texture_pack(d, 'build/assets/data%s/%s' % (name, 'packed'), 'common')
+    texture_unpacker.reprocess_atlas('app/assets/%s/data%s/%s.atlas' % ('packed', name, 'common'), 'build/assets/data%s/%s/%s.atlas' % (name, 'packed', 'common'), 1.0)
     shutil.rmtree(d)
 
-    # Copy "magic" portal_ui.atlas
-    
-    # Repack portal, energy-alien and energy-resistance images only, then readd additional "images" to the atlas file
     shutil.copy('app/assets/portal_info/data%s/portal_ui.atlas' % name, 'build/assets/data%s/portal_info/portal_ui.atlas' % name)
     shutil.copy('app/assets/portal_info/data%s/portal_ui.png' % name, 'build/assets/data%s/portal_info/portal_ui.png' % name)
 
