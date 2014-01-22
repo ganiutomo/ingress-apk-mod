@@ -22,7 +22,7 @@ def main():
         os.chdir(cwd)
 
 
-def repack(name, coda_sizes):
+def repack(name, font_sizes, font_name='coda'):
     shutil.rmtree('build/assets/data%s' % name, ignore_errors=True)
 
     # Create dirs
@@ -44,10 +44,10 @@ def repack(name, coda_sizes):
     d = tempfile.mkdtemp()
     texture_unpacker.Unpacker('app/assets/%s/data%s/%s.atlas' % ('packed', name, 'common')).unpack(d, 1)
     # For common.atlas copy fonts
-    for size, font_name in zip(coda_sizes, ('x-small', 'sm', 'med', 'lg')):
-        shutil.copy('res/fonts/coda-%d.fnt' % size,
+    for size, font_name in zip(font_sizes, ('x-small', 'sm', 'med', 'lg')):
+        shutil.copy('res/fonts/%s/coda-%d.fnt' % (font_name, size),
                     'build/assets/data%s/common/coda-%s.fnt' % (name, font_name))
-        shutil.copy('res/fonts/coda-%d_0.png' % size, '%s/coda-%s.png' % (d, font_name))
+        shutil.copy('res/fonts/%s/coda-%d_0.png' % (font_name, size), '%s/coda-%s.png' % (d, font_name))
 
     shutil.copy('res/lowres/%s-pack.json' % 'common', '%s/pack.json' % d)
     texture_pack(d, 'build/assets/data%s/%s' % (name, 'packed'), 'common')

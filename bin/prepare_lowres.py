@@ -31,7 +31,7 @@ def main():
         os.chdir(cwd)
 
 
-def resize(name, scale, coda_sizes):
+def resize(name, scale, coda_sizes, font='coda'):
     shutil.rmtree('build/assets/data-%s' % name, ignore_errors=True)
 
     # Create dirs
@@ -80,9 +80,9 @@ def resize(name, scale, coda_sizes):
     texture_unpacker.Unpacker('app/assets/%s/data/%s.atlas' % ('packed', 'common')).unpack(d, scale)
     # For common.atlas copy fonts
     for size, font_name in zip(coda_sizes, ('x-small', 'sm', 'med', 'lg')):
-        shutil.copy('res/fonts/coda-%d.fnt' % size,
+        shutil.copy('res/fonts/%s/coda-%d.fnt' % (font, size),
                     'build/assets/data-%s/common/coda-%s.fnt' % (name, font_name))
-        shutil.copy('res/fonts/coda-%d_0.png' % size, '%s/coda-%s.png' % (d, font_name))
+        shutil.copy('res/fonts/%s/coda-%d_0.png' % (font, size), '%s/coda-%s.png' % (d, font_name))
 
     shutil.copy('res/lowres/%s-pack.json' % 'common', '%s/pack.json' % d)
     texture_pack(d, 'build/assets/data-%s/%s' % (name, 'packed'), 'common')
