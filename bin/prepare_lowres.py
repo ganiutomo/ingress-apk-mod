@@ -4,6 +4,7 @@ import os
 import re
 import shutil
 import subprocess
+import sys
 import tempfile
 from itertools import tee, filterfalse
 from PIL import Image
@@ -21,12 +22,12 @@ PAT_NEMESIS_COMPASS = re.compile(
     }$''', re.MULTILINE)
 
 
-def main():
+def main(font):
     cwd = os.getcwd()
     os.chdir(HOME)
     try:
-        resize('hvga', .6, (20, 24, 30, 36))
-        resize('qvga', .4, (16, 16, 20, 24))
+        resize('hvga', .6, (20, 24, 30, 36), font)
+        resize('qvga', .4, (16, 16, 20, 24), font)
     finally:
         os.chdir(cwd)
 
@@ -123,4 +124,4 @@ def partition(pred, iterable):
     return filter(pred, t2), filterfalse(pred, t1)
 
 if __name__ == '__main__':
-    main()
+    main('coda' if len(sys.argv) < 2 else sys.argv[1])
