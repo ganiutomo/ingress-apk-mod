@@ -218,7 +218,7 @@ def main():
     edit.find_line(r' invoke-virtual \{([pv]\d+)\}, %s->a().*' % (expr('$ItemRarity')), where='down')
 #    edit.find_line(r' return-void', where='down')
     edit.prepare_to_insert_before()
-    edit.add_invoke_entry('BaseItemDetailsUiCreator_OnAddRarityLabel', 'p1, p2, p3, v1')
+    edit.add_invoke_entry('BaseItemDetailsUiCreator_OnAddRarityLabel', 'p1, p2, p3, v0')
     edit.find_method_def('addActionButtons')
     edit.find_line(r' return-void', where='down')
     edit.prepare_to_insert_before()
