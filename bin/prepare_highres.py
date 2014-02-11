@@ -16,9 +16,9 @@ def main(font):
     cwd = os.getcwd()
     os.chdir(HOME)
     try:
-        repack('', (20, 32, 40, 48), font)
-        repack('-xhdpi', (33, 60, 72, 85), font)
-        repack('-xxhdpi', (50, 85, 103, 121), font)
+        repack('', (20, 32, 40, 48, '51r', '51o'), font)
+        repack('-xhdpi', (33, 60, 72, 85, '78r', '78o'), font)
+        repack('-xxhdpi', (50, 85, 103, 121, '115r', '115o'), font)
     finally:
         os.chdir(cwd)
 
@@ -45,10 +45,10 @@ def repack(name, font_sizes, font='coda'):
     d = tempfile.mkdtemp()
     texture_unpacker.Unpacker('app/assets/%s/data%s/%s.atlas' % ('packed', name, 'common')).unpack(d, 1)
     # For common.atlas copy fonts
-    for size, font_name in zip(font_sizes, ('x-small', 'sm', 'med', 'lg')):
-        shutil.copy('res/fonts/%s/coda-%d.fnt' % (font, size),
+    for size, font_name in zip(font_sizes, ('x-small', 'sm', 'med', 'lg', 'outline-red-med', 'outline-orange-med')):
+        shutil.copy('res/fonts/%s/coda-%s.fnt' % (font, size),
                     'build/assets/data%s/common/coda-%s.fnt' % (name, font_name))
-        shutil.copy('res/fonts/%s/coda-%d_0.png' % (font, size), '%s/coda-%s.png' % (d, font_name))
+        shutil.copy('res/fonts/%s/coda-%s_0.png' % (font, size), '%s/coda-%s.png' % (d, font_name))
 
     shutil.copy('res/lowres/%s-pack.json' % 'common', '%s/pack.json' % d)
     texture_pack(d, 'build/assets/data%s/%s' % (name, 'packed'), 'common')
