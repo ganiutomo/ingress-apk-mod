@@ -1,6 +1,6 @@
 {
-    stripWhitespaceX: true,
-    stripWhitespaceY: true,
+    stripWhitespaceX: false,
+    stripWhitespaceY: false,
     filterMin: Nearest,
     filterMag: Nearest,
     ignoreBlankImages: false,

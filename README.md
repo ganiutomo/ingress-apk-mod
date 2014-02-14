@@ -91,11 +91,11 @@ Changes from 1.0.0:
 
 - Initial version
 
-Nightly builds [![Build Status](https://travis-ci.org/DeKaN/ingress-apk-mod.png?branch=master)](https://travis-ci.org/DeKaN/ingress-apk-mod)
+Nightly builds [![Build Status](https://travis-ci.org/Ingress-apk-mod/ingress-apk-mod.png?branch=master)](https://travis-ci.org/Ingress-apk-mod/ingress-apk-mod)
 ------------------------
 Non lowres version:
-- [regular](https://s3-eu-west-1.amazonaws.com/ingress-apk-mod/builds/ingress-latest-broot-1.0.2.13.apk)
-- [muted](https://s3-eu-west-1.amazonaws.com/ingress-apk-mod/builds/ingress-latest-broot-1.0.2.13-mute.apk)
+- [regular](https://s3-eu-west-1.amazonaws.com/ingress-apk-mod/builds/ingress-latest-broot-1.0.3.apk)
+- [muted](https://s3-eu-west-1.amazonaws.com/ingress-apk-mod/builds/ingress-latest-broot-1.0.3-mute.apk)
 
 Quick build instructions
 ------------------------

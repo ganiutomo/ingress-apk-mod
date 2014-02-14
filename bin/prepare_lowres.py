@@ -4,6 +4,7 @@ import os
 import re
 import shutil
 import subprocess
+import sys
 import tempfile
 from itertools import tee, filterfalse
 from PIL import Image
@@ -21,25 +22,25 @@ PAT_NEMESIS_COMPASS = re.compile(
     }$''', re.MULTILINE)
 
 
-def main():
+def main(font):
     cwd = os.getcwd()
     os.chdir(HOME)
     try:
-        resize('hvga', .6, (24, 30, 36))
-        resize('qvga', .4, (16, 20, 24))
+        resize('hvga', .6, (20, 24, 30, 36, '39r', '39o'), font)
+        resize('qvga', .4, (16, 16, 20, 24, '27r', '27o'), font)
     finally:
         os.chdir(cwd)
 
 
-def resize(name, scale, coda_sizes):
+def resize(name, scale, coda_sizes, font='coda'):
     shutil.rmtree('build/assets/data-%s' % name, ignore_errors=True)
 
     # Create dirs
-    for f in 'common', 'packed', 'portal_info', 'upgrade':
+    for f in 'common', 'packed', 'portal_info', 'upgrade', 'levelup', 'verify':
         os.makedirs('build/assets/data-%s/%s' % (name, f))
 
     # Copy some files
-    for f in 'inconsolata-14.fnt', 'inconsolata-14.png', 'inconsolata-28.fnt', 'inconsolata-28.png', 'coda-x-small.fnt':
+    for f in 'inconsolata-14.fnt', 'inconsolata-14.png', 'inconsolata-28.fnt', 'inconsolata-28.png':
         shutil.copy('app/assets/common/data/%s' % f, 'build/assets/data-%s/common' % name)
     shutil.copy('app/assets/portal_info/data/portal_ui.json', 'build/assets/data-%s/portal_info' % name)
 
@@ -63,17 +64,30 @@ def resize(name, scale, coda_sizes):
         im.resize((round(im.size[0] * scale), round(im.size[1] * scale)), Image.ANTIALIAS).save(
             'build/assets/data-%s/upgrade/%s' % (name, f))
 
+    # Resize levelup/data*/* images
+    for f in os.listdir('app/assets/levelup/data'):
+        im = Image.open('app/assets/levelup/data/%s' % f)
+        im.resize((round(im.size[0] * scale), round(im.size[1] * scale)), Image.ANTIALIAS).save(
+            'build/assets/data-%s/levelup/%s' % (name, f))
+
+    # Resize verify/data*/* images
+    for f in os.listdir('app/assets/verify/data'):
+        im = Image.open('app/assets/verify/data/%s' % f)
+        im.resize((round(im.size[0] * scale), round(im.size[1] * scale)), Image.ANTIALIAS).save(
+            'build/assets/data-%s/verify/%s' % (name, f))
+
     # Resize atlases
     d = tempfile.mkdtemp()
     texture_unpacker.Unpacker('app/assets/%s/data/%s.atlas' % ('packed', 'common')).unpack(d, scale)
     # For common.atlas copy fonts
-    for size, font_name in zip(coda_sizes, ('sm', 'med', 'lg')):
-        shutil.copy('res/fonts/coda-%d.fnt' % size,
+    for size, font_name in zip(coda_sizes, ('x-small', 'sm', 'med', 'lg', 'outline-red-med', 'outline-orange-med')):
+        shutil.copy('res/fonts/%s/coda-%s.fnt' % (font, size),
                     'build/assets/data-%s/common/coda-%s.fnt' % (name, font_name))
-        shutil.copy('res/fonts/coda-%d_0.png' % size, '%s/coda-%s.png' % (d, font_name))
+        shutil.copy('res/fonts/%s/coda-%s_0.png' % (font, size), '%s/coda-%s.png' % (d, font_name))
 
     shutil.copy('res/lowres/%s-pack.json' % 'common', '%s/pack.json' % d)
     texture_pack(d, 'build/assets/data-%s/%s' % (name, 'packed'), 'common')
+    texture_unpacker.reprocess_atlas('app/assets/%s/data/%s.atlas' % ('packed', 'common'), 'build/assets/data-%s/%s/%s.atlas' % (name, 'packed', 'common'), scale)
     shutil.rmtree(d)
 
     # Resize "magic" portal_ui.atlas
@@ -109,6 +123,5 @@ def partition(pred, iterable):
     t1, t2 = tee(iterable)
     return filter(pred, t2), filterfalse(pred, t1)
 
-
 if __name__ == '__main__':
-    main()
+    main('coda' if len(sys.argv) < 2 else sys.argv[1])

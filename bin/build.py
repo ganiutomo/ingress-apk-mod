@@ -33,7 +33,6 @@ def main(release):
         $MOD_HOME/bin/sign_apk.py `ls $MOD_HOME/app/dist/*.apk` %s
     ''' % (('release', '', 'release') if release else ('debug', ' -d', 'debug')), shell=True)
 
-
 def generate_build_config(release):
     maps_key = config['maps_key']['release' if release else 'debug']
     if maps_key:
@@ -43,18 +42,22 @@ def generate_build_config(release):
 
     assets_dir = HOME + '/app/assets/common'
     assets = [x for x in os.listdir(assets_dir) if os.path.isdir(assets_dir + '/' + x)]
-    bc = {
-        'MOD_VERSION': '"' + config['version']
-                       + ('' if os.path.exists(HOME + '/app/assets/sounds') else '-mute')
-                       + ('' if release else '-dev')
-                       + '"',
-        'AVAILABLE_ASSETS': 'new String[] {' + ', '.join(['"' + x + '"' for x in assets]) + '}',
-    }
+    mod_version = '"' + config['version'] \
+                      + ('' if os.path.exists(HOME + '/app/assets/sounds') else '-mute') \
+                      + ('' if release else '-dev') + '"'
+    available_assets = ','+',\n'.join(sorted(map(generate_asset_string, assets)))
+
     bc_str = open(HOME + '/src/broot/ingress/mod/BuildConfig.java').read()
-    for k, v in bc.items():
-        bc_str = bc_str.replace(k + ' = null', k + ' = ' + v)
+    bc_str = bc_str.replace('MOD_VERSION = null', 'MOD_VERSION = ' + mod_version)
+    bc_str = bc_str.replace('// AVAILABLE_ASSETS', available_assets)
     open(HOME + '/build/BuildConfig.java', 'w').write(bc_str)
 
+def generate_asset_string(asset):
+    name = 'normal' if asset=='data' else asset.replace('data-','').replace('-','_')
+    caption = config['assets'].get(asset, {'caption': "Custom " + name.replace('_', ' ')})['caption']
+    parent = config['assets'].get(asset,{}).get('parent')
+    string = [asset, caption, parent] if parent else [asset, caption]
+    return '%s(%s)' % (name, ', '.join(['"%s"' % s for s in string]))
 
 if __name__ == '__main__':
     main(len(sys.argv) > 1 and sys.argv[1] == 'release')

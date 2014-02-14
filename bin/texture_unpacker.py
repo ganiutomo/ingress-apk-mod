@@ -28,6 +28,7 @@ class Unpacker:
                 orig_x, orig_y = p['orig']
                 offset_x, offset_y = p['offset']
                 split = p.get('split')
+                pad = p.get('pad')
 
                 margin = 1 if split and scale == 1.0 else 0
                 im2 = Image.new('RGBA', (orig_x + 2 * margin, orig_y + 2 * margin))
@@ -97,7 +98,7 @@ class Unpacker:
                 else:
                     if key == 'rotate':
                         val = val == 'true'
-                    elif key in ('xy', 'size', 'orig', 'offset', 'split'):
+                    elif key in ('xy', 'size', 'orig', 'offset', 'split', 'pad'):
                         val = [int(x.strip()) for x in val.split(',')]
                     elif key == 'index':
                         val = int(val)
@@ -130,7 +131,7 @@ class Unpacker:
 
             for image in page.images:
                 for k, v in image.params.items():
-                    if k in ('xy', 'size', 'orig', 'offset', 'split'):
+                    if k in ('xy', 'size', 'orig', 'offset', 'split', 'pad'):
                         pass
                     elif k == 'rotate':
                         if v:
@@ -148,7 +149,7 @@ class Unpacker:
             self.write_params(out, page.params, ['format', 'filter', 'repeat'])
             for image in page.images:
                 out.write(image.name + '\n')
-                self.write_params(out, image.params, ['rotate', 'xy', 'size', 'split', 'orig', 'offset', 'index'], '  ')
+                self.write_params(out, image.params, ['rotate', 'xy', 'size', 'split', 'pad', 'orig', 'offset', 'index'], '  ')
         out.close()
 
     def write_params(self, out, params, names, indent=''):
@@ -182,6 +183,35 @@ class AtlasImage:
         self.name = name
         self.params = {}
 
+def reprocess_atlas(org, new, scale):
+    u = Unpacker(org)
+    u.parse_atlas()
+    u2 = Unpacker(new)
+    u2.parse_atlas()
+    page = u.atlas.pages[0]
+    images_new = list()
+    for im in page.images:
+        p = im.params
+        imgs = list(filter(lambda i: i.name == im.name, u2.atlas.pages[0].images))
+        if len(imgs) == 0:
+            raise Exception("%s was not found in %s" % (im.name, new))
+        if len(imgs) > 1:
+            raise Exception("Multiple %s was found in %s o_0" % (im.name, new))
+        img = imgs[0]
+        if 'pad' in p.keys():
+            if scale == 1.0:
+                img.params['pad'] = p['pad']
+            else:
+                pad = p['pad']
+                img.params['pad'] = (
+                    round(pad[0] * scale),
+                    round(pad[1] * scale),
+                    round(pad[2] * scale),
+                    round(pad[3] * scale)
+                )
+        images_new.append(img)
+    u2.atlas.pages[0].images = images_new
+    u2.save_atlas(new)
 
 if __name__ == '__main__':
     argv = sys.argv

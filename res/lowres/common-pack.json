@@ -1,7 +1,9 @@
 {
-    stripWhitespaceX: true,
-    stripWhitespaceY: true,
+    stripWhitespaceX: false,
+    stripWhitespaceY: false,
     filterMin: MipMapLinearNearest,
     filterMag: Nearest,
     ignoreBlankImages: false,
+    maxWidth: 2048,
+    maxHeight: 2048,
 }

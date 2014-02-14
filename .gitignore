@@ -1,10 +1,15 @@
 /locals
+/apk
 /app
 /build
 /gen
 /out
 /ingress-*.apk
 /lib
+/release
 /.idea
 /*.iml
 __pycache__
+.classpath
+.project
+release/*
